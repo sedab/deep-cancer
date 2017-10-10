@@ -9,12 +9,11 @@
 #SBATCH --error=outputs/%A.err
 
 module purge
-module load python/intel/2.7.12
-module load pillow/intel/4.0.0
+module load python3/intel/3.5.3
+module load pillow/python3.5/intel/4.2.1
+module load pytorch/python3.5/0.2.0_3
+module load torchvision/python3.5/0.1.9
 
-pip install http://download.pytorch.org/whl/cu80/torch-0.1.11.post5-cp27-none-linux_x86_64.whl --user --upgrade
-pip install torchvision --user --upgrade
-
-cd /scratch/eff254/Capstone/Charrrrtreuse/
+cd /scratch/jmw784/capstone/Charrrrtreuse/
 
 python -u model.py $1 > logs/$2.log

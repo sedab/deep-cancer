@@ -1,0 +1,59 @@
+
+Jupyter server is running on: c30-08
+Job starts at: Tue Oct 10 16:11:52 EDT 2017
+
+Step 1 :
+
+If you are working in NYU campus, please open an iTerm window, run command
+
+ssh -L 9908:localhost:9908 jmw784@prince.hpc.nyu.edu
+
+If you are working off campus, you should already have ssh tunneling setup through HPC bastion host, 
+that you can directly login to prince with command
+
+ssh jmw784@prince
+
+Please open an iTerm window, run command
+
+ssh -L 9908:localhost:9908 jmw784@prince
+
+Step 2:
+
+Keep the iTerm windows in the previouse step open. Now open browser, find the line with
+
+The Jupyter Notebook is running at: c30-08
+
+the URL is something: http://localhost:9908/?token=XXXXXXXX (see your token below)
+
+you should be able to connect to jupyter notebook running remotly on prince compute node with above url
+
+[I 16:11:53.988 NotebookApp] Writing notebook server cookie secret to /state/partition1/job-2494683/jupyter/notebook_cookie_secret
+[W 16:11:54.702 NotebookApp] Widgets are unavailable. Please install widgetsnbextension or ipywidgets 4.0
+[I 16:11:54.735 NotebookApp] Serving notebooks from local directory: /scratch/jmw784/capstone/Charrrrtreuse/jupyter
+[I 16:11:54.736 NotebookApp] 0 active kernels 
+[I 16:11:54.736 NotebookApp] The Jupyter Notebook is running at: http://localhost:9908/?token=147a48375973acd7f0f82c4a7b69c89c9d1d66c9b14bfcdb
+[I 16:11:54.736 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 16:11:54.736 NotebookApp] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:9908/?token=147a48375973acd7f0f82c4a7b69c89c9d1d66c9b14bfcdb
+[I 16:12:18.739 NotebookApp] 302 GET /?token=147a48375973acd7f0f82c4a7b69c89c9d1d66c9b14bfcdb (::1) 0.72ms
+[W 16:12:24.489 NotebookApp] The signatures database cannot be opened; maybe it is corrupted or encrypted. You may need to rerun your notebooks to ensure that they are trusted to run Javascript. The old signatures database has been renamed to /home/jmw784/.local/share/jupyter/nbsignatures.db.bak and a new one has been created.
+[W 16:12:24.492 NotebookApp] Failed commiting signatures database to disk. You may need to move the database file to a non-networked file system, using config option `NotebookNotary.db_file`. Using in-memory signatures database for the remainder of this session.
+[W 16:12:24.493 NotebookApp] Notebook Testing.ipynb is not trusted
+[W 16:12:24.504 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20171010161153 (::1) 8.74ms referer=http://localhost:9908/notebooks/Testing.ipynb
+[I 16:12:24.687 NotebookApp] Kernel started: 9143f2ec-f44d-4d5d-9809-08c8e6f79990
+[IPKernelApp] ERROR | Failed to open SQLite history /home/jmw784/.ipython/profile_default/history.sqlite (disk I/O error).
+[IPKernelApp] ERROR | History file was moved to /home/jmw784/.ipython/profile_default/history-corrupt.sqlite and a new file created.
+[IPKernelApp] ERROR | Failed to open SQLite history /home/jmw784/.ipython/profile_default/history.sqlite (disk I/O error).
+[IPKernelApp] ERROR | History file was moved to /home/jmw784/.ipython/profile_default/history-corrupt.sqlite and a new file created.
+[IPKernelApp] ERROR | Failed to open SQLite history /home/jmw784/.ipython/profile_default/history.sqlite (disk I/O error).
+[IPKernelApp] ERROR | Failed to load history too many times, history will not be saved.
+[I 16:14:24.795 NotebookApp] Saving file at /Testing.ipynb
+[I 16:16:25.278 NotebookApp] Saving file at /Testing.ipynb
+[I 16:18:25.273 NotebookApp] Saving file at /Testing.ipynb
+[I 16:20:24.750 NotebookApp] Saving file at /Testing.ipynb
+[I 16:22:25.887 NotebookApp] Saving file at /Testing.ipynb
+[I 16:26:25.894 NotebookApp] Saving file at /Testing.ipynb
+[I 16:28:24.814 NotebookApp] Saving file at /Testing.ipynb
