@@ -9,24 +9,46 @@ def pil_loader(path):
         with Image.open(f) as img:
             return img.convert('RGB')
 
-def name_list(directory, dset_type):
-    names = []
-    
-    for filename in os.listdir(directory): 
+def find_classes(dir):
+    classes = [d for d in os.listdir(dir) if os.path.isdir(os.path.join(dir, d))]
+    classes.sort()
+    class_to_idx = {classes[i]: i for i in range(len(classes))}
+    return classes, class_to_idx
 
-        #Parse the filename
-        dataset_type, file, x, y = filename.strip('.jpeg').split('_')
+def parse_json(fname):
 
-        #Only add it if it's the correct dset_type (train, valid, test)
-        if filename.endswith(".jpeg") and dataset_type == dset_type:
-            names.append([filename, file + '.svs', x, y])
+    # Don't have the code for parsing JSON yet
 
-    return names
+    return fname
+
+def make_dataset(directory, dset_type, class_to_idx):
+    datapoints = []
+
+    dir = os.path.expanduser(dir)
+    for target in sorted(os.listdir(dir)):
+        d = os.path.join(dir, target)
+        if not os.path.isdir(d):
+            continue
+
+        for root, _, fnames in sorted(os.walk(d)):
+            for fname in sorted(fnames):
+                #Parse the filename
+                dataset_type, raw_file, x, y = filename.strip('.jpeg').split('_')
+
+                if fname.endswith(".jpeg") and dataset_type == dset_type:
+                    path = os.path.join(root, fname)
+                    item = (path, parse_json(raw_file + '.svs'), x, y, class_to_idx[target])
+                    datapoints.append(item)
 
 class TissueData(data.Dataset):
-    def __init__(self, root, dset_type, transform=None):
+    def __init__(self, root, dset_type, transform=None):\
+
+        classes, class_to_idx = find_classes(root)
+
         self.root = root
-        self.raw = name_list(root, dset_type)
+        self.classes = classes
+        self.class_to_idx = class_to_idx
+        self.datapoints = make_dataset(root, dset_type, class_to_idx)
         self.transform = transform
 
     def __getitem__(self, index):
@@ -37,14 +59,14 @@ class TissueData(data.Dataset):
             tuple: (lr_image, hr_image) for the given index
         """
 
-        filename, file, x, y = self.names[index]
+        filepath, json, x, y, label = self.names[index]
 
-        img = pil_loader(self.root+filename)
+        img = pil_loader(self.root+filepath)
 
         if self.transform is not None:
             img = self.transform(img)
 
-        return img, file, x, y
+        return img, json, x, y, label
 
     def __len__(self):
-        return len(self.raw)
+        return len(self.datapoints)
