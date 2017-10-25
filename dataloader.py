@@ -41,7 +41,7 @@ def make_dataset(directory, dset_type, class_to_idx):
                     datapoints.append(item)
 
 class TissueData(data.Dataset):
-    def __init__(self, root, dset_type, transform=None):\
+    def __init__(self, root, dset_type, transform=None):
 
         classes, class_to_idx = find_classes(root)
 
