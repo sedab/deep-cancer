@@ -63,7 +63,7 @@ class TissueData(data.Dataset):
 
         filepath, json, x, y, label = self.datapoints[index]
 
-        img = pil_loader(self.root+filepath)
+        img = pil_loader(filepath)
 
         if self.transform is not None:
             img = self.transform(img)
