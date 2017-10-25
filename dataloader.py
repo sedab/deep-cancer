@@ -21,7 +21,7 @@ def parse_json(fname):
 
     return fname
 
-def make_dataset(directory, dset_type, class_to_idx):
+def make_dataset(dir, dset_type, class_to_idx):
     datapoints = []
 
     dir = os.path.expanduser(dir)
@@ -33,7 +33,7 @@ def make_dataset(directory, dset_type, class_to_idx):
         for root, _, fnames in sorted(os.walk(d)):
             for fname in sorted(fnames):
                 #Parse the filename
-                dataset_type, raw_file, x, y = filename.strip('.jpeg').split('_')
+                dataset_type, raw_file, x, y = fname.strip('.jpeg').split('_')
 
                 if fname.endswith(".jpeg") and dataset_type == dset_type:
                     path = os.path.join(root, fname)
