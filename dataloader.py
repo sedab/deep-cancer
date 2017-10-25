@@ -25,13 +25,13 @@ def make_dataset(dir, dset_type, class_to_idx):
     datapoints = []
 
     dir = os.path.expanduser(dir)
-    for target in sorted(os.listdir(dir)):
+    for target in os.listdir(dir):
         d = os.path.join(dir, target)
         if not os.path.isdir(d):
             continue
 
-        for root, _, fnames in sorted(os.walk(d)):
-            for fname in sorted(fnames):
+        for root, _, fnames in os.walk(d):
+            for fname in fnames:
                 #Parse the filename
                 dataset_type, raw_file, x, y = fname.strip('.jpeg').split('_')
 
@@ -39,6 +39,8 @@ def make_dataset(dir, dset_type, class_to_idx):
                     path = os.path.join(root, fname)
                     item = (path, parse_json(raw_file + '.svs'), x, y, class_to_idx[target])
                     datapoints.append(item)
+                    
+    return datapoints
 
 class TissueData(data.Dataset):
     def __init__(self, root, dset_type, transform=None):
@@ -59,7 +61,7 @@ class TissueData(data.Dataset):
             tuple: (img, json information, x pos of original, y pos of original) for the given index
         """
 
-        filepath, json, x, y, label = self.names[index]
+        filepath, json, x, y, label = self.datapoints[index]
 
         img = pil_loader(self.root+filepath)
 
