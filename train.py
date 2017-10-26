@@ -15,6 +15,8 @@ transform = transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 dataset = TissueData(root_dir, 'train', transform = transform)
+print(len(dataset))
+
 dataloader = torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True)
 
 print(dataloader.dataset[0])
