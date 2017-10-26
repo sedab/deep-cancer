@@ -14,9 +14,11 @@ root_dir = "/beegfs/jmw784/Capstone/LungTilesSorted/"
 transform = transforms.Compose([transforms.ToTensor(),
                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-dataset = TissueData(root_dir, 'train', transform = transform)
-print(len(dataset))
+data = {}
+loaders = {}
 
-dataloader = torch.utils.data.DataLoader(dataset, batch_size=32, shuffle=True)
+for dset_type in ['train', 'valid', 'test']:
+    data[dset_type] = TissueData(root_dir, dset_type, transform = transform)
+    loaders[dset_type] = torch.utils.data.DataLoader(data[dset_type], batch_size=32, shuffle=True)
 
-print(dataloader.dataset[0])
+    print('Finished loading %s dataset: %s samples' % (dset_type, len(data[dset_type])))

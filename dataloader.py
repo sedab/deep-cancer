@@ -68,6 +68,10 @@ class TissueData(data.Dataset):
         if self.transform is not None:
             img = self.transform(img)
 
+        x, y = int(x), int(y)
+
+        # Right now outputting as extra pieces, but should concatenate to image as extra channels
+
         return img, json, x, y, label
 
     def __len__(self):
