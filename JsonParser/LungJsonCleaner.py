@@ -56,6 +56,17 @@ for row in range(0,json_data.shape[0]):
     new_data = new_data.set_value(row, 'age_at_diagnosis', age_at_diagnosis)
     new_data = new_data.set_value(row, 'cigarettes_per_day', cigarettes_per_day)
 
+new_data.cigarettes_per_day.fillna(0, inplace=True)
+
+new_data.rename(columns = {'gender':'gender2'}, inplace=True)
+new_data['gender'] = 0
+new_data.gender[new_data.gender2 =="male"] = 1
+# NA's are 0. 
+
+# Mean age to NAs
+mean_age = new_data.age_at_diagnosis.mean()
+new_data.age_at_diagnosis[new_data.age_at_diagnosis.isnull()] = mean_age
+
 # Create dictionary
 new_data.set_index(new_data.file_name, inplace=True)
 new_data = new_data[['gender', 'age_at_diagnosis', 'cigarettes_per_day']]
