@@ -6,12 +6,16 @@ import pickle
 import numpy as np
 from PIL import Image
 
+# Change this to where your information is stored
+json_dict_path = '/scratch/jmw784/capstone/Charrrrtreuse/JsonParser/LungJsonData.p'
+
 def pil_loader(path):
     with open(path, 'rb') as f:
         with Image.open(f) as img:
             return img.convert('RGB')
 
 def find_classes(dir):
+    # Classes are subdirectories of the root directory
     classes = [d for d in os.listdir(dir) if os.path.isdir(os.path.join(dir, d))]
     classes.sort()
     class_to_idx = {classes[i]: i for i in range(len(classes))}
@@ -22,8 +26,9 @@ class TissueData(data.Dataset):
 
         classes, class_to_idx = find_classes(root)
 
-        with open('/scratch/jmw784/capstone/Charrrrtreuse/JsonParser/LungJsonData.p', 'rb') as f:
+        with open(json_dict_path, 'rb') as f:
             self.json = pickle.load(f)
+
         self.root = root
         self.classes = classes
         self.class_to_idx = class_to_idx
@@ -31,7 +36,8 @@ class TissueData(data.Dataset):
         self.transform = transform
 
     def parse_json(self, fname):
-    
+   
+        # Hard-coded based on how the JSON dictionary was built 
         json = self.json[fname]
         age, cigarettes, gender = json['age_at_diagnosis'], json['cigarettes_per_day'], json['gender']
 
@@ -49,9 +55,10 @@ class TissueData(data.Dataset):
 
         for root, _, fnames in os.walk(d):
             for fname in fnames:
-                #Parse the filename
+                # Parse the filename
                 dataset_type, raw_file, x, y = fname.strip('.jpeg').split('_')
 
+                # Only add it if it's the correct dset_type (train, valid, test)
                 if fname.endswith(".jpeg") and dataset_type == dset_type:
                     path = os.path.join(root, fname)
                     item = (path, self.parse_json(raw_file + '.svs') + [int(x), int(y)], class_to_idx[target])
@@ -74,6 +81,9 @@ class TissueData(data.Dataset):
 
         if self.transform is not None:
             img = self.transform(img)
+            
+            # Random data augmentation here
+            # <not implemented yet>
 
         # Reshape extra info, then concatenate to image as extra channels
         info = np.array(info)
