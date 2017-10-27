@@ -64,7 +64,7 @@ class TissueData(data.Dataset):
         Args:
             index (int): Index
         Returns:
-            tuple: (img, json information, x pos of original, y pos of original) for the given index
+            tuple: (img + concatenated extra info, label) for the given index
         """
 
         filepath, info, label = self.datapoints[index]

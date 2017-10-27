@@ -20,7 +20,7 @@ loaders = {}
 for dset_type in ['train', 'valid', 'test']:
     data[dset_type] = TissueData(root_dir, dset_type, transform = transform)
     loaders[dset_type] = torch.utils.data.DataLoader(data[dset_type], batch_size=32, shuffle=True)
-
     print('Finished loading %s dataset: %s samples' % (dset_type, len(data[dset_type])))
 
+print('Class encoding:')
 print(data['train'].class_to_idx)
