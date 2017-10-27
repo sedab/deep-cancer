@@ -78,12 +78,9 @@ class TissueData(data.Dataset):
 
         # Load image from filepath
         img = pil_loader(filepath)
-
+        
         if self.transform is not None:
             img = self.transform(img)
-            
-            # Random data augmentation here
-            # <not implemented yet>
 
         # Reshape extra info, then concatenate to image as extra channels
         info = np.array(info)
