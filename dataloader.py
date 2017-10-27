@@ -69,19 +69,17 @@ class TissueData(data.Dataset):
 
         filepath, info, label = self.datapoints[index]
 
+        # Load image from filepath
         img = pil_loader(filepath)
 
         if self.transform is not None:
             img = self.transform(img)
 
+        # Reshape extra info, then concatenate to image as extra channels
         info = np.array(info)
         info_length = len(info)
         height, width = img.size(1), img.size(2)
-        
         reshaped = torch.FloatTensor(np.repeat(info, height*width).reshape((len(info), height, width)))
-
-        print(reshaped.size)
-
         output = torch.cat((img, reshaped), 0)
 
         return output, label
