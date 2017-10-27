@@ -22,3 +22,5 @@ for dset_type in ['train', 'valid', 'test']:
     loaders[dset_type] = torch.utils.data.DataLoader(data[dset_type], batch_size=32, shuffle=True)
 
     print('Finished loading %s dataset: %s samples' % (dset_type, len(data[dset_type])))
+
+print(data['train'].class_to_idx)

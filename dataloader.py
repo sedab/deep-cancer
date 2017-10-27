@@ -17,21 +17,35 @@ def find_classes(dir):
     class_to_idx = {classes[i]: i for i in range(len(classes))}
     return classes, class_to_idx
 
-def parse_json(fname):
+class TissueData(data.Dataset):
+    def __init__(self, root, dset_type, transform=None):
 
-    json = self.json[fname]
-    age, cigarettes, gender = json['age'], json['cigarettes_per_day'], json['gender']
+        classes, class_to_idx = find_classes(root)
 
-    return [age, cigarettes, gender]
+        with open('/scratch/jmw784/capstone/Charrrrtreuse/JsonParser/LungJsonData.p', 'rb') as f:
+            self.json = pickle.load(f)
+        self.root = root
+        self.classes = classes
+        self.class_to_idx = class_to_idx
+        self.datapoints = self.make_dataset(root, dset_type, class_to_idx)
+        self.transform = transform
 
-def make_dataset(dir, dset_type, class_to_idx):
-    datapoints = []
+    def parse_json(self, fname):
+    
+        json = self.json[fname]
+        age, cigarettes, gender = json['age_at_diagnosis'], json['cigarettes_per_day'], json['gender']
 
-    dir = os.path.expanduser(dir)
-    for target in os.listdir(dir):
-        d = os.path.join(dir, target)
-        if not os.path.isdir(d):
-            continue
+        return [age, cigarettes, gender]
+
+    def make_dataset(self, dir, dset_type, class_to_idx):
+        datapoints = []
+
+        dir = os.path.expanduser(dir)
+        
+        for target in os.listdir(dir):
+            d = os.path.join(dir, target)
+            if not os.path.isdir(d):
+                continue
 
         for root, _, fnames in os.walk(d):
             for fname in fnames:
@@ -40,22 +54,10 @@ def make_dataset(dir, dset_type, class_to_idx):
 
                 if fname.endswith(".jpeg") and dataset_type == dset_type:
                     path = os.path.join(root, fname)
-                    item = (path, parse_json(raw_file + '.svs').extend([int(x), int(y)]), class_to_idx[target])
+                    item = (path, self.parse_json(raw_file + '.svs') + [int(x), int(y)], class_to_idx[target])
                     datapoints.append(item)
                     
-    return datapoints
-
-class TissueData(data.Dataset):
-    def __init__(self, root, dset_type, transform=None):
-
-        classes, class_to_idx = find_classes(root)
-
-        self.json = pickle.load('/scratch/jmw784/capstone/Charrrrtreuse/JsonParser/LungJsonData.p')
-        self.root = root
-        self.classes = classes
-        self.class_to_idx = class_to_idx
-        self.datapoints = make_dataset(root, dset_type, class_to_idx)
-        self.transform = transform
+        return datapoints
 
     def __getitem__(self, index):
         """
@@ -74,11 +76,15 @@ class TissueData(data.Dataset):
 
         info = np.array(info)
         info_length = len(info)
-        height, width = img.size[1], img.size[2]
+        height, width = img.size(1), img.size(2)
         
-        output = np.repeat(info, height*width).reshape((len(info), height, width))
+        reshaped = torch.FloatTensor(np.repeat(info, height*width).reshape((len(info), height, width)))
 
-        return img, output, x, y, label
+        print(reshaped.size)
+
+        output = torch.cat((img, reshaped), 0)
+
+        return output, label
 
     def __len__(self):
         return len(self.datapoints)
