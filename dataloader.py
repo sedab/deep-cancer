@@ -2,6 +2,8 @@ import os
 import torch
 import torchvision.transforms as transforms
 import torch.utils.data as data
+import pickle
+import numpy as np
 from PIL import Image
 
 def pil_loader(path):
@@ -17,9 +19,10 @@ def find_classes(dir):
 
 def parse_json(fname):
 
-    # Don't have the code for parsing JSON yet
+    json = self.json[fname]
+    age, cigarettes, gender = json['age'], json['cigarettes_per_day'], json['gender']
 
-    return fname
+    return [age, cigarettes, gender]
 
 def make_dataset(dir, dset_type, class_to_idx):
     datapoints = []
@@ -37,7 +40,7 @@ def make_dataset(dir, dset_type, class_to_idx):
 
                 if fname.endswith(".jpeg") and dataset_type == dset_type:
                     path = os.path.join(root, fname)
-                    item = (path, parse_json(raw_file + '.svs'), x, y, class_to_idx[target])
+                    item = (path, parse_json(raw_file + '.svs').extend([int(x), int(y)]), class_to_idx[target])
                     datapoints.append(item)
                     
     return datapoints
@@ -47,6 +50,7 @@ class TissueData(data.Dataset):
 
         classes, class_to_idx = find_classes(root)
 
+        self.json = pickle.load('/scratch/jmw784/capstone/Charrrrtreuse/JsonParser/LungJsonData.p')
         self.root = root
         self.classes = classes
         self.class_to_idx = class_to_idx
@@ -61,18 +65,20 @@ class TissueData(data.Dataset):
             tuple: (img, json information, x pos of original, y pos of original) for the given index
         """
 
-        filepath, json, x, y, label = self.datapoints[index]
+        filepath, info, label = self.datapoints[index]
 
         img = pil_loader(filepath)
 
         if self.transform is not None:
             img = self.transform(img)
 
-        x, y = int(x), int(y)
+        info = np.array(info)
+        info_length = len(info)
+        height, width = img.size[1], img.size[2]
+        
+        output = np.repeat(info, height*width).reshape((len(info), height, width))
 
-        # Right now outputting as extra pieces, but should concatenate to image as extra channels
-
-        return img, json, x, y, label
+        return img, output, x, y, label
 
     def __len__(self):
         return len(self.datapoints)
