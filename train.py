@@ -144,6 +144,7 @@ else:
 # Define evaluation function for an entire dataset (train, valid, or test)
 def evaluate(dset_type):
 
+	model.eval()
 	loss = 0
 
 	for img, label in loaders[dset_type]:
@@ -156,6 +157,8 @@ def evaluate(dset_type):
 		eval_label = Variable(label, volatile=True)
 
 		loss += crossEntropy(model(eval_input), eval_label)
+
+	model.train()
 
 	return loss / len(data[dset_type])
 
@@ -196,7 +199,7 @@ for epoch in range(opt.niter+1):
 			experiment.log_metric("Validation loss", val_loss.data[0])
 
 			print('[%d/%d][%d/%d] Validation Loss: %f'
-		            % (epoch, opt.niter, i, len(loaders['train']), val_loss.data[0]))
+		            % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
 
 	if epoch % 10 == 0:
         torch.save(model.state_dict(), '{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
