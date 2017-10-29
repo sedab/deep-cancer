@@ -385,3 +385,88 @@ class ColorJitter(object):
         transform = self.get_params(self.brightness, self.contrast,
                                     self.saturation, self.hue)
         return transform(img)
+
+def adjust_rotation(img, degree=90):
+    """Roatete  the given PIL.Image.
+    Args:
+        img (PIL.Image): Image to be flipped.
+        degree: Angle to rotate: 0 to 360
+    Returns:
+        PIL.Image:  Rotated image.
+    """
+    if not _is_pil_image(img):
+        raise TypeError('img should be PIL Image. Got {}'.format(type(img)))
+        
+    if degree<0: 
+        raise ValueError('Negative rotation - Select degree between 0 and 360')
+        
+    if degree>360: 
+        raise ValueError('Negative rotation - Select degree between 0 and 360')
+
+    return img.rotate(degree)
+
+class ColorJitterRotate(object):
+    """Randomly change the brightness, contrast and saturation of an image.
+    Args:
+        brightness (float): How much to jitter brightness. brightness_factor
+            is chosen uniformly from [max(0, 1 - brightness), 1 + brightness].
+        contrast (float): How much to jitter contrast. contrast_factor
+            is chosen uniformly from [max(0, 1 - contrast), 1 + contrast].
+        saturation (float): How much to jitter saturation. saturation_factor
+            is chosen uniformly from [max(0, 1 - saturation), 1 + saturation].
+        hue(float): How much to jitter hue. hue_factor is chosen uniformly from
+            [-hue, hue]. Should be >=0 and <= 0.5.
+        rotation: Rotate image randomly 0 to the defined parameter, fixed between (0, 90, 180, 270)
+    """
+    def __init__(self, brightness=0, contrast=0, saturation=0, hue=0, rotation=0):
+        self.brightness = brightness
+        self.contrast = contrast
+        self.saturation = saturation
+        self.hue = hue
+        self.rotation = rotation
+
+    @staticmethod
+    def get_params(brightness, contrast, saturation, hue, rotation):
+        """Get a randomized transform to be applied on image.
+        Arguments are same as that of __init__.
+        Returns:
+            Transform which randomly adjusts brightness, contrast and
+            saturation in a random order.
+        """
+        transforms = []
+        if brightness > 0:
+            brightness_factor = np.random.uniform(max(0, 1 - brightness), 1 + brightness)
+            transforms.append(Lambda(lambda img: adjust_brightness(img, brightness_factor)))
+
+        if contrast > 0:
+            contrast_factor = np.random.uniform(max(0, 1 - contrast), 1 + contrast)
+            transforms.append(Lambda(lambda img: adjust_contrast(img, contrast_factor)))
+
+        if saturation > 0:
+            saturation_factor = np.random.uniform(max(0, 1 - saturation), 1 + saturation)
+            transforms.append(Lambda(lambda img: adjust_saturation(img, saturation_factor)))
+
+        if hue > 0:
+            hue_factor = np.random.uniform(-hue, hue)
+            transforms.append(Lambda(lambda img: adjust_hue(img, hue_factor)))
+        
+        if rotation > 0: 
+            rotation_factor = np.random.uniform(0, rotation)
+            rotation_factor =  min([0,90,180,270,360], key=lambda x:abs(x-rotation_factor))
+            transforms.append(Lambda(lambda img: adjust_rotation(img, rotation_factor)))
+
+        np.random.shuffle(transforms)
+        transform = Compose(transforms)
+
+        return transform
+
+    def __call__(self, img):
+        """
+        Args:
+            img (PIL.Image): Input image.
+        Returns:
+            PIL.Image: Color jittered image.
+        """
+        transform = self.get_params(self.brightness, self.contrast,
+                                    self.saturation, self.hue, self.rotation)
+        return transform(img)
