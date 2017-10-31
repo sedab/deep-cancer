@@ -15,4 +15,4 @@ python3 -m pip install comet_ml --user
 
 cd /scratch/jmw784/capstone/Charrrrtreuse/
 
-python -u train.py $1 --experiment $2 > logs/$2.log
+python3 -u train.py $1 --experiment $2 > logs/$2.log

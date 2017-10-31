@@ -1,16 +1,23 @@
-import os
+import argparse
+import random
 import torch
 import torch.nn as nn
+import torch.nn.parallel
+import torch.backends.cudnn as cudnn
+import torch.optim as optim
+import torch.utils.data
+import torchvision.datasets as dset
 import torchvision.transforms as transforms
 import torchvision.utils as vutils
-import torch.utils.data as data
+import torch.nn.init as init
 from torch.autograd import Variable
-from PIL import Image
+import os
 import numpy as np
-import new_transforms
+from PIL import Image
 from dataloader import *
 from model import *
 from comet_ml import Experiment
+import new_transforms
 
 """
 Options for training
@@ -21,7 +28,7 @@ parser.add_argument('--batchSize', type=int, default=32, help='input batch size'
 parser.add_argument('--imgSize', type=int, default=299, help='the height / width of the image to network')
 parser.add_argument('--nc', type=int, default=8, help='input image channels + concatenated info channels')
 parser.add_argument('--niter', type=int, default=25, help='number of epochs to train for')
-parser.add_argument('--lr', type=float, default=0.00005, help='learning rate, default=0.00005')
+parser.add_argument('--lr', type=float, default=0.0001, help='learning rate, default=0.0001')
 parser.add_argument('--beta1', type=float, default=0.5, help='beta1 for adam, default=0.5')
 parser.add_argument('--cuda'  , action='store_true', help='enables cuda')
 parser.add_argument('--ngpu'  , type=int, default=1, help='number of GPUs to use')
@@ -37,7 +44,7 @@ ngpu = int(opt.ngpu)
 nc = int(opt.nc)
 imgSize = int(opt.imgSize)
 
-experiment = Experiment(api_key="INSERT_API_KEY_HERE", log_code=True)
+experiment = Experiment(api_key="qcf4MjyyOhZj7Xw7UuPvZluts", log_code=True)
 hyper_params = vars(opt)
 experiment.log_multiple_params(hyper_params)
 
@@ -66,25 +73,26 @@ Load data
 root_dir = "/beegfs/jmw784/Capstone/LungTilesSorted/"
 
 # Random data augmentation
-augment = transforms.Compose([new_transforms.RandomResizedCrop(imgSize),
-                                new_transforms.RandomVerticalFlip(),
-                                transforms.RandomHorizontalFlip(),
-                                new_transforms.ColorJitter(0.5, 0.05, 2, 0.2),
-                                transforms.ToTensor(),
-                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+augment = transforms.Compose([new_transforms.Resize((imgSize, imgSize)),
+                              new_transforms.RandomVerticalFlip(),
+                              transforms.RandomHorizontalFlip(),
+                              new_transforms.RandomRotate(),
+                              new_transforms.ColorJitter(0.5, 0.05, 2, 0.2),
+                              transforms.ToTensor(),
+                              transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
-transform = transforms.Compose([transforms.ToTensor(),
+transform = transforms.Compose([new_transforms.Resize((imgSize,imgSize)),
+                                transforms.ToTensor(),
                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 data = {}
 loaders = {}
 
 for dset_type in ['train', 'valid', 'test']:
-
-	if dset_type == 'train' and opt.augment:
-		data[dset_type] = TissueData(root_dir, dset_type, transform = augment)
-	else:
-    	data[dset_type] = TissueData(root_dir, dset_type, transform = transform)
+    if dset_type == 'train' and opt.augment:
+        data[dset_type] = TissueData(root_dir, dset_type, transform = augment)
+    else:
+        data[dset_type] = TissueData(root_dir, dset_type, transform = transform)
 
     loaders[dset_type] = torch.utils.data.DataLoader(data[dset_type], batch_size=opt.batchSize, shuffle=True)
     print('Finished loading %s dataset: %s samples' % (dset_type, len(data[dset_type])))
@@ -101,27 +109,25 @@ def weights_init(m):
     if classname.find('Conv') != -1:
         if opt.init == 'xavier':
             m.weight.data = init.xavier_normal(m.weight.data)
-            m.bias.data = init.xavier_normal(m.bias.data)
         elif opt.init == 'kaiming':
             m.weight.data = init.kaiming_normal(m.weight.data)
-            m.bias.data = init.kaiming_normal(m.bias.data)
         else:
-            m.weight.data.normal_(0.0, 0.02)
-            m.bias.data.fill_(0)
+            m.weight.data.normal_(-0.1, 0.1)
+        
+        m.bias.data.fill_(0)
 
     elif classname.find('BatchNorm') != -1:
         if opt.init == 'xavier':
             m.weight.data = init.xavier_normal(m.weight.data)
-            m.bias.data = init.xavier_normal(m.bias.data)
         elif opt.init == 'kaiming':
             m.weight.data = init.kaiming_normal(m.weight.data)
-            m.bias.data = init.kaiming_normal(m.bias.data)
         else:
-            m.weight.data.normal_(1.0, 0.02)
-            m.bias.data.fill_(0)
+            m.weight.data.normal_(-0.1, 0.1)
+        
+        m.bias.data.fill_(0)
 
 # Create model objects
-model = cancer_CNN(nc, imgSize, gpu)
+model = cancer_CNN(nc, imgSize, ngpu)
 model.apply(weights_init)
 model.train()
 
@@ -139,71 +145,74 @@ if opt.cuda:
 if opt.adam:
     optimizer = optim.Adam(model.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
 else:
-    optimizer = optim.RMSprop(netD.parameters(), lr = opt.lr)
+    optimizer = optim.RMSprop(model.parameters(), lr = opt.lr)
 
 # Define evaluation function for an entire dataset (train, valid, or test)
 def evaluate(dset_type):
 
-	model.eval()
-	loss = 0
+    model.eval()
+    loss = 0
 
-	for img, label in loaders[dset_type]:
+    for img, label in loaders[dset_type]:
 
-		if opt.cuda:
-			img = img.cuda()
-			label = label.cuda()
+        if opt.cuda:
+            img = img.cuda()
+            label = label.cuda()
 
-		eval_input = Variable(img, volatile=True)
-		eval_label = Variable(label, volatile=True)
+        eval_input = Variable(img, volatile=True)
+        eval_label = Variable(label, volatile=True)
 
-		loss += crossEntropy(model(eval_input), eval_label)
+        loss += crossEntropy(model(eval_input), eval_label)
 
-	model.train()
+    model.train()
 
-	return loss / len(data[dset_type])
+    return loss / len(data[dset_type])
+
+print('Starting training')
 
 # Training loop
 for epoch in range(opt.niter+1):
-	data_iter = iter(loaders['train'])
-	i = 0
+    data_iter = iter(loaders['train'])
+    i = 0
 
-	while i < len(loaders['train']):
-		img, label = data_iter.next()
-		i += 1
+    while i < len(loaders['train']):
+        img, label = data_iter.next()
+        i += 1
 
-		# Drop the last batch if it's not the same size as the batchsize
-		if img.size(0) != opt.batchSize:
-			break
+        # Drop the last batch if it's not the same size as the batchsize
+        if img.size(0) != opt.batchSize:
+            break
 
-		if opt.cuda:
-			img = img.cuda()
-			label = label.cuda()
+        if opt.cuda:
+            img = img.cuda()
+            label = label.cuda()
 
-		model.zero_grad()
+        model.zero_grad()
 
-		input_img = Variable(img)
-		target_label = Variable(label)
+        input_img = Variable(img)
+        target_label = Variable(label)
 
-		train_loss = crossEntropy(model(input_img), target_label)
-		train_loss.backward()
+        train_loss = crossEntropy(model(input_img), target_label)
+        train_loss.backward()
 
-		optimizer.step()
+        optimizer.step()
 
-		experiment.log_metric("Train loss", train_loss.data[0])
+        experiment.log_metric("Train loss", train_loss.data[0])
 
-		print('[%d/%d][%d/%d] Training Loss: %f'
-		            % (epoch, opt.niter, i, len(loaders['train']), train_loss.data[0]))
+        print('[%d/%d][%d/%d] Training Loss: %f'
+               % (epoch, opt.niter, i, len(loaders['train']), train_loss.data[0]))
 
-		if i % 200 == 0: # Can change how often to evaluate val set
-			val_loss = evaluate('valid')
-			experiment.log_metric("Validation loss", val_loss.data[0])
+        if i % 200 == 0: # Can change how often to evaluate val set
+            val_loss = evaluate('valid')
+            experiment.log_metric("Validation loss", val_loss.data[0])
 
-			print('[%d/%d][%d/%d] Validation Loss: %f'
-		            % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
+            print('[%d/%d][%d/%d] Validation Loss: %f'
+                   % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
 
-	if epoch % 10 == 0:
+    if epoch % 10 == 0:
         torch.save(model.state_dict(), '{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
 
+# Final evaluation
 train_loss = evaluate('train')
 val_loss = evaluate('valid')
 test_loss = evaluate('test')
@@ -211,4 +220,4 @@ test_loss = evaluate('test')
 experiment.log_metric("Test loss", test_loss.data[0])
 
 print('Finished training, train loss: %f, valid loss: %f, test loss: %f'
-		% (train_loss.data[0], val_loss.data[0], test_loss.data[0]))
+    % (train_loss.data[0], val_loss.data[0], test_loss.data[0]))
