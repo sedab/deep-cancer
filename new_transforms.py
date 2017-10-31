@@ -480,26 +480,12 @@ class RandomRotate(object):
     """
     def __init__(self, rotation=0):
         self.rotation = rotation
-        
-    def intToDegrees(inte):
-    
-        if inte == 0: 
-            rot = 0
-        if inte == 1: 
-            rot = 90
-        if inte == 2: 
-            rot = 180
-        if inte == 3:
-            rot = 270
-        
-        return rot
 
     @staticmethod
     def get_params(rotation):
         
         transforms = []
-        rotation_factor = np.random.randint(0, 4, 1)
-        rotation_factor =  intToDegrees(rotation_factor)
+        rotation_factor = np.random.randint(0, 4, 1) * 90
         transforms.append(Lambda(lambda img: adjust_rotation(img, rotation_factor)))
 
         np.random.shuffle(transforms)
