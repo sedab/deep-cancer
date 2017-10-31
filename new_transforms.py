@@ -470,3 +470,50 @@ class ColorJitterRotate(object):
         transform = self.get_params(self.brightness, self.contrast,
                                     self.saturation, self.hue, self.rotation)
         return transform(img)
+
+class RandomRotate(object):
+    """Randomly change the Rotation of an image (0/90/180/270).
+    
+    Args:
+        rotation: Rotate image randomly to the defined parameter, fixed between (0, 90, 180, 270)
+        
+    """
+    def __init__(self, rotation=0):
+        self.rotation = rotation
+        
+    def intToDegrees(inte):
+    
+        if inte == 0: 
+            rot = 0
+        if inte == 1: 
+            rot = 90
+        if inte == 2: 
+            rot = 180
+        if inte == 3:
+            rot = 270
+        
+        return rot
+
+    @staticmethod
+    def get_params(rotation):
+        
+        transforms = []
+        rotation_factor = np.random.randint(0, 4, 1)
+        rotation_factor =  intToDegrees(rotation_factor)
+        transforms.append(Lambda(lambda img: adjust_rotation(img, rotation_factor)))
+
+        np.random.shuffle(transforms)
+        transform = Compose(transforms)
+
+        return transform
+
+    def __call__(self, img):
+        """
+        Args:
+            img (PIL.Image): Input image.
+        Returns:
+            PIL.Image: Randomly rotated image.
+        """
+        transform = self.get_params(self.rotation)
+        
+        return transform(img)
