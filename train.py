@@ -16,7 +16,6 @@ import os
 import numpy as np
 from PIL import Image
 from dataloader import *
-from model import *
 from comet_ml import Experiment
 import new_transforms
 
@@ -81,7 +80,7 @@ augment = transforms.Compose([new_transforms.Resize((imgSize, imgSize)),
                               new_transforms.RandomVerticalFlip(),
                               transforms.RandomHorizontalFlip(),
                               new_transforms.RandomRotate(),
-                              new_transforms.ColorJitter(0.5, 0.05, 2, 0.2),
+                              new_transforms.ColorJitter(0.25, 0.25, 0.25, 0.05),
                               transforms.ToTensor(),
                               transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
