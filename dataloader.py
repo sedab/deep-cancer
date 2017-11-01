@@ -22,7 +22,7 @@ def find_classes(dir):
     return classes, class_to_idx
 
 class TissueData(data.Dataset):
-    def __init__(self, root, dset_type, transform=None):
+    def __init__(self, root, dset_type, transform=None, metadata=False):
 
         classes, class_to_idx = find_classes(root)
 
@@ -32,7 +32,8 @@ class TissueData(data.Dataset):
         self.root = root
         self.classes = classes
         self.class_to_idx = class_to_idx
-        self.datapoints = self.make_dataset(root, dset_type, class_to_idx)
+        self.metadata = metadata
+        self.datapoints, self.filenames = self.make_dataset(root, dset_type, class_to_idx)
         self.transform = transform
 
     def parse_json(self, fname):
@@ -45,6 +46,7 @@ class TissueData(data.Dataset):
 
     def make_dataset(self, dir, dset_type, class_to_idx):
         datapoints = []
+        filenames = []
 
         dir = os.path.expanduser(dir)
         
@@ -57,14 +59,23 @@ class TissueData(data.Dataset):
             for fname in fnames:
                 # Parse the filename
                 dataset_type, raw_file, x, y = fname.strip('.jpeg').split('_')
-
+                raw_file_name = raw_file + '.svs'
+    
                 # Only add it if it's the correct dset_type (train, valid, test)
                 if fname.endswith(".jpeg") and dataset_type == dset_type:
                     path = os.path.join(root, fname)
-                    item = (path, self.parse_json(raw_file + '.svs') + [int(x), int(y)], class_to_idx[target])
+
+                    if self.metadata:
+                        item = (path, self.parse_json(raw_file_name) + [int(x), int(y)], class_to_idx[target])
+                    else:
+                        item = (path, class_to_idx[target])
+                    
                     datapoints.append(item)
                     
-        return datapoints
+                    if raw_file_name not in filenames:
+                        filenames.append(raw_file_name)
+
+        return datapoints, filenames
 
     def __getitem__(self, index):
         """
@@ -74,7 +85,10 @@ class TissueData(data.Dataset):
             tuple: (img + concatenated extra info, label) for the given index
         """
 
-        filepath, info, label = self.datapoints[index]
+        if self.metadata:
+            filepath, info, label = self.datapoints[index]
+        else:
+            filepath, label = self.datapoints[index]
 
         # Load image from filepath
         img = pil_loader(filepath)
@@ -82,12 +96,15 @@ class TissueData(data.Dataset):
         if self.transform is not None:
             img = self.transform(img)
 
-        # Reshape extra info, then concatenate to image as extra channels
-        info = np.array(info)
-        info_length = len(info)
-        height, width = img.size(1), img.size(2)
-        reshaped = torch.FloatTensor(np.repeat(info, height*width).reshape((len(info), height, width)))
-        output = torch.cat((img, reshaped), 0)
+        if self.metadata:
+            # Reshape extra info, then concatenate to image as extra channels
+            info = np.array(info)
+            info_length = len(info)
+            height, width = img.size(1), img.size(2)
+            reshaped = torch.FloatTensor(np.repeat(info, height*width).reshape((len(info), height, width)))
+            output = torch.cat((img, reshaped), 0)
+        else:
+            output = img
 
         return output, label
 
