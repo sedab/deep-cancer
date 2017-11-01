@@ -151,11 +151,9 @@ class cancer_CNN(nn.Module):
         self.conv1 = nn.Conv2d(nc, 64, 4, 2, 1, bias=True)
         self.conv2 = nn.Conv2d(64, 128, 4, 2, 1, bias=True)
         self.conv3 = nn.Conv2d(128, 256, 4, 2, 1, bias=True)
-        self.conv4 = nn.Conv2d(256, 128, 4, 2, 1, bias=True)
         self.bn1 = nn.BatchNorm2d(64)
         self.bn2 = nn.BatchNorm2d(128)
         self.bn3 = nn.BatchNorm2d(256)
-        self.bn4 = nn.BatchNorm2d(128)
 
         # Three classes
         self.linear = nn.Linear(4096, 3)
