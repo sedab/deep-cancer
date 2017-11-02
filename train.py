@@ -172,6 +172,7 @@ model.apply(weights_init)
 model.train()
 
 crossEntropy = nn.CrossEntropyLoss()
+crossEntropySum = nn.CrossEntropyLoss(reduce=False)
 
 # Load checkpoint models if needed
 if opt.model != '': 
@@ -215,7 +216,7 @@ def evaluate(dset_type, sample_size='full'):
         eval_input = Variable(img, volatile=True)
         eval_label = Variable(label, volatile=True)
 
-        loss += crossEntropy(model(eval_input), eval_label)
+        loss += crossEntropySum(model(eval_input), eval_label)
 
         num_evaluated += img.size(0)
 
