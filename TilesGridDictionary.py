@@ -104,7 +104,7 @@ def main():
         loop_dict = {file:[tiles_array, 2]}
         main_dict.update(loop_dict)    
     
-    pickle.dump(main_dict, open( out_dir + "Lung_FileMappingDict.p", "wb" ) ) 
+    pickle.dump(main_dict, open( out_dir + "/Lung_FileMappingDict.p", "wb" ) ) 
     print("Dictionary Ready!!! Saved as pickle in: \n {}/Lung_FileMappingDict.p".format(out_dir))
     
     return main_dict
