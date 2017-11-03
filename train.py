@@ -118,50 +118,67 @@ def init_model(model):
             else:
                 m.weight.data.normal_(0.0, 0.02)
             
-            m.bias.data.fill_(0)
-
         elif isinstance(m,nn.BatchNorm2d):
             m.weight.data.normal_(1.0, 0.02)
-            m.bias.data.fill_(0)
 
-# Define model
-class cancer_CNN(nn.Module):
-    def __init__(self, nc, imgSize, nonlinearity, ngpu):
-        super(cancer_CNN, self).__init__()
-        self.nc = nc
-        self.imgSize = imgSize
-        self.ngpu = ngpu
+class BasicConv2d(nn.Module):
 
-        if nonlinearity == 'selu':
+    def __init__(self, in_channels, out_channels, **kwargs):
+        super(BasicConv2d, self).__init__()
+        self.conv = nn.Conv2d(in_channels, out_channels, **kwargs)
+        self.bn = nn.BatchNorm2d(out_channels, eps=0.001)
+
+        if opt.nonlinearity == 'selu':
             self.relu = nn.SELU()
-        elif nonlinearity == 'prelu':
+        elif opt.nonlinearity == 'prelu':
             self.relu = nn.PReLU()
-        elif nonlinearity == 'leaky':
+        elif opt.nonlinearity == 'leaky':
             self.relu = nn.LeakyReLU()
         else:
             self.relu = nn.ReLU()
 
         self.dropout = nn.Dropout(p=opt.dropout)
-        self.conv1 = nn.Conv2d(nc, 64, 4, 2, 1, bias=True)
-        self.conv2 = nn.Conv2d(64, 128, 4, 2, 1, bias=True)
-        self.conv3 = nn.Conv2d(128, 256, 4, 2, 1, bias=True)
-        self.bn1 = nn.BatchNorm2d(64)
-        self.bn2 = nn.BatchNorm2d(128)
-        self.bn3 = nn.BatchNorm2d(256)
-
-        # Three classes
-        self.linear = nn.Linear(4096, 3)
 
     def forward(self, x):
-        x = self.bn1(self.relu(F.max_pool2d(self.conv1(x),2)))
-        x = self.bn2(self.relu(F.max_pool2d(self.conv2(x),2)))
-        x = self.dropout(self.bn3(self.relu(F.max_pool2d(self.conv3(x),2))))
+        x = self.conv(x)
+        x = self.relu(x)
+        x = self.bn(x)
+        x = self.dropout(x)
+        return x
+
+# Define model
+class cancer_CNN(nn.Module):
+    def __init__(self, nc, imgSize, ngpu):
+        super(cancer_CNN, self).__init__()
+        self.nc = nc
+        self.imgSize = imgSize
+        self.ngpu = ngpu
+
+        self.dropout = nn.Dropout(p=opt.dropout)
+        self.conv1 = BasicConv2d(nc, 32, kernel_size=3, stride=2, bias=True)
+        self.conv2 = BasicConv2d(32, 32, kernel_size=3, bias=True)
+        self.conv3 = BasicConv2d(32, 64, kernel_size=3, padding=1, bias=True)
+        self.conv4 = BasicConv2d(64, 80, kernel_size=1, bias=True)
+        self.conv5 = BasicConv2d(80, 192, kernel_size=3, bias=True)
+
+        # Three classes
+        self.linear = nn.Linear(235200, 3)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        x = self.conv2(x)
+        x = self.conv3(x)
+        x = F.max_pool2d(x, kernel_size=3, stride=2)
+        x = self.conv4(x)
+        x = self.conv5(x)
+        x = F.max_pool2d(x, kernel_size=3, stride=2)
+        x = self.dropout(x)
         x = x.view(x.size(0), -1)
-        x = F.softmax(self.linear(x))
+        x = self.linear(x)
         return x
 
 # Create model objects
-model = cancer_CNN(nc, imgSize, opt.nonlinearity, ngpu)
+model = cancer_CNN(nc, imgSize, ngpu)
 init_model(model)
 model.train()
 
