@@ -41,6 +41,7 @@ parser.add_argument('--metadata', action='store_true', help='Whether to use meta
 parser.add_argument('--init', type=str, default='normal', help='initialization method (normal, xavier, kaiming)')
 parser.add_argument('--evalSize', type=int, default=2000, help='Number of samples to obtain validation loss on')
 parser.add_argument('--nonlinearity', type=str, default='relu', help='Nonlinearity to use (selu, prelu, leaky, relu)')
+parser.add_argument('--earlystop', action='store_true', help='Trigger early stopping (Boolean)')
 opt = parser.parse_args()
 print(opt)
 
@@ -234,6 +235,38 @@ def evaluate(dset_type, sample_size='full'):
             model.train()
             return loss / num_evaluated
 
+def early_stop(val_acc_history, t=5, required_progress=0.01):
+
+    """
+    Stop the training if there is no non-trivial progress in k steps
+    @param val_acc_history: a list contains all the historical validation acc
+    @param required_progress: the next acc should be higher than the previous by 
+        at least required_progress amount to be non-trivial
+    @param t: number of training steps 
+    @return: a boolean indicates if the model should earily stop
+    """
+    
+    if (len(val_acc_history) > t+1):
+        
+        differences = []
+        for x in range(1, t+1):
+            differences.append(val_acc_history[-x] - val_acc_history[-(x+1)])
+        differences = [y < 0.01 for y in differences]
+        if sum(differences) == t: 
+            return True
+        else:
+            return False
+            
+    else:
+        return False
+
+if opt.earlystop:
+    validation_acc_history = []
+else:
+    print("No early stopping implemented")
+    
+stop_training = False
+
 print('Starting training')
 
 # Training loop
@@ -273,12 +306,21 @@ for epoch in range(opt.niter+1):
             eval_size = int(opt.evalSize)
             val_loss = evaluate('valid', sample_size=eval_size)
             experiment.log_metric("Validation loss (%s samples)" % (eval_size), val_loss.data[0])
-
+            
+            if opt.earlystop:
+                validation_acc_history.append(val_loss.data[0]) 
+                stop_training = early_stop(validation_acc_history)
+                if stop_training:
+                    print("Early stop triggered")
+                    break
+            
             print('[%d/%d][%d/%d] Validation Loss: %f'
                    % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
 
     if epoch % 5 == 0:
         torch.save(model.state_dict(), '{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
+    if stop_training: 
+        break
 
 # Final evaluation
 train_loss = evaluate('train')
@@ -287,5 +329,7 @@ test_loss = evaluate('test')
 
 experiment.log_metric("Test loss", test_loss.data[0])
 
-print('Finished training, train loss: %f, valid loss: %f, test loss: %f'
-    % (train_loss.data[0], val_loss.data[0], test_loss.data[0]))
+
+
+print('Finished training, train loss: %f, valid loss: %f'
+    % (train_loss.data[0], val_loss.data[0]))
