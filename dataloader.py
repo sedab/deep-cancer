@@ -55,25 +55,25 @@ class TissueData(data.Dataset):
             if not os.path.isdir(d):
                 continue
 
-        for root, _, fnames in os.walk(d):
-            for fname in fnames:
-                # Parse the filename
-                dataset_type, raw_file, x, y = fname.strip('.jpeg').split('_')
-                raw_file_name = raw_file + '.svs'
-    
-                # Only add it if it's the correct dset_type (train, valid, test)
-                if fname.endswith(".jpeg") and dataset_type == dset_type:
-                    path = os.path.join(root, fname)
+            for root, _, fnames in os.walk(d):
+                for fname in fnames:
+                    # Parse the filename
+                    dataset_type, raw_file, x, y = fname.strip('.jpeg').split('_')
+                    raw_file_name = raw_file + '.svs'
+        
+                    # Only add it if it's the correct dset_type (train, valid, test)
+                    if fname.endswith(".jpeg") and dataset_type == dset_type:
+                        path = os.path.join(root, fname)
 
-                    if self.metadata:
-                        item = (path, self.parse_json(raw_file_name) + [int(x), int(y)], class_to_idx[target])
-                    else:
-                        item = (path, class_to_idx[target])
-                    
-                    datapoints.append(item)
-                    
-                    if raw_file_name not in filenames:
-                        filenames.append(raw_file_name)
+                        if self.metadata:
+                            item = (path, self.parse_json(raw_file_name) + [int(x), int(y)], class_to_idx[target])
+                        else:
+                            item = (path, class_to_idx[target])
+                        
+                        datapoints.append(item)
+                        
+                        if raw_file_name not in filenames:
+                            filenames.append(raw_file_name)
 
         return datapoints, filenames
 
