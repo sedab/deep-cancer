@@ -29,6 +29,7 @@ parser.add_argument('--imgSize', type=int, default=299, help='the height / width
 parser.add_argument('--nc', type=int, default=3, help='input image channels (+ concatenated info channels if metadata = True)')
 parser.add_argument('--niter', type=int, default=25, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.0001, help='learning rate, default=0.0001')
+parser.add_argument('--dropout', type=float, default=0.5, help='Probability of dropout, default=0.5')
 parser.add_argument('--beta1', type=float, default=0.5, help='beta1 for adam, default=0.5')
 parser.add_argument('--cuda'  , action='store_true', help='enables cuda')
 parser.add_argument('--ngpu'  , type=int, default=1, help='number of GPUs to use')
@@ -107,27 +108,21 @@ print(data['train'].class_to_idx)
 if opt.init not in ['normal', 'xavier', 'kaiming']:
     print('Initialization method not found, defaulting to normal')
 
-def weights_init(m):
-    classname = m.__class__.__name__
-    if classname.find('Conv') != -1:
-        if opt.init == 'xavier':
-            m.weight.data = init.xavier_normal(m.weight.data)
-        elif opt.init == 'kaiming':
-            m.weight.data = init.kaiming_normal(m.weight.data)
-        else:
-            m.weight.data.normal_(-0.1, 0.1)
-        
-        m.bias.data.fill_(0)
+def init_model(model):
+    for m in model.modules():
+        if isinstance(m,nn.Conv2d):
+            if opt.init == 'xavier':
+                m.weight.data = init.xavier_normal(m.weight.data)
+            elif opt.init == 'kaiming':
+                m.weight.data = init.kaiming_normal(m.weight.data)
+            else:
+                m.weight.data.normal_(0.0, 0.02)
+            
+            m.bias.data.fill_(0)
 
-    elif classname.find('BatchNorm') != -1:
-        if opt.init == 'xavier':
-            m.weight.data = init.xavier_normal(m.weight.data)
-        elif opt.init == 'kaiming':
-            m.weight.data = init.kaiming_normal(m.weight.data)
-        else:
-            m.weight.data.normal_(-0.1, 0.1)
-        
-        m.bias.data.fill_(0)
+        elif isinstance(m,nn.BatchNorm2d):
+            m.weight.data.normal_(1.0, 0.02)
+            m.bias.data.fill_(0)
 
 # Define model
 class cancer_CNN(nn.Module):
@@ -146,8 +141,7 @@ class cancer_CNN(nn.Module):
         else:
             self.relu = nn.ReLU()
 
-        self.init_dropout = nn.Dropout(p=0.2)
-        self.dropout = nn.Dropout(p=0.5)
+        self.dropout = nn.Dropout(p=opt.dropout)
         self.conv1 = nn.Conv2d(nc, 64, 4, 2, 1, bias=True)
         self.conv2 = nn.Conv2d(64, 128, 4, 2, 1, bias=True)
         self.conv3 = nn.Conv2d(128, 256, 4, 2, 1, bias=True)
@@ -159,8 +153,8 @@ class cancer_CNN(nn.Module):
         self.linear = nn.Linear(4096, 3)
 
     def forward(self, x):
-        x = self.init_dropout(self.bn1(self.relu(F.max_pool2d(self.conv1(x),2))))
-        x = self.dropout(self.bn2(self.relu(F.max_pool2d(self.conv2(x),2))))
+        x = self.bn1(self.relu(F.max_pool2d(self.conv1(x),2)))
+        x = self.bn2(self.relu(F.max_pool2d(self.conv2(x),2)))
         x = self.dropout(self.bn3(self.relu(F.max_pool2d(self.conv3(x),2))))
         x = x.view(x.size(0), -1)
         x = F.softmax(self.linear(x))
@@ -168,11 +162,10 @@ class cancer_CNN(nn.Module):
 
 # Create model objects
 model = cancer_CNN(nc, imgSize, opt.nonlinearity, ngpu)
-model.apply(weights_init)
+init_model(model)
 model.train()
 
 crossEntropy = nn.CrossEntropyLoss()
-crossEntropySum = nn.CrossEntropyLoss(reduce=False)
 
 # Load checkpoint models if needed
 if opt.model != '': 
@@ -216,7 +209,7 @@ def evaluate(dset_type, sample_size='full'):
         eval_input = Variable(img, volatile=True)
         eval_label = Variable(label, volatile=True)
 
-        loss += crossEntropySum(model(eval_input), eval_label)
+        loss += crossEntropy(model(eval_input), eval_label) * img.size(0)
 
         num_evaluated += img.size(0)
 
