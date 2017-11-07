@@ -43,7 +43,8 @@ tile_dict = pickle.load('PATH_TO_EDUARDOS_DICT_HERE')
 
 def aggregate(file_list, tile_dict, method):
 
-    output = []
+    predictions = []
+    true_labels = []
 
     for file in file_list:
         tile_paths, label = tile_dict[file]
@@ -59,9 +60,10 @@ def aggregate(file_list, tile_dict, method):
         else:
             raise ValueError('Method not valid')
 
-        output.append((prediction, label))
+        predictions.append(prediction)
+        true_labels.append(label)
 
-    return output
+    return predictions, true_labels
 
 """
 Move these functions below into the method above
