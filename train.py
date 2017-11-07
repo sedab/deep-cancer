@@ -42,6 +42,7 @@ parser.add_argument('--init', type=str, default='normal', help='initialization m
 parser.add_argument('--evalSize', type=int, default=2000, help='Number of samples to obtain validation loss on')
 parser.add_argument('--nonlinearity', type=str, default='relu', help='Nonlinearity to use (selu, prelu, leaky, relu)')
 parser.add_argument('--earlystop', action='store_true', help='Trigger early stopping (Boolean)')
+parser.add_argument('--method', type=str, default='average', help='Aggregation prediction method (max, average)')
 opt = parser.parse_args()
 print(opt)
 
@@ -199,7 +200,8 @@ if opt.adam:
 else:
     optimizer = optim.RMSprop(model.parameters(), lr = opt.lr)
 
-# Define evaluation function for an entire dataset (train, valid, or test)
+# Define evaluation function for loss for a dataset (train, valid, or test)
+
 def evaluate(dset_type, sample_size='full'):
 
     """
@@ -234,6 +236,71 @@ def evaluate(dset_type, sample_size='full'):
         if num_evaluated >= sample_size:
             model.train()
             return loss / num_evaluated
+
+# Define a function that returns the model output given a tile path
+
+def get_tile_probability(tile_path):
+
+    # Some tiles are empty with no path, return nan
+    if tile_path == '':
+        return np.full(3, np.nan)
+
+    with open(tile_path, 'rb') as f:
+        with Image.open(f) as img:
+            img = img.convert('RGB')
+
+    transform = transforms.Compose([new_transforms.Resize((imgSize,imgSize)),
+                                transforms.ToTensor(),
+                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+
+    img = transform(img)
+    var_img = Variable(img)
+
+    return model(var_img).data.numpy()
+
+# Define aggregation function for predictions
+
+tile_dict = pickle.load('/beegfs/jmw784/Capstone/Lung_FileMappingDict.p')
+
+def aggregate(file_list, method):
+
+    predictions = []
+    true_labels = []
+
+    for file in file_list:
+        tile_paths, label = tile_dict[file]
+
+        prob_v = np.vectorize(get_tile_probability, otypes=[np.ndarray])
+        probabilities = prob_v(tile_paths)
+
+        """
+        Code if we want to retain the shape (for ConvNet or other methods)
+
+        imgSize = probabilities.shape()
+        newShape = (imgSize[0], imgSize[1], 3)
+        probabilities = np.reshape(np.stack(probabilities.flat), newShape)
+
+        """
+
+        if method == 'average':
+
+            probabilities = np.stack(probabilities.flat)
+            prediction = np.argmax(np.nanmean(probabilities, axis = 0)) 
+
+        elif method == 'max':
+            
+            probabilities = np.stack(probabilities.flat)
+            votes = np.nanargmax(probabilities, axis=1)
+            out = np.array([ sum(votes == 0) , sum(votes == 1) , sum(votes == 2)])
+            prediction = np.argmax(out)
+
+        else:
+            raise ValueError('Method not valid')
+
+        predictions.append(prediction)
+        true_labels.append(label)
+
+    return predictions, true_labels
 
 def early_stop(val_acc_history, t=5, required_progress=0.01):
 
@@ -317,8 +384,18 @@ for epoch in range(opt.niter+1):
             print('[%d/%d][%d/%d] Validation Loss: %f'
                    % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
 
-    if epoch % 5 == 0:
-        torch.save(model.state_dict(), '{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
+    # Save model every epoch
+    torch.save(model.state_dict(), '{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
+
+    train_predictions, train_labels = aggregate(data['train'].filenames, method=opt.method)
+    val_predictions, val_labels = aggregate(data['valid'].filenames, method=opt.method)
+
+    train_accuracy = np.sum(np.equal(train_predictions, train_labels))/len(train_labels)
+    val_accuracy = np.sum(np.equal(val_predictions, val_labels))/len(val_labels)
+
+    experiment.log_metric("Train accuracy", train_accuracy)
+    experiment.log_metric("Validation accuracy", val_accuracy)
+
     if stop_training: 
         torch.save(model.state_dict(), '{0}/epoch_{1}_early_stopped.pth'.format(opt.experiment, epoch))
         break
@@ -329,8 +406,6 @@ val_loss = evaluate('valid')
 test_loss = evaluate('test')
 
 experiment.log_metric("Test loss", test_loss.data[0])
-
-
 
 print('Finished training, train loss: %f, valid loss: %f'
     % (train_loss.data[0], val_loss.data[0]))
