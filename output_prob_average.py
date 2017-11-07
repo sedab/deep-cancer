@@ -30,7 +30,7 @@ def get_tile_probability(tile_path):
     img = transform(img)
     var_img = Variable(img)
 
-    return model(var_img).data
+    return model(var_img).data.numpy()
 
 """
 
