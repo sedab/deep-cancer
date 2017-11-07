@@ -1,35 +1,80 @@
 
-# coding: utf-8
-
-
 import numpy as np
-import random
 import torch
+import torchvision.transforms as transforms
+from PIL import Image
+from new_transforms import *
+import pickle
 
+"""
+Assuming model is defined as something already, this is a fake model for now
+"""
 
-#dict_probs = {}
+import torch.nn.functional as F
 
+def model(img):
+    #ignore img, simulate data
+    return F.softmax(torch.randn(3))
 
-def probs_update( file_name , tensor ): # add self as a parameter: self.dict_probs
-    
-    ''' Update dictionary containing an array of the predicted probabilities per tile
-        One element in the dictionary per slide
-    '''
-    
-    if file_name in dict_probs:
-        dict_probs[file_name] = np.append( dict_probs[file_name] ,[tensor.numpy()] , axis = 0)
-    else:
-        dict_probs[file_name] = np.array([tensor.numpy()])
+# Take tile path and return probability for that tile
 
+def get_tile_probability(tile_path):
+    with open(tile_path, 'rb') as f:
+        with Image.open(f) as img:
+            img = img.convert('RGB')
 
-def avg_probs(file_name): #add self
+    transform = transforms.Compose([new_transforms.Resize((imgSize,imgSize)),
+                                transforms.ToTensor(),
+                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+
+    img = transform(img)
+    var_img = Variable(img)
+
+    return model(var_img).data
+
+"""
+
+In the main code, we will have something like this:
+
+file_list = data['train'].filenames
+tile_dict = pickle.load('PATH_TO_EDUARDOS_DICT_HERE')
+
+"""
+
+def aggregate(file_list, tile_dict, method):
+
+    output = []
+
+    for file in file_list:
+        tile_paths, label = tile_dict[file]
+
+        # Maybe there's a better way to do this than np.vectorize, you check
+        prob_v = np.vectorize(get_tile_probability)
+        probabilities = prob_v(tile_paths)
+
+        if method == 'average':
+            prediction = 0 # fill in the code here on how to predict
+        elif method == 'max':
+            prediction = 0 # fill in the code here on how to predict
+        else:
+            raise ValueError('Method not valid')
+
+        output.append((prediction, label))
+
+    return output
+
+"""
+Move these functions below into the method above
+"""
+
+def avg_probs(file_name): 
     '''Calculate average probabilities for a given tile
         input: tile name (file name)
         output: mean per class , index of max
     '''
     means = dict_probs[file_name].mean(axis = 0)
     
-    return means , np.argmax(means) 
+    return means, np.argmax(means) 
 
 
 def max_probs(file_name):
