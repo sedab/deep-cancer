@@ -37,7 +37,7 @@ def get_tile_probability(tile_path):
 In the main code, we will have something like this:
 
 file_list = data['train'].filenames
-tile_dict = pickle.load('PATH_TO_EDUARDOS_DICT_HERE')
+tile_dict = pickle.load('')
 
 """
 
@@ -54,9 +54,21 @@ def aggregate(file_list, tile_dict, method):
         probabilities = prob_v(tile_paths)
 
         if method == 'average':
-            prediction = 0 # fill in the code here on how to predict
+            
+
+            prediction = np.argmax( probabilities.mean(axis = 0) ) 
+        
+
         elif method == 'max':
-            prediction = 0 # fill in the code here on how to predict
+            
+            votes = probabilities.argmax(axis=1)
+            out = np.array([ sum(votes == 0) , sum(votes == 1) , sum(votes == 2)])
+            # out = np.true_divide(out,sum(out))
+
+
+            prediction = np.argmax(out)
+        
+
         else:
             raise ValueError('Method not valid')
 
