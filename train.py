@@ -320,6 +320,7 @@ for epoch in range(opt.niter+1):
     if epoch % 5 == 0:
         torch.save(model.state_dict(), '{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
     if stop_training: 
+        torch.save(model.state_dict(), '{0}/epoch_{1}_early_stopped.pth'.format(opt.experiment, epoch))
         break
 
 # Final evaluation
