@@ -39,7 +39,7 @@ parser.add_argument('--augment', action='store_true', help='Whether to use data 
 parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is rmsprop)')
 parser.add_argument('--metadata', action='store_true', help='Whether to use metadata (default is not)')
 parser.add_argument('--init', type=str, default='normal', help='initialization method (normal, xavier, kaiming)')
-parser.add_argument('--evalSize', type=int, default=2000, help='Number of samples to obtain validation loss on')
+parser.add_argument('--evalSize', type=int, default=20000, help='Number of samples to obtain validation loss on')
 parser.add_argument('--nonlinearity', type=str, default='relu', help='Nonlinearity to use (selu, prelu, leaky, relu)')
 parser.add_argument('--earlystop', action='store_true', help='Trigger early stopping (Boolean)')
 parser.add_argument('--method', type=str, default='average', help='Aggregation prediction method (max, average)')
@@ -241,6 +241,8 @@ def get_tile_probability(tile_path):
     # Some tiles are empty with no path, return nan
     if tile_path == '':
         return np.full(3, np.nan)
+
+    tile_path = root_dir + tile_path
 
     with open(tile_path, 'rb') as f:
         with Image.open(f) as img:
