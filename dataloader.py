@@ -59,7 +59,7 @@ class TissueData(data.Dataset):
                 for fname in fnames:
                     # Parse the filename
                     dataset_type, raw_file, x, y = fname.strip('.jpeg').split('_')
-                    raw_file_name = raw_file + '.svs'
+                    raw_file_name = dset_type + '_' + raw_file
         
                     # Only add it if it's the correct dset_type (train, valid, test)
                     if fname.endswith(".jpeg") and dataset_type == dset_type:
