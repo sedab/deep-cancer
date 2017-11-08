@@ -28,7 +28,7 @@ parser.add_argument('--batchSize', type=int, default=32, help='input batch size'
 parser.add_argument('--imgSize', type=int, default=299, help='the height / width of the image to network')
 parser.add_argument('--nc', type=int, default=3, help='input image channels (+ concatenated info channels if metadata = True)')
 parser.add_argument('--niter', type=int, default=25, help='number of epochs to train for')
-parser.add_argument('--lr', type=float, default=0.0001, help='learning rate, default=0.0001')
+parser.add_argument('--lr', type=float, default=1e-7, help='learning rate, default=1e-7')
 parser.add_argument('--dropout', type=float, default=0.5, help='Probability of dropout, default=0.5')
 parser.add_argument('--beta1', type=float, default=0.5, help='beta1 for adam, default=0.5')
 parser.add_argument('--cuda'  , action='store_true', help='enables cuda')
@@ -105,6 +105,7 @@ for dset_type in ['train', 'valid', 'test']:
 
 print('Class encoding:')
 print(data['train'].class_to_idx)
+classes = data['train'].classes
 
 # Custom weights initialization
 if opt.init not in ['normal', 'xavier', 'kaiming']:
@@ -143,6 +144,7 @@ class BasicConv2d(nn.Module):
 
     def forward(self, x):
         x = self.conv(x)
+        x = F.max_pool2d(x, 2)
         x = self.relu(x)
         x = self.bn(x)
         x = self.dropout(x)
@@ -158,33 +160,28 @@ class cancer_CNN(nn.Module):
 
         self.dropout = nn.Dropout(p=opt.dropout)
         self.conv1 = BasicConv2d(nc, 32, kernel_size=3, stride=2, bias=True)
-        self.conv2 = BasicConv2d(32, 32, kernel_size=3, bias=True)
-        self.conv3 = BasicConv2d(32, 64, kernel_size=3, padding=1, bias=True)
-        self.conv4 = BasicConv2d(64, 80, kernel_size=1, bias=True)
-        self.conv5 = BasicConv2d(80, 192, kernel_size=3, bias=True)
+        self.conv2 = BasicConv2d(32, 64, kernel_size=3, bias=True)
+        self.conv3 = BasicConv2d(64, 80, kernel_size=3, padding=1, bias=True)
 
         # Three classes
-        self.linear = nn.Linear(235200, 3)
+        self.linear = nn.Linear(25920, 3)
+
+        self.lsm = nn.LogSoftmax()
 
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
-        x = F.max_pool2d(x, kernel_size=3, stride=2)
-        x = self.conv4(x)
-        x = self.conv5(x)
-        x = F.max_pool2d(x, kernel_size=3, stride=2)
-        x = self.dropout(x)
         x = x.view(x.size(0), -1)
         x = self.linear(x)
-        return x
+        return self.lsm(x)
 
 # Create model objects
 model = cancer_CNN(nc, imgSize, ngpu)
 init_model(model)
 model.train()
 
-crossEntropy = nn.CrossEntropyLoss()
+NLLLoss = nn.NLLLoss()
 
 # Load checkpoint models if needed
 if opt.model != '': 
@@ -229,7 +226,7 @@ def evaluate(dset_type, sample_size='full'):
         eval_input = Variable(img, volatile=True)
         eval_label = Variable(label, volatile=True)
 
-        loss += crossEntropy(model(eval_input), eval_label) * img.size(0)
+        loss += NLLLoss(model(eval_input), eval_label) * img.size(0)
 
         num_evaluated += img.size(0)
 
@@ -249,18 +246,16 @@ def get_tile_probability(tile_path):
         with Image.open(f) as img:
             img = img.convert('RGB')
 
-    transform = transforms.Compose([new_transforms.Resize((imgSize,imgSize)),
-                                transforms.ToTensor(),
-                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+    # Model expects a 4D tensor, unsqueeze first dimension
+    img = transform(img).unsqueeze(0)
+    var_img = Variable(img, volatile=True)
 
-    img = transform(img)
-    var_img = Variable(img)
-
-    return model(var_img).data.numpy()
+    return model(var_img).data.squeeze(0).numpy()
 
 # Define aggregation function for predictions
 
-tile_dict = pickle.load('/beegfs/jmw784/Capstone/Lung_FileMappingDict.p')
+with open('/beegfs/jmw784/Capstone/Lung_FileMappingDict.p', 'rb') as f:
+    tile_dict = pickle.load(f)
 
 def aggregate(file_list, method):
 
@@ -270,8 +265,22 @@ def aggregate(file_list, method):
     for file in file_list:
         tile_paths, label = tile_dict[file]
 
+        folder = classes[label]
+
+        def add_folder(tile_path):
+            if tile_path == '':
+                return ''
+            else:
+                return folder + '/' + tile_path
+
+        # Add the folder for the class name in front
+        add_folder_v = np.vectorize(add_folder)
+        tile_paths = add_folder_v(tile_paths)
+
+        # Get the probability array for the file
         prob_v = np.vectorize(get_tile_probability, otypes=[np.ndarray])
         probabilities = prob_v(tile_paths)
+
 
         """
         Code if we want to retain the shape (for ConvNet or other methods)
@@ -282,14 +291,13 @@ def aggregate(file_list, method):
 
         """
 
+        # LogSoftMax outputs the log probabilities, need to exp
         if method == 'average':
-
-            probabilities = np.stack(probabilities.flat)
+            probabilities = np.exp(np.stack(probabilities.flat))
             prediction = np.argmax(np.nanmean(probabilities, axis = 0)) 
 
         elif method == 'max':
-            
-            probabilities = np.stack(probabilities.flat)
+            probabilities = np.exp(np.stack(probabilities.flat))
             votes = np.nanargmax(probabilities, axis=1)
             out = np.array([ sum(votes == 0) , sum(votes == 1) , sum(votes == 2)])
             prediction = np.argmax(out)
@@ -302,7 +310,7 @@ def aggregate(file_list, method):
 
     return predictions, true_labels
 
-def early_stop(val_acc_history, t=5, required_progress=0.01):
+def early_stop(val_acc_history, t=3, required_progress=0.01):
 
     """
     Stop the training if there is no non-trivial progress in k steps
@@ -310,7 +318,7 @@ def early_stop(val_acc_history, t=5, required_progress=0.01):
     @param required_progress: the next acc should be higher than the previous by 
         at least required_progress amount to be non-trivial
     @param t: number of training steps 
-    @return: a boolean indicates if the model should earily stop
+    @return: a boolean indicates if the model should early stop
     """
     
     if (len(val_acc_history) > t+1):
@@ -358,7 +366,7 @@ for epoch in range(opt.niter+1):
         input_img = Variable(img)
         target_label = Variable(label)
 
-        train_loss = crossEntropy(model(input_img), target_label)
+        train_loss = NLLLoss(model(input_img), target_label)
         train_loss.backward()
 
         optimizer.step()
@@ -384,18 +392,15 @@ for epoch in range(opt.niter+1):
             print('[%d/%d][%d/%d] Validation Loss: %f'
                    % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
 
+
     # Save model every epoch
     torch.save(model.state_dict(), '{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
 
-    train_predictions, train_labels = aggregate(data['train'].filenames, method=opt.method)
+    # Get validation accuracy every epoch
     val_predictions, val_labels = aggregate(data['valid'].filenames, method=opt.method)
-
-    train_accuracy = np.sum(np.equal(train_predictions, train_labels))/len(train_labels)
     val_accuracy = np.sum(np.equal(val_predictions, val_labels))/len(val_labels)
-
-    experiment.log_metric("Train accuracy", train_accuracy)
     experiment.log_metric("Validation accuracy", val_accuracy)
-
+    
     if stop_training: 
         torch.save(model.state_dict(), '{0}/epoch_{1}_early_stopped.pth'.format(opt.experiment, epoch))
         break
