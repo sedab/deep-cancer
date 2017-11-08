@@ -250,6 +250,10 @@ def get_tile_probability(tile_path):
 
     # Model expects a 4D tensor, unsqueeze first dimension
     img = transform(img).unsqueeze(0)
+
+    if opt.cuda:
+        img.cuda()
+
     var_img = Variable(img, volatile=True)
 
     return model(var_img).data.squeeze(0).numpy()
@@ -312,7 +316,7 @@ def aggregate(file_list, method):
 
     return predictions, true_labels
 
-def early_stop(val_acc_history, t=3, required_progress=0.01):
+def early_stop(val_acc_history, t=5, required_progress=0.01):
 
     """
     Stop the training if there is no non-trivial progress in k steps
