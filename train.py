@@ -316,7 +316,7 @@ def aggregate(file_list, method):
 
     return predictions, true_labels
 
-def early_stop(val_acc_history, t=5, required_progress=0.01):
+def early_stop(val_acc_history, t=5, required_progress=0.0001):
 
     """
     Stop the training if there is no non-trivial progress in k steps
