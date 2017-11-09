@@ -252,7 +252,7 @@ def get_tile_probability(tile_path):
     img = transform(img).unsqueeze(0)
 
     if opt.cuda:
-        img.cuda()
+        img = img.cuda()
 
     var_img = Variable(img, volatile=True)
 
