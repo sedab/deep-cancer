@@ -119,10 +119,10 @@ def init_model(model):
             elif opt.init == 'kaiming':
                 m.weight.data = init.kaiming_normal(m.weight.data)
             else:
-                m.weight.data.normal_(0.0, 0.02)
+                m.weight.data.normal_(-0.1, 0.1)
             
         elif isinstance(m,nn.BatchNorm2d):
-            m.weight.data.normal_(1.0, 0.02)
+            m.weight.data.normal_(-0.1, 0.1)
 
 class BasicConv2d(nn.Module):
 
@@ -162,20 +162,19 @@ class cancer_CNN(nn.Module):
         self.nc = nc
         self.imgSize = imgSize
         self.ngpu = ngpu
-        self.conv1 = BasicConv2d(nc, 32, True, kernel_size=3, stride=2, bias=True)
-        self.conv2 = BasicConv2d(32, 64, True, kernel_size=3, bias=True)
-        self.conv3 = BasicConv2d(64, 80, True, kernel_size=3, padding=1, bias=True)
+        self.conv1 = BasicConv2d(nc, 16, True, kernel_size=5, padding=1, stride=2, bias=True)
+        self.conv2 = BasicConv2d(16, 32, True, kernel_size=3, bias=True)
+        self.conv3 = BasicConv2d(32, 64, True, kernel_size=3, padding=1, bias=True)
+        self.conv4 = BasicConv2d(64, 32, True, kernel_size=3, padding=1, bias=True)
 
         # Three classes
-        self.linear = nn.Linear(25920, 3)
+        self.linear = nn.Linear(2592, 3)
 
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
         x = self.conv4(x)
-        x = self.conv5(x)
-        x = self.conv6(x)
         x = x.view(x.size(0), -1)
         x = self.linear(x)
         return F.log_softmax(x)
@@ -235,7 +234,6 @@ def evaluate(dset_type, sample_size='full'):
         num_evaluated += img.size(0)
 
         if num_evaluated >= sample_size:
-            model.train()
             return loss / num_evaluated
 
 # Define a function that returns the model output given a tile path
@@ -269,6 +267,7 @@ with open('/beegfs/jmw784/Capstone/Lung_FileMappingDict.p', 'rb') as f:
 
 def aggregate(file_list, method):
 
+    model.eval()
     predictions = []
     true_labels = []
 
@@ -358,6 +357,7 @@ for epoch in range(opt.niter+1):
     i = 0
 
     while i < len(loaders['train']):
+        model.train()
         img, label = data_iter.next()
         i += 1
 
@@ -369,12 +369,14 @@ for epoch in range(opt.niter+1):
             img = img.cuda()
             label = label.cuda()
 
-        model.zero_grad()
 
         input_img = Variable(img)
         target_label = Variable(label)
 
         train_loss = NLLLoss(model(input_img), target_label)
+
+        # Zero gradients then backward pass
+        optimizer.zero_grad()
         train_loss.backward()
 
         optimizer.step()
@@ -399,7 +401,6 @@ for epoch in range(opt.niter+1):
             
             print('[%d/%d][%d/%d] Validation Loss: %f'
                    % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
-
 
     # Save model every epoch
     torch.save(model.state_dict(), '{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
