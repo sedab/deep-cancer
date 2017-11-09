@@ -328,16 +328,14 @@ def early_stop(val_acc_history, t=5, required_progress=0.0001):
     """
     
     if (len(val_acc_history) > t+1):
-        
         differences = []
         for x in range(1, t+1):
             differences.append(val_acc_history[-x] - val_acc_history[-(x+1)])
-        differences = [y < 0.01 for y in differences]
+        differences = [y < required_progress for y in differences]
         if sum(differences) == t: 
             return True
         else:
             return False
-            
     else:
         return False
 
