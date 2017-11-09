@@ -126,8 +126,10 @@ def init_model(model):
 
 class BasicConv2d(nn.Module):
 
-    def __init__(self, in_channels, out_channels, **kwargs):
+    def __init__(self, in_channels, out_channels, pool, **kwargs):
         super(BasicConv2d, self).__init__()
+
+        self.pool = pool
         self.conv = nn.Conv2d(in_channels, out_channels, **kwargs)
         self.bn = nn.BatchNorm2d(out_channels, eps=0.001)
 
@@ -144,7 +146,10 @@ class BasicConv2d(nn.Module):
 
     def forward(self, x):
         x = self.conv(x)
-        x = F.max_pool2d(x, 2)
+
+        if self.pool:
+            x = F.max_pool2d(x, 2)
+        
         x = self.relu(x)
         x = self.bn(x)
         x = self.dropout(x)
@@ -157,24 +162,26 @@ class cancer_CNN(nn.Module):
         self.nc = nc
         self.imgSize = imgSize
         self.ngpu = ngpu
-
-        self.dropout = nn.Dropout(p=opt.dropout)
-        self.conv1 = BasicConv2d(nc, 32, kernel_size=3, stride=2, bias=True)
-        self.conv2 = BasicConv2d(32, 64, kernel_size=3, bias=True)
-        self.conv3 = BasicConv2d(64, 80, kernel_size=3, padding=1, bias=True)
+        self.conv1 = BasicConv2d(nc, 32, False, kernel_size=3, stride=2, bias=True)
+        self.conv2 = BasicConv2d(32, 64, False, kernel_size=3, bias=True)
+        self.conv3 = BasicConv2d(64, 80, True, kernel_size=3, padding=1, bias=True)
+        self.conv4 = BasicConv2d(80, 64, True, kernel_size=3, padding=1, bias=True)
+        self.conv5 = BasicConv2d(64, 32, True, kernel_size=3, padding=1, bias=True)
+        self.conv6 = BasicConv2d(32, 16, True, kernel_size=3, padding=1, bias=True)
 
         # Three classes
-        self.linear = nn.Linear(25920, 3)
-
-        self.lsm = nn.LogSoftmax()
+        self.linear = nn.Linear(1296, 3)
 
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
+        x = self.conv4(x)
+        x = self.conv5(x)
+        x = self.conv6(x)
         x = x.view(x.size(0), -1)
         x = self.linear(x)
-        return self.lsm(x)
+        return F.log_softmax(x)
 
 # Create model objects
 model = cancer_CNN(nc, imgSize, ngpu)
