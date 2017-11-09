@@ -162,15 +162,12 @@ class cancer_CNN(nn.Module):
         self.nc = nc
         self.imgSize = imgSize
         self.ngpu = ngpu
-        self.conv1 = BasicConv2d(nc, 32, False, kernel_size=3, stride=2, bias=True)
-        self.conv2 = BasicConv2d(32, 64, False, kernel_size=3, bias=True)
+        self.conv1 = BasicConv2d(nc, 32, True, kernel_size=3, stride=2, bias=True)
+        self.conv2 = BasicConv2d(32, 64, True, kernel_size=3, bias=True)
         self.conv3 = BasicConv2d(64, 80, True, kernel_size=3, padding=1, bias=True)
-        self.conv4 = BasicConv2d(80, 64, True, kernel_size=3, padding=1, bias=True)
-        self.conv5 = BasicConv2d(64, 32, True, kernel_size=3, padding=1, bias=True)
-        self.conv6 = BasicConv2d(32, 16, True, kernel_size=3, padding=1, bias=True)
 
         # Three classes
-        self.linear = nn.Linear(1296, 3)
+        self.linear = nn.Linear(25920, 3)
 
     def forward(self, x):
         x = self.conv1(x)
@@ -263,7 +260,7 @@ def get_tile_probability(tile_path):
 
     var_img = Variable(img, volatile=True)
 
-    return model(var_img).data.squeeze(0).numpy()
+    return model(var_img).data.squeeze(0).cpu().numpy()
 
 # Define aggregation function for predictions
 
