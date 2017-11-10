@@ -366,7 +366,7 @@ for epoch in range(opt.niter+1):
     i = 0
     
     adjust_learning_rate(optimizer, epoch)
-    print("Epoch %d :lr = %f" % (epoch, optimizer.state_dict()['param_groups'][0]['lr'])
+    print("Epoch %d :lr = %f" % (epoch, optimizer.state_dict()['param_groups'][0]['lr']))
     
     while i < len(loaders['train']):
         model.train()
