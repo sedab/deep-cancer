@@ -61,7 +61,7 @@ Save experiment
 """
 
 if opt.experiment is None:
-    opt.experiment = 'experiments'
+    opt.experiment = 'samples'
 
 os.system('mkdir experiments')
 os.system('mkdir experiments/{0}'.format(opt.experiment))
