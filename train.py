@@ -61,9 +61,11 @@ Save experiment
 """
 
 if opt.experiment is None:
-    opt.experiment = 'samples'
-os.system('mkdir {0}'.format(opt.experiment))
-os.system('mkdir {0}/images'.format(opt.experiment))
+    opt.experiment = 'experiments'
+
+os.system('mkdir experiments')
+os.system('mkdir experiments/{0}'.format(opt.experiment))
+os.system('mkdir experiments/{0}/images'.format(opt.experiment))
 
 opt.manualSeed = random.randint(1, 10000) # fix seed
 print("Random Seed: ", opt.manualSeed)
