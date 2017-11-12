@@ -1,5 +1,3 @@
-import argparse
-import random
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -12,12 +10,16 @@ import torchvision.transforms as transforms
 import torchvision.utils as vutils
 import torch.nn.init as init
 from torch.autograd import Variable
+
 import os
 import numpy as np
 from PIL import Image
-from dataloader import *
+from utils.dataloader import *
+from utils import new_transforms
+import argparse
+import random
+
 from comet_ml import Experiment
-import new_transforms
 
 """
 Options for training
