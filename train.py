@@ -30,7 +30,7 @@ parser.add_argument('--batchSize', type=int, default=32, help='input batch size'
 parser.add_argument('--imgSize', type=int, default=299, help='the height / width of the image to network')
 parser.add_argument('--nc', type=int, default=3, help='input image channels (+ concatenated info channels if metadata = True)')
 parser.add_argument('--niter', type=int, default=25, help='number of epochs to train for')
-parser.add_argument('--lr', type=float, default=1e-7, help='learning rate, default=1e-7')
+parser.add_argument('--lr', type=float, default=0.001, help='learning rate, default=0.001')
 parser.add_argument('--dropout', type=float, default=0.5, help='Probability of dropout, default=0.5')
 parser.add_argument('--beta1', type=float, default=0.5, help='beta1 for adam, default=0.5')
 parser.add_argument('--cuda'  , action='store_true', help='enables cuda')
@@ -337,7 +337,7 @@ def early_stop(val_acc_history, t=5, required_progress=0.0001):
     if (len(val_acc_history) > t+1):
         differences = []
         for x in range(1, t+1):
-            differences.append((val_acc_history[-x] - val_acc_history[-(x+1)])*-1)
+            differences.append(val_acc_history[-(x+1)]-val_acc_history[-x])
         differences = [y < required_progress for y in differences]
         if sum(differences) == t: 
             return True
@@ -385,13 +385,12 @@ for epoch in range(opt.niter+1):
 
         optimizer.step()
 
-        experiment.log_metric("Train loss", train_loss.data[0])
-
         print('[%d/%d][%d/%d] Training Loss: %f'
                % (epoch, opt.niter, i, len(loaders['train']), train_loss.data[0]))
 
         if i % 200 == 0: # Can change how often to evaluate val set
 
+            experiment.log_metric("Train loss", train_loss.data[0])
             eval_size = int(opt.evalSize)
             val_loss = evaluate('valid', sample_size=eval_size)
             experiment.log_metric("Validation loss (%s samples)" % (eval_size), val_loss.data[0])
@@ -407,7 +406,7 @@ for epoch in range(opt.niter+1):
                    % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
 
     # Save model every epoch
-    torch.save(model.state_dict(), '{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
+    torch.save(model.state_dict(), 'experiments/{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
 
     # Get validation accuracy every epoch
     val_predictions, val_labels = aggregate(data['valid'].filenames, method=opt.method)
@@ -415,7 +414,7 @@ for epoch in range(opt.niter+1):
     experiment.log_metric("Validation accuracy", val_accuracy)
     
     if stop_training: 
-        torch.save(model.state_dict(), '{0}/epoch_{1}_early_stopped.pth'.format(opt.experiment, epoch))
+        torch.save(model.state_dict(), 'experiments/{0}/epoch_{1}_early_stopped.pth'.format(opt.experiment, epoch))
         break
 
 # Final evaluation
