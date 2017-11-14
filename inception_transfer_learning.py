@@ -19,6 +19,14 @@ from functools import reduce
 
 from CLR_preview import CyclicLR
 
+# New imports
+from PIL import Image
+from utils.dataloader import *
+from utils.auc import *
+from utils import new_transformsimport argparse
+import random
+
+
 
 model_urls = {
     'inception_v3': 'https://download.pytorch.org/models/inception_v3_google-1a9a5a14.pth'  
@@ -35,17 +43,17 @@ models_to_test = ['inception_v3']
 
 #Fix this directories
 #####
-data_dir = 'hymenoptera_data' #fix this
+data_dir = '/beegfs/jmw784/Capstone/LungTilesSorted/'
 
-train_subfolder = os.path.join(data_dir, 'train')
+# train_subfolder = os.path.join(data_dir, 'train')
 
 #####
 
-classes = [d.split(train_subfolder, 1)[1] for d in \
-           glob(os.path.join(train_subfolder, '**'))]
+classes = [0,1,2] # [d.split(train_subfolder, 1)[1] for d in \
+          #  glob(os.path.join(train_subfolder, '**'))]
 
 
-batch_size = 4
+batch_size = 30
 epoch_multiplier = 8 #per class and times 1(shallow), 2(deep), 4(from_scratch)
 use_gpu = torch.cuda.is_available()
 use_clr = True
@@ -83,26 +91,6 @@ def load_model_merged(name, num_classes):
     
     model = models.__dict__[name](num_classes=num_classes)
     
-    #Densenets don't (yet) pass on num_classes, hack it in
-    if "densenet" in name:
-        if name == 'densenet169':
-            return models.DenseNet(num_init_features=64, growth_rate=32, \
-                                   block_config=(6, 12, 32, 32), num_classes=num_classes)
-        
-        elif name == 'densenet121':
-            return models.DenseNet(num_init_features=64, growth_rate=32, \
-                                   block_config=(6, 12, 24, 16), num_classes=num_classes)
-        
-        elif name == 'densenet201':
-            return models.DenseNet(num_init_features=64, growth_rate=32, \
-                                   block_config=(6, 12, 48, 32), num_classes=num_classes)
-
-        elif name == 'densenet161':
-             return models.DenseNet(num_init_features=96, growth_rate=48, \
-                                    block_config=(6, 12, 36, 24), num_classes=num_classes)
-        else:
-            raise ValueError("Cirumventing missing num_classes kwargs not implemented for %s" % name)
-    
     pretrained_state = model_zoo.load_url(model_urls[name])
 
     #Diff
@@ -136,28 +124,35 @@ def filtered_params(net, param_list=None):
 #### Training and Evaluation
 
 def get_data(resize):
-
-    data_transforms = {
-        'train': transforms.Compose([
-            transforms.RandomSizedCrop(max(resize)),
-            transforms.RandomHorizontalFlip(),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
-        'val': transforms.Compose([
-            #Higher scale-up for inception
-            transforms.Scale(int(max(resize)/224*256)),
-            transforms.CenterCrop(max(resize)),
-            transforms.ToTensor(),
-            transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
-        ]),
-    }
+    '''
 
     dsets = {x: datasets.ImageFolder(os.path.join(data_dir, x), data_transforms[x])
              for x in ['train', 'val']}
-    dset_loaders = {x: torch.utils.data.DataLoader(dsets[x], batch_size=batch_size,
-                                                   shuffle=True)
-                    for x in ['train', 'val']}
+    '''
+
+    augment = transforms.Compose([
+        transforms.RandomSizedCrop(max(resize)),
+        transforms.RandomHorizontalFlip(),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+
+    transform = transforms.Compose([
+        #Higher scale-up for inception
+        transforms.Scale(int(max(resize)/224*256)),
+        transforms.CenterCrop(max(resize)),
+        transforms.ToTensor(),
+        transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])])
+
+    dsets = {}
+
+    for dset_type in ['train', 'val']:
+        if dset_type == 'train':
+            dsets[dset_type] = TissueData(root_dir, dset_type, transform = augment , metadata=False) 
+        else:
+            dsets[dset_type] = TissueData(root_dir, dset_type, transform = transform , metadata=False) 
+
+
+    dset_loaders = {x: torch.utils.data.DataLoader(dsets[x], batch_size=batch_size, shuffle=True) for x in ['train', 'val']}
     dset_sizes = {x: len(dsets[x]) for x in ['train', 'val']}
     dset_classes = dsets['train'].classes
     
@@ -306,6 +301,7 @@ if __name__=='__main__':
 
         resize = [s[1] for s in input_sizes.items() if s[0] in name][0]
         print("Resizing input images to max of", resize)
+        
         trainloader, testloader = get_data(resize)
 
         if use_gpu:
