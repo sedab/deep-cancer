@@ -23,7 +23,8 @@ from CLR_preview import CyclicLR
 from PIL import Image
 from utils.dataloader import *
 from utils.auc import *
-from utils import new_transformsimport argparse
+from utils import new_transformsimport 
+import argparse
 import random
 
 
