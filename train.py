@@ -1,3 +1,5 @@
+from comet_ml import Experiment
+
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
@@ -19,8 +21,6 @@ from utils.auc import *
 from utils import new_transforms
 import argparse
 import random
-
-from comet_ml import Experiment
 
 """
 Options for training
@@ -469,6 +469,7 @@ for epoch in range(opt.niter+1):
     # Save model if best macro AUC
     if roc_auc['macro'] > best_AUC:
         torch.save(model.state_dict(), 'experiments/{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
+        best_AUC = roc_auc['macro']
 
     if stop_training: 
         break
