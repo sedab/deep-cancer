@@ -39,13 +39,14 @@ parser.add_argument('--ngpu'  , type=int, default=1, help='number of GPUs to use
 parser.add_argument('--model', default='', help="path to model (to continue training)")
 parser.add_argument('--experiment', default=None, help='Where to store samples and models')
 parser.add_argument('--augment', action='store_true', help='Whether to use data augmentation or not')
-parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is rmsprop)')
+parser.add_argument('--optimizer',type=str, help='Optimizer: "Adam", "SGD" or "RMSprop"; Default: Adam')
 parser.add_argument('--metadata', action='store_true', help='Whether to use metadata (default is not)')
 parser.add_argument('--init', type=str, default='normal', help='initialization method (normal, xavier, kaiming)')
 parser.add_argument('--evalSize', type=int, default=50000, help='Number of samples to obtain validation loss on')
 parser.add_argument('--nonlinearity', type=str, default='relu', help='Nonlinearity to use (selu, prelu, leaky, relu)')
 parser.add_argument('--earlystop', action='store_true', help='Trigger early stopping (Boolean)')
 parser.add_argument('--method', type=str, default='average', help='Aggregation prediction method (max, average)')
+parser.add_argument('--decay_lr', action='store_true', help='Activate Decay Learning rate function')
 opt = parser.parse_args()
 print(opt)
 
@@ -210,10 +211,15 @@ if opt.cuda:
     model.cuda()
 
 # Set up optimizer
-if opt.adam:
+
+if opt.optimizer=="Adam":
     optimizer = optim.Adam(model.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
-else:
+elif opt.optimizer=="RMSprop":
     optimizer = optim.RMSprop(model.parameters(), lr = opt.lr)
+elif opt.optimizer=="SGD": 
+    optimizer = optim.RMSprop(model.parameters(), lr = opt.lr)
+else: 
+    raise ValueError('Optimizer not found. Accepted "Adam", "SGD" or "RMSprop"')
 
 ###############################################################################
 
@@ -396,6 +402,18 @@ stop_training = False
 
 ###############################################################################
 
+def adjust_learning_rate(optimizer, epoch):
+
+    """Sets the learning rate to the initial LR decayed by 10 every 3 epochs
+        Function copied from: https://github.com/pytorch/examples/blob/master/imagenet/main.py"""
+    
+    lr = opt.lr * (0.1 ** (epoch // 3)) # Original
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+
+
+###############################################################################
+
 """
 Training loop
 """
@@ -407,6 +425,10 @@ print('Starting training')
 for epoch in range(opt.niter+1):
     data_iter = iter(loaders['train'])
     i = 0
+    
+    if opt.decay_lr:
+        adjust_learning_rate(optimizer, epoch)
+        print("Epoch %d :lr = %f" % (epoch, optimizer.state_dict()['param_groups'][0]['lr']))    
 
     while i < len(loaders['train']):
         model.train()
