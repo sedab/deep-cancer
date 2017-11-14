@@ -217,7 +217,7 @@ if opt.optimizer=="Adam":
 elif opt.optimizer=="RMSprop":
     optimizer = optim.RMSprop(model.parameters(), lr = opt.lr)
 elif opt.optimizer=="SGD": 
-    optimizer = optim.RMSprop(model.parameters(), lr = opt.lr)
+    optimizer = optim.SGD(model.parameters(), lr = opt.lr)
 else: 
     raise ValueError('Optimizer not found. Accepted "Adam", "SGD" or "RMSprop"')
 
