@@ -42,7 +42,7 @@ parser.add_argument('--augment', action='store_true', help='Whether to use data 
 parser.add_argument('--adam', action='store_true', help='Whether to use adam (default is rmsprop)')
 parser.add_argument('--metadata', action='store_true', help='Whether to use metadata (default is not)')
 parser.add_argument('--init', type=str, default='normal', help='initialization method (normal, xavier, kaiming)')
-parser.add_argument('--evalSize', type=int, default=20000, help='Number of samples to obtain validation loss on')
+parser.add_argument('--evalSize', type=int, default=50000, help='Number of samples to obtain validation loss on')
 parser.add_argument('--nonlinearity', type=str, default='relu', help='Nonlinearity to use (selu, prelu, leaky, relu)')
 parser.add_argument('--earlystop', action='store_true', help='Trigger early stopping (Boolean)')
 parser.add_argument('--method', type=str, default='average', help='Aggregation prediction method (max, average)')
@@ -436,11 +436,11 @@ for epoch in range(opt.niter+1):
         print('[%d/%d][%d/%d] Training Loss: %f'
                % (epoch, opt.niter, i, len(loaders['train']), train_loss.data[0]))
 
-        if i % 200 == 0: # Can change how often to evaluate val set
+        if i % 1000 == 0: # Can change how often to evaluate val set
 
-            experiment.log_metric("Train loss", train_loss.data[0])
             eval_size = int(opt.evalSize)
             val_loss = evaluate('valid', sample_size=eval_size)
+            experiment.log_metric("Train loss", train_loss.data[0])
             experiment.log_metric("Validation loss (%s samples)" % (eval_size), val_loss.data[0])
             
             if opt.earlystop:
