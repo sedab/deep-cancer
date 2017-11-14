@@ -53,6 +53,7 @@ data_dir = '/beegfs/jmw784/Capstone/LungTilesSorted/'
 classes = [0,1,2] # [d.split(train_subfolder, 1)[1] for d in \
           #  glob(os.path.join(train_subfolder, '**'))]
 
+last_params = ['AuxLogits.fc.weight', 'AuxLogits.fc.bias', 'fc.weight', 'fc.bias']
 
 batch_size = 30
 epoch_multiplier = 8 #per class and times 1(shallow), 2(deep), 4(from_scratch)
@@ -82,22 +83,37 @@ def diff_states(dict_canonical, dict_subset):
     assert len(not_in_1) == 0
     assert len(not_in_2) == 0
     for name, v1 in dict_canonical.items():
+
+        if name in last_params:
+            break
+
         v2 = dict_subset[name]
         assert hasattr(v2, 'size')
         if v1.size() != v2.size():
+            print(name,v1.size(),v2.size())
             yield (name, v1)                
 
 def load_model_merged(name, num_classes):
     model = models.__dict__[name](num_classes=num_classes)
+    model_dict = model.state_dict()
     pretrained_state = model_zoo.load_url(model_urls[name])
+
     #Diff
     diff = [s for s in diff_states(model.state_dict(), pretrained_state)]
     print("Replacing the following state from initialized", name, ":", [d[0] for d in diff])
     for name, value in diff:
         pretrained_state[name] = value
         assert len([s for s in diff_states(model.state_dict(), pretrained_state)]) == 0
+
+    # Remove last layer weights because different number of classes
+    for name in last_params:
+        del pretrained_state[name]
+    
+    #Update weights from pretrained state
+    model_dict.update(pretrained_state)
+
     #Merge
-    model.load_state_dict(pretrained_state)
+    model.load_state_dict(model_dict)
     return model, diff
 
 
@@ -281,7 +297,8 @@ def train_eval(net, trainloader, testloader, epochs, param_list=None, CLR=False)
 if __name__=='__main__':
     stats = []
     num_classes = len(classes)
-    
+    print(num_classes)   
+ 
     epochs = num_classes * epoch_multiplier * 1
     print("RETRAINING %d epochs" % epochs)
 
