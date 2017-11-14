@@ -39,7 +39,7 @@ parser.add_argument('--ngpu'  , type=int, default=1, help='number of GPUs to use
 parser.add_argument('--model', default='', help="path to model (to continue training)")
 parser.add_argument('--experiment', default=None, help='Where to store samples and models')
 parser.add_argument('--augment', action='store_true', help='Whether to use data augmentation or not')
-parser.add_argument('--optimizer',type=str, help='Optimizer: "Adam", "SGD" or "RMSprop"; Default: Adam')
+parser.add_argument('--optimizer',type=str, default='Adam',  help='Optimizer: "Adam", "SGD" or "RMSprop"; Default: Adam')
 parser.add_argument('--metadata', action='store_true', help='Whether to use metadata (default is not)')
 parser.add_argument('--init', type=str, default='normal', help='initialization method (normal, xavier, kaiming)')
 parser.add_argument('--evalSize', type=int, default=50000, help='Number of samples to obtain validation loss on')
