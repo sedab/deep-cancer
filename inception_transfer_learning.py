@@ -17,7 +17,7 @@ from torchvision import datasets
 from itertools import accumulate
 from functools import reduce
 
-from utils import CLR
+from utils.CLR import *
 
 # New imports
 from PIL import Image
@@ -81,7 +81,6 @@ def diff_states(dict_canonical, dict_subset):
     not_in_2 = [n for n in names2 if n not in names1]
     assert len(not_in_1) == 0
     assert len(not_in_2) == 0
-
     for name, v1 in dict_canonical.items():
         v2 = dict_subset[name]
         assert hasattr(v2, 'size')
@@ -89,21 +88,14 @@ def diff_states(dict_canonical, dict_subset):
             yield (name, v1)                
 
 def load_model_merged(name, num_classes):
-    
     model = models.__dict__[name](num_classes=num_classes)
-    
     pretrained_state = model_zoo.load_url(model_urls[name])
-
     #Diff
     diff = [s for s in diff_states(model.state_dict(), pretrained_state)]
-    print("Replacing the following state from initialized", name, ":", \
-          [d[0] for d in diff])
-    
+    print("Replacing the following state from initialized", name, ":", [d[0] for d in diff])
     for name, value in diff:
         pretrained_state[name] = value
-    
-    assert len([s for s in diff_states(model.state_dict(), pretrained_state)]) == 0
-    
+        assert len([s for s in diff_states(model.state_dict(), pretrained_state)]) == 0
     #Merge
     model.load_state_dict(pretrained_state)
     return model, diff
@@ -148,9 +140,9 @@ def get_data(resize):
 
     for dset_type in ['train', 'val']:
         if dset_type == 'train':
-            dsets[dset_type] = TissueData(root_dir, dset_type, transform = augment , metadata=False) 
+            dsets[dset_type] = TissueData(data_dir, dset_type, transform = augment , metadata=False) 
         else:
-            dsets[dset_type] = TissueData(root_dir, dset_type, transform = transform , metadata=False) 
+            dsets[dset_type] = TissueData(data_dir, dset_type, transform = transform , metadata=False) 
 
 
     dset_loaders = {x: torch.utils.data.DataLoader(dsets[x], batch_size=batch_size, shuffle=True) for x in ['train', 'val']}
