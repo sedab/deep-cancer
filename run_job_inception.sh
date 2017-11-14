@@ -13,6 +13,7 @@ python3 -m pip install http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp
 python3 -m pip install torchvision --user --upgrade
 python3 -m pip install comet_ml --user
 
+
 cd /scratch/rds491/capstone/Charrrrtreuse/
 
 python3 -u inception_transfer_learning.py > logs/inception_debug.log

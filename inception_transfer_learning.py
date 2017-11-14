@@ -17,13 +17,13 @@ from torchvision import datasets
 from itertools import accumulate
 from functools import reduce
 
-from CLR_preview import CyclicLR
+from utils import CLR
 
 # New imports
 from PIL import Image
 from utils.dataloader import *
 from utils.auc import *
-from utils import new_transformsimport 
+from utils import new_transforms
 import argparse
 import random
 
