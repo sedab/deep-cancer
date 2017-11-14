@@ -15,6 +15,7 @@ import os
 import numpy as np
 from PIL import Image
 from utils.dataloader import *
+from utils.auc import *
 from utils import new_transforms
 import argparse
 import random
@@ -107,9 +108,17 @@ for dset_type in ['train', 'valid', 'test']:
     loaders[dset_type] = torch.utils.data.DataLoader(data[dset_type], batch_size=opt.batchSize, shuffle=True)
     print('Finished loading %s dataset: %s samples' % (dset_type, len(data[dset_type])))
 
-print('Class encoding:')
-print(data['train'].class_to_idx)
+class_to_idx = data['train'].class_to_idx
 classes = data['train'].classes
+
+print('Class encoding:')
+print(class_to_idx)
+
+###############################################################################
+
+"""
+Model initialization and definition
+"""
 
 # Custom weights initialization
 if opt.init not in ['normal', 'xavier', 'kaiming']:
@@ -183,6 +192,8 @@ class cancer_CNN(nn.Module):
         x = self.linear(x)
         return F.log_softmax(x)
 
+###############################################################################
+
 # Create model objects
 model = cancer_CNN(nc, imgSize, ngpu)
 init_model(model)
@@ -204,13 +215,23 @@ if opt.adam:
 else:
     optimizer = optim.RMSprop(model.parameters(), lr = opt.lr)
 
-# Define evaluation function for loss for a dataset (train, valid, or test)
+###############################################################################
+
+"""
+Evaluation functions
+"""
 
 def evaluate(dset_type, sample_size='full'):
 
     """
+    Returns loss for a dataset (train, valid, or test)
+
     Note: sample_size will be rounded up to be a multiple of the batch_size
     of the dataloader.
+
+    @param dset_type: 'train', 'valid', or 'test'
+    @param sample_size: Number of samples to evaluate in the set,
+                        'full' means the entire set
     """
 
     if sample_size == 'full':
@@ -240,9 +261,14 @@ def evaluate(dset_type, sample_size='full'):
         if num_evaluated >= sample_size:
             return loss / num_evaluated
 
-# Define a function that returns the model output given a tile path
-
 def get_tile_probability(tile_path):
+
+    """
+    Returns an array of probabilities for each class given a tile
+
+    @param tile_path: Filepath to the tile
+    @return: A ndarray of class probabilities for that tile
+    """
 
     # Some tiles are empty with no path, return nan
     if tile_path == '':
@@ -264,12 +290,28 @@ def get_tile_probability(tile_path):
 
     return model(var_img).data.squeeze(0).cpu().numpy()
 
-# Define aggregation function for predictions
+# Load tile dictionary
 
 with open('/beegfs/jmw784/Capstone/Lung_FileMappingDict.p', 'rb') as f:
     tile_dict = pickle.load(f)
 
 def aggregate(file_list, method):
+
+    """
+    Given a list of files, return scores for each class according to the
+    method and labels for those files.
+
+    @param file_list: A list of file paths to do predictions on
+    @param method: 'average' - returns the average probability score across
+                               all tiles for that file
+                   'max' - predicts each tile to be the class of the maximum
+                           score, and returns the proportion of tiles for
+                           each class
+
+    @return: a ndarray of class probabilities for all files in the list
+             a ndarray of the labels
+
+    """
 
     model.eval()
     predictions = []
@@ -296,24 +338,21 @@ def aggregate(file_list, method):
 
 
         """
-        Code if we want to retain the shape (for ConvNet or other methods)
-
         imgSize = probabilities.shape()
         newShape = (imgSize[0], imgSize[1], 3)
         probabilities = np.reshape(np.stack(probabilities.flat), newShape)
-
         """
 
         # LogSoftMax outputs the log probabilities, need to exp
         if method == 'average':
             probabilities = np.exp(np.stack(probabilities.flat))
-            prediction = np.argmax(np.nanmean(probabilities, axis = 0)) 
+            prediction = np.nanmean(probabilities, axis = 0)
 
         elif method == 'max':
             probabilities = np.exp(np.stack(probabilities.flat))
             votes = np.nanargmax(probabilities, axis=1)
             out = np.array([ sum(votes == 0) , sum(votes == 1) , sum(votes == 2)])
-            prediction = np.argmax(out)
+            prediction = out / out.sum()
 
         else:
             raise ValueError('Method not valid')
@@ -321,9 +360,11 @@ def aggregate(file_list, method):
         predictions.append(prediction)
         true_labels.append(label)
 
-    return predictions, true_labels
+    return np.array(predictions), np.array(true_labels)
 
-def early_stop(val_acc_history, t=5, required_progress=0.0001):
+###############################################################################
+
+def early_stop(val_acc_history, t=3, required_progress=0.001):
 
     """
     Stop the training if there is no non-trivial progress in k steps
@@ -353,9 +394,16 @@ else:
     
 stop_training = False
 
+###############################################################################
+
+"""
+Training loop
+"""
+
+best_AUC = 0.0
+
 print('Starting training')
 
-# Training loop
 for epoch in range(opt.niter+1):
     data_iter = iter(loaders['train'])
     i = 0
@@ -405,24 +453,29 @@ for epoch in range(opt.niter+1):
             print('[%d/%d][%d/%d] Validation Loss: %f'
                    % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
 
-    # Save model every epoch
-    torch.save(model.state_dict(), 'experiments/{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
-
-    # Get validation accuracy every epoch
+    # Get validation AUC
     val_predictions, val_labels = aggregate(data['valid'].filenames, method=opt.method)
-    val_accuracy = np.sum(np.equal(val_predictions, val_labels))/len(val_labels)
-    experiment.log_metric("Validation accuracy", val_accuracy)
-    
+    roc_auc = get_auc('experiments/{0}/images/{1}.jpg'.format(opt.experiment, epoch),
+                      val_predictions, val_labels)
+
+    for k, v in roc_auc.items():
+
+        if k in [0, 1, 2]:
+            k = classes[k]
+
+        experiment.log_metric("{0} AUC".format(k), v)
+        print('%s AUC: %0.4f' % (k, v))
+
+    # Save model if best macro AUC
+    if roc_auc['macro'] > best_AUC:
+        torch.save(model.state_dict(), 'experiments/{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
+
     if stop_training: 
-        torch.save(model.state_dict(), 'experiments/{0}/epoch_{1}_early_stopped.pth'.format(opt.experiment, epoch))
         break
 
 # Final evaluation
 train_loss = evaluate('train')
 val_loss = evaluate('valid')
-test_loss = evaluate('test')
-
-experiment.log_metric("Test loss", test_loss.data[0])
 
 print('Finished training, train loss: %f, valid loss: %f'
     % (train_loss.data[0], val_loss.data[0]))
