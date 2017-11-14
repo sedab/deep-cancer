@@ -99,7 +99,7 @@ transform = transforms.Compose([new_transforms.Resize((imgSize,imgSize)),
 data = {}
 loaders = {}
 
-for dset_type in ['train', 'valid', 'test']:
+for dset_type in ['train', 'valid']:
     if dset_type == 'train' and opt.augment:
         data[dset_type] = TissueData(root_dir, dset_type, transform = augment, metadata=opt.metadata)
     else:
