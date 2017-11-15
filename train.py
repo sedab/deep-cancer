@@ -191,7 +191,7 @@ class cancer_CNN(nn.Module):
         x = self.conv4(x)
         x = x.view(x.size(0), -1)
         x = self.linear(x)
-        return F.log_softmax(x)
+        return x
 
 ###############################################################################
 
@@ -200,7 +200,7 @@ model = cancer_CNN(nc, imgSize, ngpu)
 init_model(model)
 model.train()
 
-NLLLoss = nn.NLLLoss()
+criterion = nn.CrossEntropyLoss()
 
 # Load checkpoint models if needed
 if opt.model != '': 
@@ -259,7 +259,7 @@ def evaluate(dset_type, sample_size='full'):
         eval_input = Variable(img, volatile=True)
         eval_label = Variable(label, volatile=True)
 
-        loss += NLLLoss(model(eval_input), eval_label) * img.size(0)
+        loss += criterion(model(eval_input), eval_label) * img.size(0)
 
         num_evaluated += img.size(0)
 
@@ -291,9 +291,11 @@ def get_tile_probability(tile_path):
     if opt.cuda:
         img = img.cuda()
 
+    # Turn output into probabilities with softmax
     var_img = Variable(img, volatile=True)
+    output = F.softmax(model(var_img)).data.squeeze(0)
 
-    return model(var_img).data.squeeze(0).cpu().numpy()
+    return output.cpu().numpy()
 
 # Load tile dictionary
 
@@ -348,13 +350,12 @@ def aggregate(file_list, method):
         probabilities = np.reshape(np.stack(probabilities.flat), newShape)
         """
 
-        # LogSoftMax outputs the log probabilities, need to exp
         if method == 'average':
-            probabilities = np.exp(np.stack(probabilities.flat))
+            probabilities = np.stack(probabilities.flat)
             prediction = np.nanmean(probabilities, axis = 0)
 
         elif method == 'max':
-            probabilities = np.exp(np.stack(probabilities.flat))
+            probabilities = np.stack(probabilities.flat)
             votes = np.nanargmax(probabilities, axis=1)
             out = np.array([ sum(votes == 0) , sum(votes == 1) , sum(votes == 2)])
             prediction = out / out.sum()
@@ -445,7 +446,7 @@ for epoch in range(opt.niter+1):
         input_img = Variable(img)
         target_label = Variable(label)
 
-        train_loss = NLLLoss(model(input_img), target_label)
+        train_loss = criterion(model(input_img), target_label)
 
         # Zero gradients then backward pass
         optimizer.zero_grad()
