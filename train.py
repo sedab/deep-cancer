@@ -32,21 +32,21 @@ parser.add_argument('--imgSize', type=int, default=299, help='the height / width
 parser.add_argument('--nc', type=int, default=3, help='input image channels (+ concatenated info channels if metadata = True)')
 parser.add_argument('--niter', type=int, default=25, help='number of epochs to train for')
 parser.add_argument('--lr', type=float, default=0.001, help='learning rate, default=0.001')
-parser.add_argument('--dropout', type=float, default=0.5, help='Probability of dropout, default=0.5')
+parser.add_argument('--dropout', type=float, default=0.5, help='probability of dropout, default=0.5')
 parser.add_argument('--beta1', type=float, default=0.5, help='beta1 for adam, default=0.5')
 parser.add_argument('--cuda'  , action='store_true', help='enables cuda')
 parser.add_argument('--ngpu'  , type=int, default=1, help='number of GPUs to use')
 parser.add_argument('--model', default='', help="path to model (to continue training)")
-parser.add_argument('--experiment', default=None, help='Where to store samples and models')
-parser.add_argument('--augment', action='store_true', help='Whether to use data augmentation or not')
-parser.add_argument('--optimizer',type=str, default='Adam',  help='Optimizer: "Adam", "SGD" or "RMSprop"; Default: Adam')
-parser.add_argument('--metadata', action='store_true', help='Whether to use metadata (default is not)')
+parser.add_argument('--experiment', default=None, help='where to store samples and models')
+parser.add_argument('--augment', action='store_true', help='whether to use data augmentation or not')
+parser.add_argument('--optimizer',type=str, default='Adam',  help='optimizer: Adam, SGD or RMSprop; default: Adam')
+parser.add_argument('--metadata', action='store_true', help='whether to use metadata (default is not)')
 parser.add_argument('--init', type=str, default='normal', help='initialization method (normal, xavier, kaiming)')
-parser.add_argument('--evalSize', type=int, default=50000, help='Number of samples to obtain validation loss on')
-parser.add_argument('--nonlinearity', type=str, default='relu', help='Nonlinearity to use (selu, prelu, leaky, relu)')
-parser.add_argument('--earlystop', action='store_true', help='Trigger early stopping (Boolean)')
-parser.add_argument('--method', type=str, default='average', help='Aggregation prediction method (max, average)')
-parser.add_argument('--decay_lr', action='store_true', help='Activate Decay Learning rate function')
+parser.add_argument('--evalSize', type=int, default=50000, help='number of samples to obtain validation loss on')
+parser.add_argument('--nonlinearity', type=str, default='relu', help='nonlinearity to use (selu, prelu, leaky, relu)')
+parser.add_argument('--earlystop', action='store_true', help='trigger early stopping (boolean)')
+parser.add_argument('--method', type=str, default='average', help='aggregation prediction method (max, average)')
+parser.add_argument('--decay_lr', action='store_true', help='activate decay learning rate function')
 opt = parser.parse_args()
 print(opt)
 
@@ -211,12 +211,11 @@ if opt.cuda:
     model.cuda()
 
 # Set up optimizer
-
-if opt.optimizer=="Adam":
+if opt.optimizer == "Adam":
     optimizer = optim.Adam(model.parameters(), lr=opt.lr, betas=(opt.beta1, 0.999))
-elif opt.optimizer=="RMSprop":
+elif opt.optimizer == "RMSprop":
     optimizer = optim.RMSprop(model.parameters(), lr = opt.lr)
-elif opt.optimizer=="SGD": 
+elif opt.optimizer == "SGD": 
     optimizer = optim.SGD(model.parameters(), lr = opt.lr)
 else: 
     raise ValueError('Optimizer not found. Accepted "Adam", "SGD" or "RMSprop"')
@@ -370,21 +369,21 @@ def aggregate(file_list, method):
 
 ###############################################################################
 
-def early_stop(val_acc_history, t=3, required_progress=0.001):
+def early_stop(val_history, t=3, required_progress=0.0001):
 
     """
     Stop the training if there is no non-trivial progress in k steps
-    @param val_acc_history: a list contains all the historical validation acc
-    @param required_progress: the next acc should be higher than the previous by 
+    @param val_history: a list contains all the historical validation auc
+    @param required_progress: the next auc should be higher than the previous by 
         at least required_progress amount to be non-trivial
     @param t: number of training steps 
     @return: a boolean indicates if the model should early stop
     """
     
-    if (len(val_acc_history) > t+1):
+    if (len(val_history) > t+1):
         differences = []
         for x in range(1, t+1):
-            differences.append(val_acc_history[-(x+1)]-val_acc_history[-x])
+            differences.append(val_history[-x]-val_history[-(x+1)])
         differences = [y < required_progress for y in differences]
         if sum(differences) == t: 
             return True
@@ -394,7 +393,7 @@ def early_stop(val_acc_history, t=3, required_progress=0.001):
         return False
 
 if opt.earlystop:
-    validation_acc_history = []
+    validation_history = []
 else:
     print("No early stopping implemented")
     
@@ -410,7 +409,6 @@ def adjust_learning_rate(optimizer, epoch):
     lr = opt.lr * (0.1 ** (epoch // 3)) # Original
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
-
 
 ###############################################################################
 
@@ -458,24 +456,7 @@ for epoch in range(opt.niter+1):
         print('[%d/%d][%d/%d] Training Loss: %f'
                % (epoch, opt.niter, i, len(loaders['train']), train_loss.data[0]))
 
-        if i % 1000 == 0: # Can change how often to evaluate val set
-
-            eval_size = int(opt.evalSize)
-            val_loss = evaluate('valid', sample_size=eval_size)
-            experiment.log_metric("Train loss", train_loss.data[0])
-            experiment.log_metric("Validation loss (%s samples)" % (eval_size), val_loss.data[0])
-            
-            if opt.earlystop:
-                validation_acc_history.append(val_loss.data[0]) 
-                stop_training = early_stop(validation_acc_history)
-                if stop_training:
-                    print("Early stop triggered")
-                    break
-            
-            print('[%d/%d][%d/%d] Validation Loss: %f'
-                   % (epoch, opt.niter, i, len(loaders['valid']), val_loss.data[0]))
-
-    # Get validation AUC
+    # Get validation AUC once per epoch
     val_predictions, val_labels = aggregate(data['valid'].filenames, method=opt.method)
     roc_auc = get_auc('experiments/{0}/images/{1}.jpg'.format(opt.experiment, epoch),
                       val_predictions, val_labels)
@@ -493,12 +474,18 @@ for epoch in range(opt.niter+1):
         torch.save(model.state_dict(), 'experiments/{0}/epoch_{1}.pth'.format(opt.experiment, epoch))
         best_AUC = roc_auc['macro']
 
-    if stop_training: 
-        break
+    # Stop training if no progress on AUC is being made
+    if opt.earlystop:
+        validation_history.append(roc_auc['macro'])
+        stop_training = early_stop(validation_history)
+
+        if stop_training: 
+            print("Early stop triggered")
+            break
 
 # Final evaluation
 train_loss = evaluate('train')
 val_loss = evaluate('valid')
 
-print('Finished training, train loss: %f, valid loss: %f'
-    % (train_loss.data[0], val_loss.data[0]))
+print('Finished training, train loss: %f, valid loss: %f, best AUC: %0.4f'
+    % (train_loss.data[0], val_loss.data[0], best_AUC))
