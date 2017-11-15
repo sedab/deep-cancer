@@ -297,7 +297,7 @@ def train_eval(net, trainloader, testloader, epochs, param_list=None, CLR=False)
 if __name__=='__main__':
     stats = []
     num_classes = len(classes)
-    print(num_classes)   
+    print(last_params)
  
     epochs = num_classes * epoch_multiplier * 1
     print("RETRAINING %d epochs" % epochs)
@@ -307,7 +307,6 @@ if __name__=='__main__':
         print("Targeting %s with %d classes" % (name, num_classes))
         print("------------------------------------------")
         model_pretrained, diff = load_model_merged(name, num_classes)
-        final_params = [d[0] for d in diff]
 
         resize = [s[1] for s in input_sizes.items() if s[0] in name][0]
         print("Resizing input images to max of", resize)
@@ -320,7 +319,7 @@ if __name__=='__main__':
 
         pretrained_stats = train_eval(model_pretrained, 
                                       trainloader, testloader, epochs,
-                                      final_params, CLR=use_clr)
+                                      last_params, CLR=use_clr)
         pretrained_stats['name'] = name
         pretrained_stats['retrained'] = True
         pretrained_stats['shallow_retrain'] = True
