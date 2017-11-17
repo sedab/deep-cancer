@@ -9,8 +9,8 @@
 
 module purge
 module load python3/intel/3.5.3
-python3 -m pip install http://download.pytorch.org/whl/cu80/torch-0.2.0.post3-cp35-cp35m-manylinux1_x86_64.whl --user --upgrade
-python3 -m pip install torchvision --user --upgrade
+module load pytorch/python3.5/0.2.0_3
+module load torchvision/python3.5/0.1.9
 python3 -m pip install comet_ml --user
 
 cd /scratch/jmw784/capstone/Charrrrtreuse/
