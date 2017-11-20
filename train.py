@@ -176,19 +176,23 @@ class cancer_CNN(nn.Module):
         self.nc = nc
         self.imgSize = imgSize
         self.ngpu = ngpu
-        self.conv1 = BasicConv2d(nc, 16, True, kernel_size=5, padding=1, stride=2, bias=True)
-        self.conv2 = BasicConv2d(16, 32, True, kernel_size=3, bias=True)
+        self.conv1 = BasicConv2d(nc, 16, False, kernel_size=5, padding=1, stride=2, bias=True)
+        self.conv2 = BasicConv2d(16, 32, False, kernel_size=3, bias=True)
         self.conv3 = BasicConv2d(32, 64, True, kernel_size=3, padding=1, bias=True)
-        self.conv4 = BasicConv2d(64, 32, True, kernel_size=3, padding=1, bias=True)
+        self.conv4 = BasicConv2d(64, 64, True, kernel_size=3, padding=1, bias=True)
+        self.conv5 = BasicConv2d(64, 128, True, kernel_size=3, padding=1, bias=True)
+        self.conv6 = BasicConv2d(128, 64, True, kernel_size=3, padding=1, bias=True)
 
         # Three classes
-        self.linear = nn.Linear(2592, 3)
+        self.linear = nn.Linear(5184, 3)
 
     def forward(self, x):
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
         x = self.conv4(x)
+        x = self.conv5(x)
+        x = self.conv6(x)
         x = x.view(x.size(0), -1)
         x = self.linear(x)
         return x
@@ -356,6 +360,7 @@ def aggregate(file_list, method):
 
         elif method == 'max':
             probabilities = np.stack(probabilities.flat)
+            probabilities = probabilities[~np.isnan(probabilities).all(axis=1)]
             votes = np.nanargmax(probabilities, axis=1)
             out = np.array([ sum(votes == 0) , sum(votes == 1) , sum(votes == 2)])
             prediction = out / out.sum()
