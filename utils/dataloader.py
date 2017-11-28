@@ -19,7 +19,7 @@ def find_classes(dir):
     return classes, class_to_idx
 
 class TissueData(data.Dataset):
-    def __init__(self, root, dset_type, data='kidney', transform=None, metadata=False):
+    def __init__(self, root, dset_type, data='lung', transform=None, metadata=False):
 
         classes, class_to_idx = find_classes(root)
 
