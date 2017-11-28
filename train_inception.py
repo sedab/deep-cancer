@@ -104,6 +104,7 @@ transform = transforms.Compose([new_transforms.Resize((imgSize,imgSize)),
 data = {}
 loaders = {}
 
+print(Loading data ...)
 for dset_type in ['train', 'valid']:
     if dset_type == 'train' and opt.augment:
         data[dset_type] = TissueData(root_dir, dset_type, transform = augment, metadata=opt.metadata)
@@ -221,6 +222,7 @@ if opt.inception:
     input_sizes = {'inception' : (299,299)}
     last_params = ['AuxLogits.fc.weight', 'AuxLogits.fc.bias', 'fc.weight', 'fc.bias']
 
+if opt.inception:
     print('Loading pre-trained inceotion...')
     model, diff = load_model_merged( models_to_test , num_classes )
     print('Done! (loading pretrained inception)')
