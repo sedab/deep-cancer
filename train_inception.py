@@ -224,7 +224,7 @@ if opt.inception:
 
 if opt.inception:
     print('Loading pre-trained inceotion...')
-    model, diff = load_model_merged( models_to_test , num_classes )
+    model, diff = load_model_merged( models_to_test , num_classes, model_urls )
     print('Done! (loading pretrained inception)')
 else:
     model = cancer_CNN(nc, imgSize, ngpu)
