@@ -215,11 +215,12 @@ class cancer_CNN(nn.Module):
 if opt.inception:
     #Inception objects
     models_to_test = 'inception_v3'
-    classes = [0,1,2]
+    print('Test print: len classes')
+    print(len(classes))
     num_classes = len(classes)
     model_urls = {'inception_v3': 'https://download.pytorch.org/models/inception_v3_google-1a9a5a14.pth' }
     model_names = model_urls.keys()
-    input_sizes = {'inception' : (299,299)}
+    # input_sizes = {'inception' : (299,299)}
     last_params = ['AuxLogits.fc.weight', 'AuxLogits.fc.bias', 'fc.weight', 'fc.bias']
 
 if opt.inception:
@@ -495,10 +496,11 @@ for epoch in range(opt.niter+1):
         input_img = Variable(img)
         target_label = Variable(label)
 
-        if isinstance(model(input_img), tuple):
-                train_loss = sum((criterion(o,target_label) for o in model(input_img)))
+        output_ = model(input_img)
+        if isinstance( output_ , tuple):
+                train_loss = sum((criterion(o,target_label) for o in output_))
         else:
-                train_loss = criterion(model(input_img), target_label)
+                train_loss = criterion( output_ , target_label)
 
         # Zero gradients then backward pass
         optimizer.zero_grad()
