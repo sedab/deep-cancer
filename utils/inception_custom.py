@@ -59,7 +59,7 @@ def diff_states(dict_canonical, dict_subset):
             yield (name, v1)   
 
 
-def load_model_merged(name, num_classes, model_urls):
+def load_model_merged(name, num_classes, model_urls, params):
     model = models.__dict__[name](num_classes=num_classes)
     model_dict = model.state_dict()
     pretrained_state = model_zoo.load_url(model_urls[name])
@@ -72,7 +72,7 @@ def load_model_merged(name, num_classes, model_urls):
         assert len([s for s in diff_states(model.state_dict(), pretrained_state)]) == 0
 
     # Remove last layer weights because different number of classes
-    for name in last_params:
+    for name in params:
         del pretrained_state[name]
     
     #Update weights from pretrained state
