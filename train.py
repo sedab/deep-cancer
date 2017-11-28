@@ -83,11 +83,11 @@ cudnn.benchmark = True
 Load data
 """
 
-if opt.data = 'breast':
+if opt.data == 'breast':
     root_dir = "/beegfs/jmw784/Capstone/BreastTilesSorted/"
     num_classes = 5
     tile_dict_path = '/beegfs/jmw784/Capstone/Breast_FileMappingDict.p'
-elif opt.data = 'kidney':
+elif opt.data == 'kidney':
     root_dir = "/beegfs/jmw784/Capstone/KidneyTilesSorted/"
     num_classes = 3
     tile_dict_path = '/beegfs/jmw784/Capstone/Kidney_FileMappingDict.p'
@@ -292,7 +292,7 @@ def get_tile_probability(tile_path):
 
     # Some tiles are empty with no path, return nan
     if tile_path == '':
-        return np.full(3, np.nan)
+        return np.full(num_classes, np.nan)
 
     tile_path = root_dir + tile_path
 
