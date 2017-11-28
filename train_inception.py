@@ -495,7 +495,7 @@ for epoch in range(opt.niter+1):
         input_img = Variable(img)
         target_label = Variable(label)
 
-        if isinstance(outputs, tuple):
+        if isinstance(model(input_img), tuple):
                 train_loss = sum((criterion(o,target_label) for o in model(input_img)))
         else:
                 train_loss = criterion(model(input_img), target_label)
