@@ -495,7 +495,10 @@ for epoch in range(opt.niter+1):
         input_img = Variable(img)
         target_label = Variable(label)
 
-        train_loss = criterion(model(input_img), target_label)
+        if isinstance(outputs, tuple):
+                train_loss = sum((criterion(o,target_label) for o in model(input_img)))
+        else:
+                train_loss = criterion(model(input_img), target_label)
 
         # Zero gradients then backward pass
         optimizer.zero_grad()
