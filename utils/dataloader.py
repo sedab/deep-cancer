@@ -6,9 +6,6 @@ import pickle
 import numpy as np
 from PIL import Image
 
-# Change this to where your information is stored
-json_dict_path = '/scratch/jmw784/capstone/Charrrrtreuse/JsonParser/LungJsonData.p'
-
 def pil_loader(path):
     with open(path, 'rb') as f:
         with Image.open(f) as img:
@@ -22,9 +19,18 @@ def find_classes(dir):
     return classes, class_to_idx
 
 class TissueData(data.Dataset):
-    def __init__(self, root, dset_type, transform=None, metadata=False):
+    def __init__(self, root, dset_type, data='lung', transform=None, metadata=False):
 
         classes, class_to_idx = find_classes(root)
+
+        self.data = data
+
+        if self.data == 'breast':
+            json_dict_path = '/scratch/jmw784/capstone/Charrrrtreuse/JsonParser/BreastJsonData.p'
+        elif self.data == 'kidney':
+            json_dict_path = '/scratch/jmw784/capstone/Charrrrtreuse/JsonParser/KidneyJsonData.p'
+        else:
+            json_dict_path = '/scratch/jmw784/capstone/Charrrrtreuse/JsonParser/LungJsonData.p'
 
         with open(json_dict_path, 'rb') as f:
             self.json = pickle.load(f)
@@ -37,12 +43,15 @@ class TissueData(data.Dataset):
         self.transform = transform
 
     def parse_json(self, fname):
-   
-        # Hard-coded based on how the JSON dictionary was built 
-        json = self.json[fname]
-        age, cigarettes, gender = json['age_at_diagnosis'], json['cigarettes_per_day'], json['gender']
-
-        return [age, cigarettes, gender]
+        json = self.json[fname]  
+ 
+        if self.data == 'breast':
+            return []
+        elif self.data == 'kidney':
+            return []
+        else:
+            age, cigarettes, gender = json['age_at_diagnosis'], json['cigarettes_per_day'], json['gender']
+            return [age, cigarettes, gender]
 
     def make_dataset(self, dir, dset_type, class_to_idx):
         datapoints = []
@@ -60,13 +69,14 @@ class TissueData(data.Dataset):
                     # Parse the filename
                     dataset_type, raw_file, x, y = fname.strip('.jpeg').split('_')
                     raw_file_name = dset_type + '_' + raw_file
+                    original_file = raw_file + '.svs'
         
                     # Only add it if it's the correct dset_type (train, valid, test)
                     if fname.endswith(".jpeg") and dataset_type == dset_type:
                         path = os.path.join(root, fname)
 
                         if self.metadata:
-                            item = (path, self.parse_json(raw_file_name) + [int(x), int(y)], class_to_idx[target])
+                            item = (path, self.parse_json(original_file) + [int(x), int(y)], class_to_idx[target])
                         else:
                             item = (path, class_to_idx[target])
                         

@@ -27,6 +27,7 @@ Options for training
 """
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--data', type=str, default='lung', help='Data to train on (lung/breast/kidney)')
 parser.add_argument('--batchSize', type=int, default=32, help='input batch size')
 parser.add_argument('--imgSize', type=int, default=299, help='the height / width of the image to network')
 parser.add_argument('--nc', type=int, default=3, help='input image channels (+ concatenated info channels if metadata = True)')
@@ -82,11 +83,22 @@ cudnn.benchmark = True
 Load data
 """
 
-root_dir = "/beegfs/jmw784/Capstone/LungTilesSorted/"
+if opt.data == 'breast':
+    root_dir = "/beegfs/jmw784/Capstone/BreastTilesSorted/"
+    num_classes = 5
+    tile_dict_path = '/beegfs/jmw784/Capstone/Breast_FileMappingDict.p'
+elif opt.data == 'kidney':
+    root_dir = "/beegfs/jmw784/Capstone/KidneyTilesSorted/"
+    num_classes = 3
+    tile_dict_path = '/beegfs/jmw784/Capstone/Kidney_FileMappingDict.p'
+else:
+    root_dir = "/beegfs/jmw784/Capstone/LungTilesSorted/"
+    num_classes = 3
+    tile_dict_path = '/beegfs/jmw784/Capstone/Lung_FileMappingDict.p'
 
 # Random data augmentation
 augment = transforms.Compose([new_transforms.Resize((imgSize, imgSize)),
-                              new_transforms.RandomVerticalFlip(),
+                              # new_transforms.RandomVerticalFlip(),
                               transforms.RandomHorizontalFlip(),
                               new_transforms.RandomRotate(),
                               new_transforms.ColorJitter(0.25, 0.25, 0.25, 0.05),
@@ -176,15 +188,14 @@ class cancer_CNN(nn.Module):
         self.nc = nc
         self.imgSize = imgSize
         self.ngpu = ngpu
+        self.data = opt.data
         self.conv1 = BasicConv2d(nc, 16, False, kernel_size=5, padding=1, stride=2, bias=True)
         self.conv2 = BasicConv2d(16, 32, False, kernel_size=3, bias=True)
         self.conv3 = BasicConv2d(32, 64, True, kernel_size=3, padding=1, bias=True)
         self.conv4 = BasicConv2d(64, 64, True, kernel_size=3, padding=1, bias=True)
         self.conv5 = BasicConv2d(64, 128, True, kernel_size=3, padding=1, bias=True)
         self.conv6 = BasicConv2d(128, 64, True, kernel_size=3, padding=1, bias=True)
-
-        # Three classes
-        self.linear = nn.Linear(5184, 3)
+        self.linear = nn.Linear(5184, num_classes)
 
     def forward(self, x):
         x = self.conv1(x)
@@ -281,7 +292,7 @@ def get_tile_probability(tile_path):
 
     # Some tiles are empty with no path, return nan
     if tile_path == '':
-        return np.full(3, np.nan)
+        return np.full(num_classes, np.nan)
 
     tile_path = root_dir + tile_path
 
@@ -303,7 +314,7 @@ def get_tile_probability(tile_path):
 
 # Load tile dictionary
 
-with open('/beegfs/jmw784/Capstone/Lung_FileMappingDict.p', 'rb') as f:
+with open(tile_dict_path, 'rb') as f:
     tile_dict = pickle.load(f)
 
 def aggregate(file_list, method):
@@ -362,7 +373,8 @@ def aggregate(file_list, method):
             probabilities = np.stack(probabilities.flat)
             probabilities = probabilities[~np.isnan(probabilities).all(axis=1)]
             votes = np.nanargmax(probabilities, axis=1)
-            out = np.array([ sum(votes == 0) , sum(votes == 1) , sum(votes == 2)])
+            
+            out = np.array([sum(votes == i) for i in range(num_classes)])
             prediction = out / out.sum()
 
         else:
@@ -465,11 +477,11 @@ for epoch in range(opt.niter+1):
     # Get validation AUC once per epoch
     val_predictions, val_labels = aggregate(data['valid'].filenames, method=opt.method)
     roc_auc = get_auc('experiments/{0}/images/{1}.jpg'.format(opt.experiment, epoch),
-                      val_predictions, val_labels)
+                      val_predictions, val_labels, classes = range(num_classes))
 
     for k, v in roc_auc.items():
 
-        if k in [0, 1, 2]:
+        if k in range(num_classes):
             k = classes[k]
 
         experiment.log_metric("{0} AUC".format(k), v)
@@ -490,8 +502,4 @@ for epoch in range(opt.niter+1):
             break
 
 # Final evaluation
-train_loss = evaluate('train')
-val_loss = evaluate('valid')
-
-print('Finished training, train loss: %f, valid loss: %f, best AUC: %0.4f'
-    % (train_loss.data[0], val_loss.data[0], best_AUC))
+print('Finished training, best AUC: %0.4f' % (best_AUC))
