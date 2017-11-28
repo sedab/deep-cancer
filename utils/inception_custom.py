@@ -37,7 +37,7 @@ import random
 # last_params = ['AuxLogits.fc.weight', 'AuxLogits.fc.bias', 'fc.weight', 'fc.bias']
 
 
-def diff_states(dict_canonical, dict_subset):
+def diff_states(dict_canonical, dict_subset,params):
     names1, names2 = (list(dict_canonical.keys()), list(dict_subset.keys()))
     
     #Sanity check that param names overlap
@@ -49,7 +49,7 @@ def diff_states(dict_canonical, dict_subset):
     assert len(not_in_2) == 0
     for name, v1 in dict_canonical.items():
 
-        if name in last_params:
+        if name in params:
             break
 
         v2 = dict_subset[name]
@@ -65,7 +65,7 @@ def load_model_merged(name, num_classes, model_urls, params):
     pretrained_state = model_zoo.load_url(model_urls[name])
 
     #Diff
-    diff = [s for s in diff_states(model.state_dict(), pretrained_state)]
+    diff = [s for s in diff_states(model.state_dict(), pretrained_state,params)]
     print("Replacing the following state from initialized", name, ":", [d[0] for d in diff])
     for name, value in diff:
         pretrained_state[name] = value
