@@ -69,13 +69,14 @@ class TissueData(data.Dataset):
                     # Parse the filename
                     dataset_type, raw_file, x, y = fname.strip('.jpeg').split('_')
                     raw_file_name = dset_type + '_' + raw_file
+                    original_file = raw_file + '.svs'
         
                     # Only add it if it's the correct dset_type (train, valid, test)
                     if fname.endswith(".jpeg") and dataset_type == dset_type:
                         path = os.path.join(root, fname)
 
                         if self.metadata:
-                            item = (path, self.parse_json(raw_file_name) + [int(x), int(y)], class_to_idx[target])
+                            item = (path, self.parse_json(original_file) + [int(x), int(y)], class_to_idx[target])
                         else:
                             item = (path, class_to_idx[target])
                         
