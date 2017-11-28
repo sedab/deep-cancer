@@ -133,7 +133,7 @@ if opt.init not in ['normal', 'xavier', 'kaiming']:
 def init_model(model):
 
     if opt.inception:
-        modules = (p for p in filtered_params(model, param_list))
+        modules = (p for p in filtered_params(model, last_params))
     else:
         modules = model.modules()
 
