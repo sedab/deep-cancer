@@ -64,11 +64,11 @@ def get_auc(path, predictions, labels, classes=[0, 1, 2]):
                      label='ROC curve of class {0} (area = {1:0.2f})'
                      ''.format(i, roc_auc[i]))
     else:
-        fpr, tpr, _ = roc_curve(labels, predictions)
-        auc = auc(fpr, tpr)
+        fpr, tpr, _ = roc_curve(labels[:,0], predictions[:,0])
+        auc_result = auc(fpr, tpr)
 
         for i in classes + ['macro', 'micro']:
-            roc_auc[i] = auc
+            roc_auc[i] = auc_result
 
         plt.figure(figsize=(12, 8))
         plt.plot(fpr, tpr, color=color, lw=2,
