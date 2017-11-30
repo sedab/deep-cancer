@@ -24,44 +24,56 @@ def get_auc(path, predictions, labels, classes=[0, 1, 2]):
     # Convert labels to one-hot-encoding
     labels = label_binarize(labels, classes = classes)
 
-    ### Individual class AUC ###
-    for i in classes:
-        fpr[i], tpr[i], _ = roc_curve(labels[:, i], predictions[:, i])
-        roc_auc[i] = auc(fpr[i], tpr[i])
+    if len(classes) > 2:
+        ### Individual class AUC ###
+        for i in classes:
+            fpr[i], tpr[i], _ = roc_curve(labels[:, i], predictions[:, i])
+            roc_auc[i] = auc(fpr[i], tpr[i])
 
-    ### Micro AUC ###
-    fpr["micro"], tpr["micro"], _ = roc_curve(labels.ravel(), predictions.ravel())
-    roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
+        ### Micro AUC ###
+        fpr["micro"], tpr["micro"], _ = roc_curve(labels.ravel(), predictions.ravel())
+        roc_auc["micro"] = auc(fpr["micro"], tpr["micro"])
 
-    ### Macro AUC ###
-    all_fpr = np.unique(np.concatenate([fpr[i] for i in classes]))
-    mean_tpr = np.zeros_like(all_fpr)
-    for i in classes:
-        mean_tpr += interp(all_fpr, fpr[i], tpr[i])
-    mean_tpr /= len(classes)
+        ### Macro AUC ###
+        all_fpr = np.unique(np.concatenate([fpr[i] for i in classes]))
+        mean_tpr = np.zeros_like(all_fpr)
+        for i in classes:
+            mean_tpr += interp(all_fpr, fpr[i], tpr[i])
+        mean_tpr /= len(classes)
 
-    fpr["macro"] = all_fpr
-    tpr["macro"] = mean_tpr
-    roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
+        fpr["macro"] = all_fpr
+        tpr["macro"] = mean_tpr
+        roc_auc["macro"] = auc(fpr["macro"], tpr["macro"])
 
-    ### Make plot ###
+        ### Make plot ###
 
-    plt.figure(figsize=(12, 8))
-    plt.plot(fpr["micro"], tpr["micro"],
-             label='micro-average ROC curve (area = {0:0.2f})'
-                   ''.format(roc_auc["micro"]),
-             color='deeppink', linestyle=':', linewidth=4)
+        plt.figure(figsize=(12, 8))
+        plt.plot(fpr["micro"], tpr["micro"],
+                 label='micro-average ROC curve (area = {0:0.2f})'
+                       ''.format(roc_auc["micro"]),
+                 color='deeppink', linestyle=':', linewidth=4)
 
-    plt.plot(fpr["macro"], tpr["macro"],
-             label='macro-average ROC curve (area = {0:0.2f})'
-                   ''.format(roc_auc["macro"]),
-             color='navy', linestyle=':', linewidth=4)
+        plt.plot(fpr["macro"], tpr["macro"],
+                 label='macro-average ROC curve (area = {0:0.2f})'
+                       ''.format(roc_auc["macro"]),
+                 color='navy', linestyle=':', linewidth=4)
 
-    colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
-    for i, color in zip(classes, colors):
-        plt.plot(fpr[i], tpr[i], color=color, lw=2,
-                 label='ROC curve of class {0} (area = {1:0.2f})'
-                 ''.format(i, roc_auc[i]))
+        colors = cycle(['aqua', 'darkorange', 'cornflowerblue'])
+        for i, color in zip(classes, colors):
+            plt.plot(fpr[i], tpr[i], color=color, lw=2,
+                     label='ROC curve of class {0} (area = {1:0.2f})'
+                     ''.format(i, roc_auc[i]))
+    else:
+        fpr, tpr, _ = roc_curve(labels, predictions)
+        auc = auc(fpr, tpr)
+
+        for i in classes + ['macro', 'micro']:
+            roc_auc[i] = auc
+
+        plt.figure(figsize=(12, 8))
+        plt.plot(fpr, tpr, color=color, lw=2,
+                 label='ROC curve (area = {1:0.2f})'
+                 ''.format(roc_auc[i]))
 
     plt.plot([0, 1], [0, 1], 'k--', lw=2)
     plt.xlim([0.0, 1.0])
