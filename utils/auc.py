@@ -67,7 +67,7 @@ def get_auc(path, predictions, labels, classes=[0, 1, 2]):
         fpr, tpr, _ = roc_curve(labels[:,0], predictions[:,0])
         auc_result = auc(fpr, tpr)
 
-        for i in classes + ['macro', 'micro']:
+        for i in list(classes) + ['macro', 'micro']:
             roc_auc[i] = auc_result
 
         plt.figure(figsize=(12, 8))
