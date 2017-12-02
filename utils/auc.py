@@ -72,7 +72,7 @@ def get_auc(path, predictions, labels, classes=[0, 1, 2]):
 
         plt.figure(figsize=(12, 8))
         plt.plot(fpr, tpr, lw=2,
-                 label='ROC curve (area = {1:0.2f})'
+                 label='ROC curve (area = {0:0.2f})'
                  ''.format(auc_result))
 
     plt.plot([0, 1], [0, 1], 'k--', lw=2)
