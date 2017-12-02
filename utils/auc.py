@@ -21,10 +21,11 @@ def get_auc(path, predictions, labels, classes=[0, 1, 2]):
     tpr = dict()
     roc_auc = dict()
 
-    # Convert labels to one-hot-encoding
-    labels = label_binarize(labels, classes = classes)
 
     if len(classes) > 2:
+        # Convert labels to one-hot-encoding
+        labels = label_binarize(labels, classes = classes)
+
         ### Individual class AUC ###
         for i in classes:
             fpr[i], tpr[i], _ = roc_curve(labels[:, i], predictions[:, i])
@@ -64,7 +65,7 @@ def get_auc(path, predictions, labels, classes=[0, 1, 2]):
                      label='ROC curve of class {0} (area = {1:0.2f})'
                      ''.format(i, roc_auc[i]))
     else:
-        fpr, tpr, _ = roc_curve(labels[:,0], predictions[:,0])
+        fpr, tpr, _ = roc_curve(labels, predictions[:,1])
         auc_result = auc(fpr, tpr)
 
         for i in list(classes) + ['macro', 'micro']:
