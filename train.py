@@ -85,11 +85,11 @@ Load data
 
 if opt.data == 'breast':
     root_dir = "/beegfs/jmw784/Capstone/BreastTilesSorted/"
-    num_classes = 5
+    num_classes = 2
     tile_dict_path = '/beegfs/jmw784/Capstone/Breast_FileMappingDict.p'
 elif opt.data == 'kidney':
     root_dir = "/beegfs/jmw784/Capstone/KidneyTilesSorted/"
-    num_classes = 3
+    num_classes = 4
     tile_dict_path = '/beegfs/jmw784/Capstone/Kidney_FileMappingDict.p'
 else:
     root_dir = "/beegfs/jmw784/Capstone/LungTilesSorted/"
