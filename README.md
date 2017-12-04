@@ -14,6 +14,7 @@ DS-GA 1006 Capstone Project for Joyce Wu, Raúl Delgado Sánchez and Eduardo Fie
 
 * Run ```utils/0b_tileLoop_deepzoom2.py``` to tile the .svs images into .jpeg images
 * Run ```utils/0d_SortTiles.py``` to sort the tiles into train, valid and test datasets
+* Run ```utils/BuildTileDictionary.py``` to build a dictionary of slides that is used to map each slide to a 2D array of tile paths and the true label. This is used in the `aggregate` function during training and evaluation.
 
 ### 4. Train model:
 
