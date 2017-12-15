@@ -12,23 +12,51 @@ DS-GA 1006 Capstone Project for Joyce Wu, Raúl Delgado Sánchez and Eduardo Fie
 
 ### 2. Data processing:
 
-* Run ```Tiling/0b_tileLoop_deepzoom2.py``` to tile the .svs images into .jpeg images. To replicate this particular project, select the following specifications: 
+Note that data tiling and sorting scripts come from https://github.com/ncoudray/DeepPATH/. Please refer to the README within `DeepPATH_code` for the full range of options. 
+
+#### 2.1. Data tiling
+Run ```Tiling/0b_tileLoop_deepzoom2.py``` to tile the .svs images into .jpeg images. To replicate this particular project, select the following specifications:
 
 ```sh
 python -u 0b_tileLoop_deepzoom2.py -s 512 -e 0 -j 28 -f jpeg -B 25 -o out_path "input_path/*/*svs"
 ```
 
-This is, tile size of of 512x512 pixels, no overlap, 28 threads, jpeg files and 25% aloud background per tile. Also, replace "out_path" and "input_path" with the paths where the files will be saved and where the original images are respectively. 
+* `-s 512`: Tile size of 512x512 pixels
 
-* Run ```Tiling/0d_SortTiles.py``` to sort the tiles into train, valid and test datasets. This was run with the following specifications: 
+* `-e 0`: Zero overlap in pixels for tiles
+
+* `-j 28`: 28 CPU threads
+
+* `-f jpeg`: jpeg files
+
+* `-B 25`: 25% allowed background within a tile.
+
+Replace `out_path` and `input_path` with the path to which the files will be saved and the path to where the original image files reside respectively. 
+
+#### 2.2. Data sorting
+Run `Tiling/0d_SortTiles.py` to sort the tiles into train, valid and test datasets. This was run with the following specifications: 
 
 ```sh
-python 0d_SortTiles.py --SourceFolder="input_path" --JsonFile="input_path_json/JSON_NAME.json" --Magnification=20 --MagDiffAllowed=0 --SortingOption=3 --PercentTest=15 --PercentValid=15 --PatientID=12 --nSplit 0
+python 0d_SortTiles.py --SourceFolder="<INPUT_PATH>" --JsonFile="<JSON_FILE_PATH>" --Magnification=20 --MagDiffAllowed=0 --SortingOption=3 --PercentTest=15 --PercentValid=15 --PatientID=12 --nSplit 0
 ```
 
-In this case, the option Magnification refers to the magnification at which the tiles should be considerted, and in this case with no margin where the magnification requested is not available (MagDiffAllowed 0). The Sorting option selected, 3, referts to split according to the type of cancer: (LUSC, LUAD, or Nomal Tissue). The split was specified as 70%-15%-15% (train-valid-test). PatientID refers to the number of characters from each image refers to a unique patient identifier; the code makes sure that the tiles corresponding to one patient are either on the test set, valid set or train set, but not divided among these categories. Finally, when nSplit>0, it overrides the existing PercentTest and PercentTest options, splitting the data into even n categories. 
+`--Magnification=20`: Magnification at which the tiles should be considered (20x)
 
-* Run ```Tiling/BuildTileDictionary.py``` to build a dictionary of slides that is used to map each slide to a 2D array of tile paths and the true label. This is used in the `aggregate` function during training and evaluation. In this case, the only option available is "--data", and takes either (Lung/Breast/Kidney) and --file_path, pointing to the path where the tiles are stored. 
+`--MagDiffAllowed=0`: If the requested magnification does not exist for a given slide, take the nearest existing magnification but only if it is at +/- the amount allowed here (0)
+
+`--SortingOption=3`: Sort according to type of cancer (types of cancer + Solid Tissue Normal)
+
+`--PercentValid=15 --PercentTest=15` The percentage of data to be assigned to the validation and test set. In this case, it will result in a 70 / 15 / 15 % train-valid-test split.
+
+`--PatientID=12` This option makes sure that the tiles corresponding to one patient are either on the test set, valid set or train set, but not divided among these categories.
+
+`--nSplit=0` If nSplit > 0, it overrides the existing PercentTest and PercentTest options, splitting the data into n even categories. 
+
+#### 2.3. Build tile dictionary
+
+Run `Tiling/BuildTileDictionary.py --data <CANCER_TYPE> --path <ROOT_PATH>` to build a dictionary of slides that is used to map each slide to a 2D array of tile paths and the true label. This is used in the `aggregate` function during training and evaluation. `<CANCER_TYPE>` specifies the dataset such as `'Lung'`, `'Breast'`, or `'Kidney'`. `<ROOT_PATH>` points to the directory path for which the sorted tiles folder is stored in.
+
+Note that this code assumes that the sorted tiles are stored in `<ROOT_PATH><CANCER_TYPE>TilesSorted`. If you do not follow this convention, you may need to modify this code.
 
 ### 4. Train model:
 
