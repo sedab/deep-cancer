@@ -14,13 +14,11 @@ Purpose: Get dictionary with files:[2Darray tiles, type of cancer]
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data', type=str, default='Lung', help='Data to train on (Lung/Breast/Kidney)')
-parser.add_argument('--file_path', type=str, default='"/beegfs/jmw784/Capstone/"', help='File path where the (Lung/Breast/Kidney) tiles are')
+parser.add_argument('--path', type=str, default='/beegfs/jmw784/Capstone/', help='Root path where the tiles are')
 opt = parser.parse_args()
 
-if opt.data not in ['Lung', 'Kidney', 'Breast']:
-    raise ValueError('Not a valid cancer type')
-else:
-    root_dir = opt.file_path + opt.data + "TilesSorted/"
+root_dir = opt.file_path + opt.data + "TilesSorted/"
+out_file = opt.file_path + opt.data + "_FileMappingDict.p"
 
 def find_classes(dir):
     # Classes are subdirectories of the root directory
@@ -28,18 +26,6 @@ def find_classes(dir):
     classes.sort()
     class_to_idx = {classes[i]: i for i in range(len(classes))}
     return classes, class_to_idx
-
-### File params ###
-out_file = opt.file_path + opt.data + "_FileMappingDict.p"
-
-if os.path.exists(out_file):
-    response = None
-
-    while response not in ['y', 'n']:
-        response = input('Tile dictionary already exists, do you want to continue (y/n)? ')
-
-    if response == 'n':
-        quit()
 
 def getCoords(tile_list): 
     
@@ -56,7 +42,6 @@ def getCoords(tile_list):
     ycoords = list(map(int, ycoords))
     
     return xcoords, ycoords
-
 
 def fileCleaner(tile_list): 
     
@@ -90,8 +75,16 @@ def fastdump(obj, file):
 
 def main():
 
-    classes, class_to_idx = find_classes(root_dir)
+    if os.path.exists(out_file):
+        response = None
 
+        while response not in ['y', 'n']:
+            response = input('Tile dictionary already exists, do you want to continue (y/n)? ')
+
+        if response == 'n':
+            quit()
+
+    classes, class_to_idx = find_classes(root_dir)
     print(class_to_idx)
     
     tile_files = {}
