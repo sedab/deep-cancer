@@ -40,21 +40,25 @@ Run `Tiling/0d_SortTiles.py` to sort the tiles into train, valid and test datase
 python 0d_SortTiles.py --SourceFolder="<INPUT_PATH>" --JsonFile="<JSON_FILE_PATH>" --Magnification=20 --MagDiffAllowed=0 --SortingOption=3 --PercentTest=15 --PercentValid=15 --PatientID=12 --nSplit 0
 ```
 
-`--Magnification=20`: Magnification at which the tiles should be considered (20x)
+* `--Magnification=20`: Magnification at which the tiles should be considered (20x)
 
-`--MagDiffAllowed=0`: If the requested magnification does not exist for a given slide, take the nearest existing magnification but only if it is at +/- the amount allowed here (0)
+* `--MagDiffAllowed=0`: If the requested magnification does not exist for a given slide, take the nearest existing magnification but only if it is at +/- the amount allowed here (0)
 
-`--SortingOption=3`: Sort according to type of cancer (types of cancer + Solid Tissue Normal)
+* `--SortingOption=3`: Sort according to type of cancer (types of cancer + Solid Tissue Normal)
 
-`--PercentValid=15 --PercentTest=15` The percentage of data to be assigned to the validation and test set. In this case, it will result in a 70 / 15 / 15 % train-valid-test split.
+* `--PercentValid=15 --PercentTest=15` The percentage of data to be assigned to the validation and test set. In this case, it will result in a 70 / 15 / 15 % train-valid-test split.
 
-`--PatientID=12` This option makes sure that the tiles corresponding to one patient are either on the test set, valid set or train set, but not divided among these categories.
+* `--PatientID=12` This option makes sure that the tiles corresponding to one patient are either on the test set, valid set or train set, but not divided among these categories.
 
-`--nSplit=0` If nSplit > 0, it overrides the existing PercentTest and PercentTest options, splitting the data into n even categories. 
+* `--nSplit=0` If nSplit > 0, it overrides the existing PercentTest and PercentTest options, splitting the data into n even categories. 
 
 #### 2.3. Build tile dictionary
 
-Run `Tiling/BuildTileDictionary.py --data <CANCER_TYPE> --path <ROOT_PATH>` to build a dictionary of slides that is used to map each slide to a 2D array of tile paths and the true label. This is used in the `aggregate` function during training and evaluation. `<CANCER_TYPE>` specifies the dataset such as `'Lung'`, `'Breast'`, or `'Kidney'`. `<ROOT_PATH>` points to the directory path for which the sorted tiles folder is stored in.
+Run `Tiling/BuildTileDictionary.py --data <CANCER_TYPE> --path <ROOT_PATH>` to build a dictionary of slides that is used to map each slide to a 2D array of tile paths and the true label. This is used in the `aggregate` function during training and evaluation.
+
+* `<CANCER_TYPE>` specifies the dataset such as `'Lung'`, `'Breast'`, or `'Kidney'`
+
+* `<ROOT_PATH>` points to the directory path for which the sorted tiles folder is stored in.
 
 Note that this code assumes that the sorted tiles are stored in `<ROOT_PATH><CANCER_TYPE>TilesSorted`. If you do not follow this convention, you may need to modify this code.
 
