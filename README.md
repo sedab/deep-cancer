@@ -1,4 +1,4 @@
-# Charrrrtreuse
+# Deep Cancer
 DS-GA 1006 Capstone Project for Joyce Wu, Raúl Delgado Sánchez and Eduardo Fierro Farah.
 
 ## Steps to replicate work:
@@ -12,14 +12,18 @@ DS-GA 1006 Capstone Project for Joyce Wu, Raúl Delgado Sánchez and Eduardo Fie
 
 ### 2. Data processing:
 
-Note that data tiling and sorting scripts come from https://github.com/ncoudray/DeepPATH/. Please refer to the README within `DeepPATH_code` for the full range of options. 
+Note that data tiling and sorting scripts come from https://github.com/ncoudray/DeepPATH/. Please refer to the README within `DeepPATH_code` for the full range of options. Additionally, note that these scripts may take a significant amount of computing power. We recommend submitting sections 2.1 and 2.2 to a high performance computing cluster with multiple CPUs.
 
 #### 2.1. Data tiling
 Run ```Tiling/0b_tileLoop_deepzoom2.py``` to tile the .svs images into .jpeg images. To replicate this particular project, select the following specifications:
 
 ```sh
-python -u 0b_tileLoop_deepzoom2.py -s 512 -e 0 -j 28 -f jpeg -B 25 -o out_path "input_path/*/*svs"
+python -u Tiling/0b_tileLoop_deepzoom2.py -s 512 -e 0 -j 28 -f jpeg -B 25 -o <OUT_PATH> "<INPUT_PATH>/*/*svs"
 ```
+
+* `<INPUT_PATH>`: Path to the outer directory of the original svs files
+
+* `<OUT_PATH>`: Path to which the tile files will be saved
 
 * `-s 512`: Tile size of 512x512 pixels
 
@@ -31,14 +35,27 @@ python -u 0b_tileLoop_deepzoom2.py -s 512 -e 0 -j 28 -f jpeg -B 25 -o out_path "
 
 * `-B 25`: 25% allowed background within a tile.
 
-Replace `out_path` and `input_path` with the path to which the files will be saved and the path to where the original image files reside respectively. 
-
 #### 2.2. Data sorting
-Run `Tiling/0d_SortTiles.py` to sort the tiles into train, valid and test datasets. This was run with the following specifications: 
+To ensure that the later sections work properly, we recommend running these commands within `<ROOT_PATH>`, the directory in which your images will be stored:
 
 ```sh
-python 0d_SortTiles.py --SourceFolder="<INPUT_PATH>" --JsonFile="<JSON_FILE_PATH>" --Magnification=20 --MagDiffAllowed=0 --SortingOption=3 --PercentTest=15 --PercentValid=15 --PatientID=12 --nSplit 0
+mkdir <CANCER_TYPE>TilesSorted
+cd <CANCER_TYPE>TilesSorted
 ```
+
+* `<CANCER_TYPE>`: The dataset such as `'Lung'`, `'Breast'`, or `'Kidney'`
+
+Next, run `Tiling/0d_SortTiles.py` to sort the tiles into train, valid and test datasets with the following specifications.
+
+```sh
+python -u <FULL_PATH>/Tiling/0d_SortTiles.py --SourceFolder="<INPUT_PATH>" --JsonFile="<JSON_FILE_PATH>" --Magnification=20 --MagDiffAllowed=0 --SortingOption=3 --PercentTest=15 --PercentValid=15 --PatientID=12 --nSplit 0
+```
+
+* `<FULL_PATH>`: The full path to the cloned repository
+
+* `<INPUT_PATH>`: Path in which the tile files were saved, should be the same as `<OUT_PATH>` of step 2.1.
+
+* `<JSON_FILE_PATH>`: Path to the JSON file that was downloaded with the .svs tiles
 
 * `--Magnification=20`: Magnification at which the tiles should be considered (20x)
 
@@ -54,11 +71,12 @@ python 0d_SortTiles.py --SourceFolder="<INPUT_PATH>" --JsonFile="<JSON_FILE_PATH
 
 #### 2.3. Build tile dictionary
 
-Run `Tiling/BuildTileDictionary.py --data <CANCER_TYPE> --path <ROOT_PATH>` to build a dictionary of slides that is used to map each slide to a 2D array of tile paths and the true label. This is used in the `aggregate` function during training and evaluation.
+Run `Tiling/BuildTileDictionary.py` to build a dictionary of slides that is used to map each slide to a 2D array of tile paths and the true label. This is used in the `aggregate` function during training and evaluation.
 
-* `<CANCER_TYPE>` specifies the dataset such as `'Lung'`, `'Breast'`, or `'Kidney'`
-
-* `<ROOT_PATH>` points to the directory path for which the sorted tiles folder is stored in.
+```sh
+python -u Tiling/BuildTileDictionary.py --data <CANCER_TYPE> --path <ROOT_PATH>
+```
+* `<ROOT_PATH>` points to the directory path for which the sorted tiles folder is stored in, same as in 2.2.
 
 Note that this code assumes that the sorted tiles are stored in `<ROOT_PATH><CANCER_TYPE>TilesSorted`. If you do not follow this convention, you may need to modify this code.
 
