@@ -43,7 +43,6 @@ parser.add_argument('--augment', action='store_true', help='whether to use data 
 parser.add_argument('--optimizer',type=str, default='Adam',  help='optimizer: Adam, SGD or RMSprop; default: Adam')
 parser.add_argument('--metadata', action='store_true', help='whether to use metadata (default is not)')
 parser.add_argument('--init', type=str, default='normal', help='initialization method (normal, xavier, kaiming)')
-parser.add_argument('--evalSize', type=int, default=50000, help='number of samples to obtain validation loss on')
 parser.add_argument('--nonlinearity', type=str, default='relu', help='nonlinearity to use (selu, prelu, leaky, relu)')
 parser.add_argument('--earlystop', action='store_true', help='trigger early stopping (boolean)')
 parser.add_argument('--method', type=str, default='average', help='aggregation prediction method (max, average)')
@@ -98,7 +97,6 @@ else:
 
 # Random data augmentation
 augment = transforms.Compose([new_transforms.Resize((imgSize, imgSize)),
-                              # new_transforms.RandomVerticalFlip(),
                               transforms.RandomHorizontalFlip(),
                               new_transforms.RandomRotate(),
                               new_transforms.ColorJitter(0.25, 0.25, 0.25, 0.05),
@@ -236,50 +234,6 @@ else:
     raise ValueError('Optimizer not found. Accepted "Adam", "SGD" or "RMSprop"')
 
 ###############################################################################
-
-"""
-Evaluation functions
-"""
-
-def evaluate(dset_type, sample_size='full'):
-
-    """
-    Returns loss for a dataset (train, valid, or test)
-
-    Note: sample_size will be rounded up to be a multiple of the batch_size
-    of the dataloader.
-
-    @param dset_type: 'train', 'valid', or 'test'
-    @param sample_size: Number of samples to evaluate in the set,
-                        'full' means the entire set
-    """
-
-    if sample_size == 'full':
-        sample_size = len(data[dset_type])
-    elif not isinstance(sample_size, int):
-        raise ValueError("Amount should be 'full' or an integer")
-    elif sample_size > len(data[dset_type]):
-        raise ValueError("Amount cannot exceed size of dataset")    
-
-    model.eval()
-    loss = 0
-    num_evaluated = 0
-
-    for img, label in loaders[dset_type]:
-
-        if opt.cuda:
-            img = img.cuda()
-            label = label.cuda()
-
-        eval_input = Variable(img, volatile=True)
-        eval_label = Variable(label, volatile=True)
-
-        loss += criterion(model(eval_input), eval_label) * img.size(0)
-
-        num_evaluated += img.size(0)
-
-        if num_evaluated >= sample_size:
-            return loss / num_evaluated
 
 def get_tile_probability(tile_path):
 
