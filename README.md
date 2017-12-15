@@ -5,14 +5,14 @@ DS-GA 1006 Capstone Project for Joyce Wu, Raúl Delgado Sánchez and Eduardo Fie
 
 ### 1. Data:
 
-* Download the GDC data transfer API at https://gdc.cancer.gov/access-data/gdc-data-transfer-tool
+* Download the [GDC data transfer API](https://gdc.cancer.gov/access-data/gdc-data-transfer-tool)
 * Create a manifest by selecting Cases > CANCER_TYPE and Files > Data Type > Tissue Slide Image.
 * Download the manifest into ```manifest_file```
 * Run the command ```gdc-client download -m manifest_file``` in Terminal
 
 ### 2. Data processing:
 
-Note that data tiling and sorting scripts come from https://github.com/ncoudray/DeepPATH/. Please refer to the README within `DeepPATH_code` for the full range of options. Additionally, note that these scripts may take a significant amount of computing power. We recommend submitting sections 2.1 and 2.2 to a high performance computing cluster with multiple CPUs.
+Note that data tiling and sorting scripts come from [Nicolas Coudray](https://github.com/ncoudray/DeepPATH/). Please refer to the README within `DeepPATH_code` for the full range of options. Additionally, note that these scripts may take a significant amount of computing power. We recommend submitting sections 2.1 and 2.2 to a high performance computing cluster with multiple CPUs.
 
 #### 2.1. Data tiling
 Run ```Tiling/0b_tileLoop_deepzoom2.py``` to tile the .svs images into .jpeg images. To replicate this particular project, select the following specifications:
@@ -88,7 +88,7 @@ In the Load data section of `train.py` (lines ~85-96) please modify these variab
 
 * `tile_dict_path = "<ROOT_PATH><CANCER_TYPE>_FileMappingDict.p`, change the path to your tile dict path
 
-**NOTE:** We are using a very useful tool called CometML https://www.comet.ml/ to keep track of our experiments. If you would like to use it as well, please modify the API key in the training code to your own API key. Otherwise, you can remove the lines of code related to cometml. 
+**NOTE:** We are using a very useful tool called [CometML](https://www.comet.ml/) to keep track of our experiments. If you would like to use it as well, please modify the API key in the training code to your own API key. Otherwise, you can remove the lines of code related to cometml. 
 
 #### 4.1. Train our model
 
