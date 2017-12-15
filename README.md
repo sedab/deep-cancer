@@ -88,6 +88,8 @@ In the Load data section of `train.py` (lines ~85-96) please modify these variab
 
 * `tile_dict_path = "<ROOT_PATH><CANCER_TYPE>_FileMappingDict.p`, change the path to your tile dict path
 
+**NOTE:** We are using a very useful tool called CometML https://www.comet.ml/ to keep track of our experiments. If you would like to use it as well, please modify the API key in the training code to your own API key. Otherwise, you can remove the lines of code related to cometml. 
+
 #### 4.1. Train our model
 
 Run `train.py` to train with our CNN architecture. sbatch file `run_job.sh` is provided as an example script for submitting a GPU job for this script.
