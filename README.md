@@ -82,7 +82,14 @@ Note that this code assumes that the sorted tiles are stored in `<ROOT_PATH><CAN
 
 ### 4. Train model:
 
+In the Load data section of `train.py` (lines ~85-96) please modify these variables:
+
+* `root_dir = "<ROOT_PATH><CANCER_TYPE>TilesSorted/"`, change the path to your file path
+
+* `tile_dict_path = "<ROOT_PATH><CANCER_TYPE>_FileMappingDict.p`, change the path to your tile dict path
+
 #### 4.1. Train our model
+
 Run `train.py` to train with our CNN architecture. sbatch file `run_job.sh` is provided as an example script for submitting a GPU job for this script.
 
 * `--cuda`: enables cuda
