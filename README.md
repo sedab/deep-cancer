@@ -82,12 +82,77 @@ Note that this code assumes that the sorted tiles are stored in `<ROOT_PATH><CAN
 
 ### 4. Train model:
 
-* Run ```train.py``` to train with our CNN architecture, or run ```train_inception.py``` to train Google's Inception V3.
-* sbatch files ```run_job.sh``` and ```run_job_inception.sh``` are example scripts to submit GPU jobs for running ```train.py``` and ```train_inception.py``` respectively.
+#### 4.1. Train our model
+Run `train.py` to train with our CNN architecture. sbatch file `run_job.sh` is provided as an example script for submitting a GPU job for this script.
+
+* `--cuda`: enables cuda
+
+* `--ngpu`: number of GPUs to use (default=1)
+
+* `--data`: data to train on (lung/breast/kidney)
+
+* `--augment`: use data augmentation or not
+
+* `--batchSize`: batch size for data loaders (default=32)
+
+* `--imgSize`: the height / width that the image will be shrunk to (default=299)
+
+* `--metadata`: use metadata or not
+
+**IMPORTANT NOTE: this option is not fully implemented!** Please see section 6 for additional information about using the metadata. 
+
+* `--nc`: input image channels + concatenated info channels if metadata = True (default = 3 for RGB).
+
+* `--niter`: number of epochs to train for (default=25)
+
+* `--lr`: learning rate for the optimizer (default=0.001)
+
+* `--decay_lr`: activate decay learning rate function
+
+* `--optimizer`: Adam, SGD or RMSprop (default=Adam)
+
+* `--beta1`: beta1 for Adam (default=0.5)
+
+* `--earlystop`: use early stopping
+
+* `--init`: initialization method (default=normal, xavier, kaiming)
+
+* `--model`: path to model to continue training from a checkpoint (default='')
+
+* `--experiment`: where to store samples and models (default=None)
+
+* `--nonlinearity`: nonlinearity to use (selu, prelu, leaky, default=relu)
+
+* `--dropout`: probability of dropout in each block (default=0.5)
+
+* `--method`: aggregation prediction method (max, default=average)
+
+#### 4.2. Train Google's Inception V3
+Run `train_inception.py` to train Google's Inception V3.  sbatch file `run_job_inception.sh` is provided as an example script for submitting a GPU job for this script. Note that this version has only been coded to run with the lung cancer task with 3 classes.
 
 ### 5. Test model:
 
-* Run ```test.py``` to evaluate a specific model on the test data, ```run_test.sh``` is the associated sbatch file.
+Run ```test.py``` to evaluate a specific model on the test data, ```run_test.sh``` is the associated sbatch file.
+
+* `--data`: Data to train on (lung/breast/kidney)
+* `--experiment` Name of experiment to test, same as in section 4.1
+* `--model`: Name of model to test, e.g. `epoch_10.pth`
+
+### 6. Metadata
+We explored concatenating the metadata included in the patient JSON file as additional information for the neural network to process. We did not fully implement this option because of a few reasons:
+
+* Training was greatly slowed
+
+* Different cancers may not be compared on a fair basis (e.g. cigarettes smoked per day will be more informative for lung cancer than kidney cancer)
+
+* The work we were replicating did not use any metadata, and we wanted a fair comparison
+
+However, if you would like to try your hand at using the metadata you must:
+
+* Look at `iPython Notebooks/LungJsonDescription.ipynb` to explore the metadata you'd like to add
+* Create a dictionary of desired JSON inputs as per `JsonParser/LungJsonCleaner.py`
+* Modify `parse_json` in `utils/dataloader.py` to add the desired metadata (not implemented for kidney and breast)
+* Modify the `aggregate` function in `train.py` so that it concatenates the metadata to the image as per `utils/dataloader.py`. This is the main part that is not implemented for any of the cancers.
 
 ## Additional resources:
 
@@ -98,9 +163,9 @@ Note that this code assumes that the sorted tiles are stored in `<ROOT_PATH><CAN
 * ```LungJsonDescription.ipynb``` explores the potential of metadata that can be used as extra information for training
 * ```new_transforms_examples.ipynb``` visualizes a few examples of the data augmentation used for training. One can tune the data augmentation here.
 
-### Progress and documentation
+### Assignments
 
-* Capstone Assignment 2.pdf, Capstone 11-9 Memo.pdf, Capstone 11-16 Update.pdf, Capstone 11-30 Update.pdf	are our submitted assignments for our Capstone course.
+* Documents in this folder are all of the required submissions for our Capstone course. The final report contains explanation of our methodology and some results.
 
 
 
