@@ -14,7 +14,7 @@ Purpose: Get dictionary with files:[2Darray tiles, type of cancer]
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--data', type=str, default='Lung', help='Data to train on (Lung/Breast/Kidney)')
-parser.add_argument('--path', type=str, default='/beegfs/jmw784/Capstone/', help='Root path where the tiles are')
+parser.add_argument('--file_path', type=str, default='/beegfs/jmw784/Capstone/', help='Root path where the tiles are')
 opt = parser.parse_args()
 
 root_dir = opt.file_path + opt.data + "TilesSorted/"
