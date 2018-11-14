@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "test.py", line 212, in <module>
+    predictions, labels, classes = range(num_classes))
+  File "/scratch/sb3923/deep-cancer/utils/auc.py", line 86, in get_auc
+    plt.savefig(path)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/matplotlib-2.0.0-py3.5-linux-x86_64.egg/matplotlib/pyplot.py", line 697, in savefig
+    res = fig.savefig(*args, **kwargs)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/matplotlib-2.0.0-py3.5-linux-x86_64.egg/matplotlib/figure.py", line 1572, in savefig
+    self.canvas.print_figure(*args, **kwargs)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/matplotlib-2.0.0-py3.5-linux-x86_64.egg/matplotlib/backend_bases.py", line 2244, in print_figure
+    **kwargs)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/matplotlib-2.0.0-py3.5-linux-x86_64.egg/matplotlib/backends/backend_agg.py", line 610, in print_jpg
+    return background.save(filename_or_obj, format='jpeg', **options)
+  File "/share/apps/pillow/4.2.1/python3.5/intel/lib/python3.5/site-packages/Pillow-4.2.1-py3.5-linux-x86_64.egg/PIL/Image.py", line 1890, in save
+FileNotFoundError: [Errno 2] No such file or directory: 'experiments/{0}/images/test_AUC_max_train_lusc_02.jpg'

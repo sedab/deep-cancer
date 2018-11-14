@@ -63,7 +63,8 @@ class TissueData(data.Dataset):
             d = os.path.join(dir, target)
             if not os.path.isdir(d):
                 continue
-
+            print('Loading from:', target)
+            dd=[]
             for root, _, fnames in os.walk(d):
                 for fname in fnames:
                     # Parse the filename
@@ -81,9 +82,11 @@ class TissueData(data.Dataset):
                             item = (path, class_to_idx[target])
                         
                         datapoints.append(item)
+                        dd.append(item)
                         
                         if raw_file_name not in filenames:
                             filenames.append(raw_file_name)
+                print('number of samples:', len(dd))
 
         return datapoints, filenames
 

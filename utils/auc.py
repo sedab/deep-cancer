@@ -48,7 +48,7 @@ def get_auc(path, predictions, labels, classes=[0, 1, 2]):
 
         ### Make plot ###
 
-        plt.figure(figsize=(12, 8))
+        plt.figure(figsize=(12, 12))
         plt.plot(fpr["micro"], tpr["micro"],
                  label='micro-average ROC curve (area = {0:0.2f})'
                        ''.format(roc_auc["micro"]),
@@ -71,7 +71,7 @@ def get_auc(path, predictions, labels, classes=[0, 1, 2]):
         for i in list(classes) + ['macro', 'micro']:
             roc_auc[i] = auc_result
 
-        plt.figure(figsize=(12, 8))
+        plt.figure(figsize=(12, 12))
         plt.plot(fpr, tpr, lw=2,
                  label='ROC curve (area = {0:0.2f})'
                  ''.format(auc_result))
@@ -85,4 +85,4 @@ def get_auc(path, predictions, labels, classes=[0, 1, 2]):
     plt.legend(loc="lower right")
     plt.savefig(path)
 
-    return roc_auc
+    return roc_auc#, fpr, tpr

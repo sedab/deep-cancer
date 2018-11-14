@@ -1,0 +1,22 @@
+Loading from: TCGA-KIRP
+number of samples: 7431
+Loading from: ST_Normal_Lung
+number of samples: 8042
+Loading from: TCGA-LUAD
+number of samples: 20031
+Loading from: ST_Normal_Breast
+number of samples: 4405
+Loading from: TCGA-LUSC
+number of samples: 20984
+Loading from: TCGA-KICH
+number of samples: 10029
+Loading from: TCGA-BRCA
+number of samples: 46230
+Loading from: TCGA-KIRC
+number of samples: 28686
+Loading from: ST_Normal_Kidney
+number of samples: 36989
+Max method:
+{0: 0.98882783882783887, 1: 0.99913350449293969, 2: 0.97054503167365413, 3: 0.99261585529191165, 4: 0.99916749916749914, 5: 0.99727357295542718, 6: 0.98218855218855217, 7: 0.96499586239508217, 8: 0.95419002101891714, 'macro': 0.98330107749673346, 'micro': 0.9864324116892581}
+Average method:
+{0: 0.99918599918599926, 1: 0.99888318356867778, 2: 0.9854331793004254, 3: 0.99636960904566541, 4: 0.99927849927849932, 5: 0.99858483097141948, 6: 0.9920089786756453, 7: 0.97130866532687077, 8: 0.96129016114503052, 'macro': 0.98961027621616815, 'micro': 0.99174503423970506}

@@ -1,0 +1,4 @@
+mkdir: cannot create directory ‘experiments’: File exists
+mkdir: cannot create directory ‘experiments/train_kirp’: File exists
+mkdir: cannot create directory ‘experiments/train_kirp/images’: File exists
+slurmstepd: error: *** JOB 9299294 ON gpu-45 CANCELLED AT 2018-10-16T10:26:27 ***

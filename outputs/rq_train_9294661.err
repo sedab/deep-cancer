@@ -1,0 +1,5 @@
+mkdir: cannot create directory ‘experiments’: File exists
+Traceback (most recent call last):
+  File "train.py", line 287, in <module>
+    with open(tile_dict_path, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/beegfs/sb3923/DeepCancer/alldata/mburden/Kirp/Kirp_FileMappingDict.p'

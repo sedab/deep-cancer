@@ -1,0 +1,7 @@
+mkdir: cannot create directory ‘experiments’: File exists
+mkdir: cannot create directory ‘experiments/train_kirp’: File exists
+mkdir: cannot create directory ‘experiments/train_kirp/images’: File exists
+Traceback (most recent call last):
+  File "train.py", line 457, in <module>
+    for k, v in roc_auc.items(): 
+AttributeError: 'tuple' object has no attribute 'items'

@@ -1,0 +1,14 @@
+mkdir: cannot create directory ‘experiments’: File exists
+mkdir: cannot create directory ‘experiments/train_all_01’: File exists
+mkdir: cannot create directory ‘experiments/train_all_01/images’: File exists
+socket is already closed.
+socket is already closed.
+socket is already closed.
+[Errno 32] Broken pipe
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+[Errno 32] Broken pipe
+socket is already closed.
+slurmstepd: error: *** JOB 8751747 ON gpu-63 CANCELLED AT 2018-09-28T11:13:48 DUE TO TIME LIMIT ***

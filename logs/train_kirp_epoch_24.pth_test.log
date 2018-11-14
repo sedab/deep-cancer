@@ -1,0 +1,8 @@
+Loading from: low
+number of samples: 7515
+Loading from: high
+number of samples: 2540
+Max method:
+{0: 0.8882575757575758, 1: 0.8882575757575758, 'macro': 0.8882575757575758, 'micro': 0.8882575757575758}
+Average method:
+{0: 0.89204545454545459, 1: 0.89204545454545459, 'macro': 0.89204545454545459, 'micro': 0.89204545454545459}

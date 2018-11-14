@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "tsne_viz.py", line 35, in <module>
+    lowDWeights = tsne.fit_transform(finalWs[:plot_only, :])
+NameError: name 'finalWs' is not defined

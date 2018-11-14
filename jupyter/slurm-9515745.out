@@ -1,0 +1,58 @@
+
+Jupyter server is running on: c27-05
+Job starts at: Mon Oct 22 20:27:55 EDT 2018
+
+Step 1 :
+
+If you are working in NYU campus, please open an iTerm window, run command
+
+ssh -L 7211:localhost:7211 sb3923@prince.hpc.nyu.edu
+
+If you are working off campus, you should already have ssh tunneling setup through HPC bastion host, 
+that you can directly login to prince with command
+
+ssh sb3923@prince
+
+Please open an iTerm window, run command
+
+ssh -L 7211:localhost:7211 sb3923@prince
+
+Step 2:
+
+Keep the iTerm windows in the previouse step open. Now open browser, find the line with
+
+The Jupyter Notebook is running at: c27-05
+
+the URL is something: http://localhost:7211/?token=XXXXXXXX (see your token below)
+
+you should be able to connect to jupyter notebook running remotly on prince compute node with above url
+
+[I 20:27:57.340 NotebookApp] Writing notebook server cookie secret to /state/partition1/job-9515745/jupyter/notebook_cookie_secret
+[W 20:27:57.915 NotebookApp] Widgets are unavailable. Please install widgetsnbextension or ipywidgets 4.0
+[I 20:27:57.935 NotebookApp] Serving notebooks from local directory: /scratch/sb3923/deep-cancer/jupyter
+[I 20:27:57.935 NotebookApp] 0 active kernels 
+[I 20:27:57.935 NotebookApp] The Jupyter Notebook is running at: http://localhost:7211/?token=c9eec4c91a71aad2c23188be4f8ede7e5633136de0547b60
+[I 20:27:57.936 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 20:27:57.936 NotebookApp] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:7211/?token=c9eec4c91a71aad2c23188be4f8ede7e5633136de0547b60
+[I 20:28:45.030 NotebookApp] 302 GET /?token=c9eec4c91a71aad2c23188be4f8ede7e5633136de0547b60 (::1) 1.16ms
+[W 20:28:51.084 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20181022202757 (::1) 11.02ms referer=http://localhost:7211/notebooks/step-auc%20comparison.ipynb
+[I 20:28:51.424 NotebookApp] Kernel started: 095e2342-54da-4246-991b-8fe22c59a6fc
+[I 20:30:51.841 NotebookApp] Saving file at /step-auc comparison.ipynb
+[I 22:08:51.489 NotebookApp] Saving file at /step-auc comparison.ipynb
+[I 22:10:51.485 NotebookApp] Saving file at /step-auc comparison.ipynb
+[I 22:12:51.487 NotebookApp] Saving file at /step-auc comparison.ipynb
+[I 22:14:51.522 NotebookApp] Saving file at /step-auc comparison.ipynb
+[I 22:40:29.543 NotebookApp] Kernel shutdown: 095e2342-54da-4246-991b-8fe22c59a6fc
+[I 10:00:17.080 NotebookApp] 302 GET /?token=c9eec4c91a71aad2c23188be4f8ede7e5633136de0547b60 (::1) 0.71ms
+[W 10:00:20.786 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20181022202757 (::1) 4.56ms referer=http://localhost:7211/notebooks/step-auc%20comparison.ipynb
+[I 10:00:21.033 NotebookApp] Kernel started: d7fa7112-4904-4328-815d-f9df9d3096bd
+[I 10:02:21.686 NotebookApp] Saving file at /step-auc comparison.ipynb
+[I 12:00:21.207 NotebookApp] Saving file at /step-auc comparison.ipynb
+[I 12:02:21.585 NotebookApp] Saving file at /step-auc comparison.ipynb
+[I 12:06:21.556 NotebookApp] Saving file at /step-auc comparison.ipynb
+[W 12:14:22.039 NotebookApp] WebSocket ping timeout after 119945 ms.
+slurmstepd: error: *** JOB 9515745 ON c27-05 CANCELLED AT 2018-10-24T19:28:08 DUE TO TIME LIMIT ***

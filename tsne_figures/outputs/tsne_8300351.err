@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "tsne_viz.py", line 30, in <module>
+    lowDWeights = tsne.fit_transform(z)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/sklearn/manifold/t_sne.py", line 884, in fit_transform
+    embedding = self._fit(X)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/sklearn/manifold/t_sne.py", line 707, in _fit
+    dtype=np.float64)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/sklearn/utils/validation.py", line 382, in check_array
+    array = np.array(array, dtype=dtype, order=order, copy=copy)
+ValueError: setting an array element with a sequence.

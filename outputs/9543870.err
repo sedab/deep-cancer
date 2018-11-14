@@ -1,0 +1,4 @@
+Exception ignored in: <function WeakValueDictionary.__init__.<locals>.remove at 0x2b3b22343598>
+Traceback (most recent call last):
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/weakref.py", line 117, in remove
+TypeError: 'NoneType' object is not callable

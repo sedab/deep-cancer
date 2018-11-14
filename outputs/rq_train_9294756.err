@@ -1,0 +1,4 @@
+mkdir: cannot create directory ‘experiments’: File exists
+mkdir: cannot create directory ‘experiments/train_luad’: File exists
+mkdir: cannot create directory ‘experiments/train_luad/images’: File exists
+Traceback (most recent call last):

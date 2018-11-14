@@ -1,0 +1,4 @@
+  File "train.py", line 452
+    get validation AUC every 500 step 
+                 ^
+SyntaxError: invalid syntax

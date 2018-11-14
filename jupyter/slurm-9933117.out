@@ -1,0 +1,42 @@
+
+Jupyter server is running on: c37-09
+Job starts at: Sun Nov 11 23:05:52 EST 2018
+
+Step 1 :
+
+If you are working in NYU campus, please open an iTerm window, run command
+
+ssh -L 9134:localhost:9134 sb3923@prince.hpc.nyu.edu
+
+If you are working off campus, you should already have ssh tunneling setup through HPC bastion host, 
+that you can directly login to prince with command
+
+ssh sb3923@prince
+
+Please open an iTerm window, run command
+
+ssh -L 9134:localhost:9134 sb3923@prince
+
+Step 2:
+
+Keep the iTerm windows in the previouse step open. Now open browser, find the line with
+
+The Jupyter Notebook is running at: c37-09
+
+the URL is something: http://localhost:9134/?token=XXXXXXXX (see your token below)
+
+you should be able to connect to jupyter notebook running remotly on prince compute node with above url
+
+[I 23:05:54.417 NotebookApp] Writing notebook server cookie secret to /state/partition1/job-9933117/jupyter/notebook_cookie_secret
+[W 23:05:55.024 NotebookApp] Widgets are unavailable. Please install widgetsnbextension or ipywidgets 4.0
+[I 23:05:55.049 NotebookApp] Serving notebooks from local directory: /scratch/sb3923/deep-cancer/jupyter
+[I 23:05:55.049 NotebookApp] 0 active kernels 
+[I 23:05:55.049 NotebookApp] The Jupyter Notebook is running at: http://localhost:9134/?token=372c545ec1ff5508ed422f5a893975cb4307782c653b431f
+[I 23:05:55.049 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 23:05:55.050 NotebookApp] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:9134/?token=372c545ec1ff5508ed422f5a893975cb4307782c653b431f
+[I 23:16:49.753 NotebookApp] 302 GET /?token=372c545ec1ff5508ed422f5a893975cb4307782c653b431f (::1) 0.82ms
+slurmstepd: error: *** JOB 9933117 ON c37-09 CANCELLED AT 2018-11-11T23:17:27 ***
