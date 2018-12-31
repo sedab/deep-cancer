@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "test.py", line 221, in <module>
+    state_dict = torch.load(model_path)
+  File "/share/apps/pytorch/0.2.0_3/python3.5/lib/python3.5/site-packages/torch/serialization.py", line 229, in load
+    f = open(f, 'rb')
+FileNotFoundError: [Errno 2] No such file or directory: '/scratch/sb3923/deep-cancer/experiments/train_brca.log/epoch_4.pth'

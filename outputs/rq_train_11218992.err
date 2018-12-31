@@ -1,0 +1,7 @@
+usage: train.py [-h] [--data DATA] [--batchSize BATCHSIZE] [--imgSize IMGSIZE]
+                [--nc NC] [--niter NITER] [--lr LR] [--dropout DROPOUT]
+                [--beta1 BETA1] [--cuda] [--ngpu NGPU] [--model MODEL]
+                [--experiment EXPERIMENT] [--augment] [--optimizer OPTIMIZER]
+                [--metadata] [--init INIT] [--nonlinearity NONLINEARITY]
+                [--earlystop] [--method METHOD] [--decay_lr]
+train.py: error: unrecognized arguments: —init=‘xavier' —data=lung_ds1

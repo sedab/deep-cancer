@@ -1,0 +1,2 @@
+mkdir: cannot create directory ‘experiments’: File exists
+slurmstepd: error: *** JOB 10903618 ON gpu-66 CANCELLED AT 2018-12-14T20:27:51 ***

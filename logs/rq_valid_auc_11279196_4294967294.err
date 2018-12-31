@@ -1,0 +1,1981 @@
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_0k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_1000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_1500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_2000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_2500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_3000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_3500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_4000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_4500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_5000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_5500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_6000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_6500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_7000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_7500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_8000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_8500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_9000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_9500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_10000k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_10500k/out_filename_Stats.txt'
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcublas.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcudnn.so.5 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcufft.so.8.0 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcuda.so.1 locally
+I tensorflow/stream_executor/dso_loader.cc:135] successfully opened CUDA library libcurand.so.8.0 locally
+WARNING:tensorflow:Passing a `GraphDef` to the SummaryWriter is deprecated. Pass a `Graph` object instead, such as `sess.graph`.
+WARNING:tensorflow:From /scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py:64: initialize_all_variables (from tensorflow.python.ops.variables) is deprecated and will be removed after 2017-03-02.
+Instructions for updating:
+Use `tf.global_variables_initializer` instead.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE3 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.1 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use SSE4.2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use AVX2 instructions, but these are available on your machine and could speed up CPU computations.
+W tensorflow/core/platform/cpu_feature_guard.cc:45] The TensorFlow library wasn't compiled to use FMA instructions, but these are available on your machine and could speed up CPU computations.
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:885] Found device 0 with properties: 
+name: Tesla K80
+major: 3 minor: 7 memoryClockRate (GHz) 0.8235
+pciBusID 0000:04:00.0
+Total memory: 11.17GiB
+Free memory: 11.10GiB
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:906] DMA: 0 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:916] 0:   Y 
+I tensorflow/core/common_runtime/gpu/gpu_device.cc:975] Creating TensorFlow device (/gpu:0) -> (device: 0, name: Tesla K80, pci bus id: 0000:04:00.0)
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 409, in evaluate
+    precision_at_1, current_score = _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, max_percent, all_filenames, filename_queue, net2048, sel_end_points, logits, labels)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 70, in _eval_once
+    saver.restore(sess, ckpt.model_checkpoint_path)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1428, in restore
+    {self.saver_def.filename_tensor_name: save_path})
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 767, in run
+    run_metadata_ptr)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 965, in _run
+    feed_dict_string, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1015, in _do_run
+    target_list, options, run_metadata)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/client/session.py", line 1035, in _do_call
+    raise type(e)(node_def, op, message)
+tensorflow.python.framework.errors_impl.InvalidArgumentError: Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+Caused by op u'save/Assign_30', defined at:
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 268, in <module>
+    tf.app.run()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/platform/app.py", line 44, in run
+    _sys.exit(main(_sys.argv[:1] + flags_passthrough))
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/nc_imagenet_eval.py", line 64, in main
+    precision_at_1, current_score = nc_inception_eval.evaluate(dataset)
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/02_testing/xClasses/inception/nc_inception_eval.py", line 400, in evaluate
+    saver = tf.train.Saver(variables_to_restore)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1040, in __init__
+    self.build()
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 1070, in build
+    restore_sequentially=self._restore_sequentially)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 675, in build
+    restore_sequentially, reshape)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 414, in _AddRestoreOps
+    assign_ops.append(saveable.restore(tensors, shapes))
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/training/saver.py", line 155, in restore
+    self.op.get_shape().is_fully_defined())
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/ops/gen_state_ops.py", line 47, in assign
+    use_locking=use_locking, name=name)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/op_def_library.py", line 763, in apply_op
+    op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 2327, in create_op
+    original_op=self._default_original_op, op_def=op_def)
+  File "/share/apps/tensorflow/1.0.1/python2.7/lib/python2.7/site-packages/tensorflow/python/framework/ops.py", line 1226, in __init__
+    self._traceback = _extract_stack()
+
+InvalidArgumentError (see above for traceback): Assign requires shapes of both tensors to match. lhs shape= [4] rhs shape= [3]
+	 [[Node: save/Assign_30 = Assign[T=DT_FLOAT, _class=["loc:@logits/logits/biases"], use_locking=true, validate_shape=true, _device="/job:localhost/replica:0/task:0/gpu:0"](logits/logits/biases, save/RestoreV2_30/_1)]]
+
+mv: No match.
+Traceback (most recent call last):
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 923, in <module>
+    main()
+  File "/scratch/sb3923/DeepPATH/DeepPATH_code/03_postprocessing/0h_ROC_MultiOutput_BootStrap.py", line 290, in main
+    with open(FLAGS.file_stats) as f:
+IOError: [Errno 2] No such file or directory: '/scratch/sb3923/DeepPATH/DeepPATH_code/01_training/xClasses/validation_lung_batch2012/test_11000k/out_filename_Stats.txt'
+ls: No match.
+ls: No match.
+ls: No match.

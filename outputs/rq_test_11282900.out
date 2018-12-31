@@ -1,0 +1,9 @@
+Starting at Mon Dec 24 09:44:32 EST 2018
+Job name: test JobID: 11282900
+Running on hosts: gpu-66
+Running on 1 nodes.
+Running on  processors.
+experiment:
+Lung_batch
+train_batch2012
+epoch_24.pth

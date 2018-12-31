@@ -1,0 +1,12 @@
+Loading from: TCGA-LUAD
+number of samples: 6843
+Loading from: TCGA-LUSC
+number of samples: 3111
+Loading from: ST_Normal_Lung
+number of samples: 2235
+Class encoding:
+{'ST_Normal_Lung': 0, 'TCGA-LUAD': 1, 'TCGA-LUSC': 2}
+Max method:
+{0: 0.97101449275362317, 1: 0.89166666666666672, 2: 0.8571428571428571, 'micro': 0.8984375, 'macro': 0.91730146530871171}
+Average method:
+{0: 0.96618357487922701, 1: 0.8833333333333333, 2: 0.8614718614718615, 'micro': 0.9033203125, 'macro': 0.9122933963513673}

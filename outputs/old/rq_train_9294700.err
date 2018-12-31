@@ -1,0 +1,7 @@
+mkdir: cannot create directory ‘experiments’: File exists
+mkdir: cannot create directory ‘experiments/train_kirp’: File exists
+mkdir: cannot create directory ‘experiments/train_kirp/images’: File exists
+Traceback (most recent call last):
+  File "train.py", line 288, in <module>
+    tile_dict = pickle.load(f)
+UnicodeDecodeError: 'ascii' codec can't decode byte 0x86 in position 3: ordinal not in range(128)

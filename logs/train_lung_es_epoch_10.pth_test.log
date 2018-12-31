@@ -1,0 +1,12 @@
+Loading from: Solid_Tissue_Normal
+number of samples: 16085
+Loading from: TCGA-LUSC
+number of samples: 41969
+Loading from: TCGA-LUAD
+number of samples: 40063
+Class encoding:
+{'TCGA-LUSC': 2, 'TCGA-LUAD': 1, 'Solid_Tissue_Normal': 0}
+Max method:
+{0: 0.99838791786865777, 1: 0.92556207233626586, 2: 0.93070576990794307, 'macro': 0.95262690242873083, 'micro': 0.95787584459459463}
+Average method:
+{0: 0.99847276429662313, 1: 0.93313782991202343, 2: 0.93244126968157348, 'macro': 0.9564725753436667, 'micro': 0.96192476260043824}

@@ -1,0 +1,10 @@
+Loading from: Solid_Tissue_Normal
+number of samples: 10064
+Loading from: TCGA-BRCA
+number of samples: 96992
+Class encoding:
+{'TCGA-BRCA': 1, 'Solid_Tissue_Normal': 0}
+Max method:
+{0: 0.99014518919732186, 1: 0.99014518919732186, 'micro': 0.99014518919732186, 'macro': 0.99014518919732186}
+Average method:
+{0: 0.9991724968028286, 1: 0.9991724968028286, 'micro': 0.9991724968028286, 'macro': 0.9991724968028286}

@@ -1,7 +1,7 @@
 #!/bin/bash
 #
-#SBATCH --job-name=lusc
-#SBATCH --gres=gpu:1
+#SBATCH --job-name=train
+#SBATCH --gres=gpu:p100:1
 #SBATCH --time=168:00:00
 #SBATCH --mem=100GB
 #SBATCH --output=outputs/rq_train_%A.out
@@ -10,6 +10,17 @@
 module purge
 module load python3/intel/3.5.3 pytorch/python3.5/0.2.0_3 torchvision/python3.5/0.1.9
 
+echo "Starting at `date`"
+echo "Job name: $SLURM_JOB_NAME JobID: $SLURM_JOB_ID"
+echo "Running on hosts: $SLURM_NODELIST"
+echo "Running on $SLURM_NNODES nodes."
+echo "Running on $SLURM_NPROCS processors."
+
+echo "experiment:"
+echo $1
+echo $2
+echo $3
+
 cd /scratch/sb3923/deep-cancer/
 
-python3 -u train.py $1 --experiment $2 > logs/$2.log
+python3 -u train-batch.py $1 --experiment $2 > logs/$2.log

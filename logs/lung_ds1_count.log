@@ -1,0 +1,31 @@
+Namespace(augment=False, batchSize=32, beta1=0.5, cuda=False, data='lung_ds1', decay_lr=False, dropout=0.5, earlystop=False, experiment=None, imgSize=299, init='normal', lr=0.001, metadata=False, method='average', model='', nc=3, ngpu=1, niter=25, nonlinearity='relu', optimizer='Adam')
+Loading from: TCGA-LUAD
+number of samples: 6843
+Loading from: TCGA-LUSC
+number of samples: 3111
+Loading from: ST_Normal_Lung
+number of samples: 2235
+Finished loading test dataset: 12189 samples
+class ST_Normal_Lung has samples 9
+class TCGA-LUAD has samples 12
+class TCGA-LUSC has samples 11
+Loading from: TCGA-LUAD
+number of samples: 23936
+Loading from: TCGA-LUSC
+number of samples: 27844
+Loading from: ST_Normal_Lung
+number of samples: 7976
+Finished loading train dataset: 59756 samples
+class ST_Normal_Lung has samples 39
+class TCGA-LUAD has samples 57
+class TCGA-LUSC has samples 53
+Loading from: TCGA-LUAD
+number of samples: 8468
+Loading from: TCGA-LUSC
+number of samples: 6326
+Loading from: ST_Normal_Lung
+number of samples: 1583
+Finished loading valid dataset: 16377 samples
+class ST_Normal_Lung has samples 9
+class TCGA-LUAD has samples 12
+class TCGA-LUSC has samples 11

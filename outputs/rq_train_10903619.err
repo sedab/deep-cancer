@@ -1,0 +1,4 @@
+mkdir: cannot create directory ‘experiments’: File exists
+mkdir: cannot create directory ‘experiments/train_Lusc_smoke’: File exists
+mkdir: cannot create directory ‘experiments/train_Lusc_smoke/images’: File exists
+slurmstepd: error: *** JOB 10903619 ON gpu-63 CANCELLED AT 2018-12-14T20:27:45 ***

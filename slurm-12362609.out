@@ -1,0 +1,62 @@
+
+Jupyter server is running on: c38-11
+Job starts at: Sun Dec 30 19:40:08 EST 2018
+
+Step 1 :
+
+If you are working in NYU campus, please open an iTerm window, run command
+
+ssh -L 6513:localhost:6513 sb3923@prince.hpc.nyu.edu
+
+If you are working off campus, you should already have ssh tunneling setup through HPC bastion host, 
+that you can directly login to prince with command
+
+ssh sb3923@prince
+
+Please open an iTerm window, run command
+
+ssh -L 6513:localhost:6513 sb3923@prince
+
+Step 2:
+
+Keep the iTerm windows in the previouse step open. Now open browser, find the line with
+
+The Jupyter Notebook is running at: c38-11
+
+the URL is something: http://localhost:6513/?token=XXXXXXXX (see your token below)
+
+you should be able to connect to jupyter notebook running remotly on prince compute node with above url
+
+[I 19:40:10.108 NotebookApp] Writing notebook server cookie secret to /state/partition1/job-12362609/jupyter/notebook_cookie_secret
+[W 19:40:10.865 NotebookApp] Widgets are unavailable. Please install widgetsnbextension or ipywidgets 4.0
+[I 19:40:10.896 NotebookApp] Serving notebooks from local directory: /scratch/sb3923/deep-cancer
+[I 19:40:10.896 NotebookApp] 0 active kernels 
+[I 19:40:10.896 NotebookApp] The Jupyter Notebook is running at: http://localhost:6513/?token=a6599e32fcc35652a432ffd0c625fda7c8603e7a46f5747a
+[I 19:40:10.897 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
+[C 19:40:10.897 NotebookApp] 
+    
+    Copy/paste this URL into your browser when you connect for the first time,
+    to login with a token:
+        http://localhost:6513/?token=a6599e32fcc35652a432ffd0c625fda7c8603e7a46f5747a
+[I 19:42:18.197 NotebookApp] 302 GET /?token=a6599e32fcc35652a432ffd0c625fda7c8603e7a46f5747a (::1) 0.74ms
+[W 19:42:49.789 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20181230194010 (::1) 9.69ms referer=http://localhost:6513/notebooks/iPython%20Notebooks/step-auc-comparison.ipynb
+[I 19:42:50.183 NotebookApp] Kernel started: 421644ae-11f0-49f9-97ea-2aa593d507eb
+[I 19:44:50.186 NotebookApp] Saving file at /iPython Notebooks/step-auc-comparison.ipynb
+[I 19:46:50.226 NotebookApp] Saving file at /iPython Notebooks/step-auc-comparison.ipynb
+[I 19:48:50.220 NotebookApp] Saving file at /iPython Notebooks/step-auc-comparison.ipynb
+[I 19:50:50.193 NotebookApp] Saving file at /iPython Notebooks/step-auc-comparison.ipynb
+[I 19:54:50.189 NotebookApp] Saving file at /iPython Notebooks/step-auc-comparison.ipynb
+[I 19:56:50.189 NotebookApp] Saving file at /iPython Notebooks/step-auc-comparison.ipynb
+[I 19:58:50.185 NotebookApp] Saving file at /iPython Notebooks/step-auc-comparison.ipynb
+[W 20:30:51.239 NotebookApp] WebSocket ping timeout after 119877 ms.
+[I 09:42:21.906 NotebookApp] 302 GET /?token=a6599e32fcc35652a432ffd0c625fda7c8603e7a46f5747a (::1) 0.71ms
+[W 09:42:29.987 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20181230194010 (::1) 2.57ms referer=http://localhost:6513/notebooks/iPython%20Notebooks/step-auc-comparison.ipynb
+[I 09:44:30.318 NotebookApp] Saving file at /iPython Notebooks/step-auc-comparison.ipynb
+[I 09:46:30.961 NotebookApp] Saving file at /iPython Notebooks/step-auc-comparison.ipynb
+[W 09:52:56.228 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20181230194010 (::1) 2.46ms referer=http://localhost:6513/notebooks/iPython%20Notebooks/step-auc-comparison.ipynb
+[W 11:07:09.608 NotebookApp] 404 GET /nbextensions/widgets/notebook/js/extension.js?v=20181230194010 (::1) 2.79ms referer=http://localhost:6513/notebooks/iPython%20Notebooks/test_evaluation.ipynb
+[I 11:07:09.921 NotebookApp] Kernel started: 6a346a78-01db-4c88-bcce-0095dc3d18a9
+[I 11:09:10.039 NotebookApp] Saving file at /iPython Notebooks/test_evaluation.ipynb
+[I 11:11:10.044 NotebookApp] Saving file at /iPython Notebooks/test_evaluation.ipynb
+[I 11:13:09.982 NotebookApp] Saving file at /iPython Notebooks/test_evaluation.ipynb
+[I 11:15:10.035 NotebookApp] Saving file at /iPython Notebooks/test_evaluation.ipynb

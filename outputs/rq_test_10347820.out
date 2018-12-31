@@ -1,0 +1,9 @@
+Starting at Sun Nov 25 00:35:53 EST 2018
+Job name: test JobID: 10347820
+Running on hosts: gpu-67
+Running on 1 nodes.
+Running on  processors.
+experiment:
+breast
+train_lung_es
+epoch_14.pth

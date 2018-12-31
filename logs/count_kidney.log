@@ -1,0 +1,40 @@
+Namespace(augment=False, batchSize=32, beta1=0.5, cuda=False, data='kidney', decay_lr=False, dropout=0.5, earlystop=False, experiment=None, imgSize=299, init='normal', lr=0.001, metadata=False, method='average', model='', nc=3, ngpu=1, niter=25, nonlinearity='relu', optimizer='Adam')
+Loading from: TCGA-KIRC
+number of samples: 57372
+Loading from: TCGA-KIRP
+number of samples: 14863
+Loading from: Solid_Tissue_Normal
+number of samples: 73979
+Loading from: TCGA-KICH
+number of samples: 20059
+Finished loading test dataset: 166273 samples
+class Solid_Tissue_Normal has samples 100
+class TCGA-KICH has samples 22
+class TCGA-KIRC has samples 136
+class TCGA-KIRP has samples 54
+Loading from: TCGA-KIRC
+number of samples: 221023
+Loading from: TCGA-KIRP
+number of samples: 68114
+Loading from: Solid_Tissue_Normal
+number of samples: 339572
+Loading from: TCGA-KICH
+number of samples: 98817
+Finished loading train dataset: 727526 samples
+class Solid_Tissue_Normal has samples 460
+class TCGA-KICH has samples 102
+class TCGA-KIRC has samples 621
+class TCGA-KIRP has samples 242
+Loading from: TCGA-KIRC
+number of samples: 60147
+Loading from: TCGA-KIRP
+number of samples: 20162
+Loading from: Solid_Tissue_Normal
+number of samples: 81303
+Loading from: TCGA-KICH
+number of samples: 21665
+Finished loading valid dataset: 183277 samples
+class Solid_Tissue_Normal has samples 99
+class TCGA-KICH has samples 23
+class TCGA-KIRC has samples 139
+class TCGA-KIRP has samples 49

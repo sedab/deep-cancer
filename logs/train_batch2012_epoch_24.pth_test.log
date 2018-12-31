@@ -1,0 +1,9 @@
+Loading from: Solid_Tissue_Normal
+number of samples: 16085
+Loading from: TCGA-LUSC
+number of samples: 41969
+Loading from: TCGA-LUAD
+number of samples: 40063
+Class encoding:
+{'TCGA-LUAD': 1, 'TCGA-LUSC': 2, 'Solid_Tissue_Normal': 0}
+While copying the parameter named linear.weight, whose dimensions in the model are torch.Size([3, 5184]) and whose dimensions in the checkpoint are torch.Size([2, 5184]), ...

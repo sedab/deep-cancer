@@ -1,0 +1,14 @@
+tsne.py:162: RuntimeWarning: Mean of empty slice
+  lastlayerweights = np.nanmean(np.squeeze(a), axis = 0)
+Traceback (most recent call last):
+  File "tsne.py", line 267, in <module>
+    lowDWeights = tsne.fit_transform(fw_lastlayer)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/sklearn/manifold/t_sne.py", line 884, in fit_transform
+    embedding = self._fit(X)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/sklearn/manifold/t_sne.py", line 707, in _fit
+    dtype=np.float64)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/sklearn/utils/validation.py", line 407, in check_array
+    _assert_all_finite(array)
+  File "/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/sklearn/utils/validation.py", line 58, in _assert_all_finite
+    " or a value too large for %r." % X.dtype)
+ValueError: Input contains NaN, infinity or a value too large for dtype('float64').

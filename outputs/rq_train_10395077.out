@@ -1,0 +1,9 @@
+Starting at Tue Nov 27 07:59:52 EST 2018
+Job name: train JobID: 10395077
+Running on hosts: gpu-66
+Running on 1 nodes.
+Running on  processors.
+experiment:
+--cuda --augment --dropout=0.1 --init='leaky' --init='xavier'
+train_lung_1126
+

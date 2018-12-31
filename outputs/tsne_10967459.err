@@ -1,0 +1,4 @@
+Traceback (most recent call last):
+  File "tsne.py", line 100, in <module>
+    with open(tile_dict_path, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/beegfs/sb3923/DeepCancer/alldata/Alldata_FileMappingDict.p'

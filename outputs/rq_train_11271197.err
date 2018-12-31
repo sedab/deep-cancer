@@ -1,0 +1,2 @@
+mkdir: cannot create directory ‘experiments’: File exists
+slurmstepd: error: *** JOB 11271197 ON gpu-02 CANCELLED AT 2018-12-23T10:34:49 ***

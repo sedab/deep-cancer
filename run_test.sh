@@ -1,10 +1,12 @@
 #!/bin/bash
 #
 #SBATCH --job-name=test
-#SBATCH --gres=gpu:p40:1
+#SBATCH --gres=gpu:p100:1
 #SBATCH --time=168:00:00
 #SBATCH --mem=100GB
 #SBATCH --error=outputs/rq_test_%A.err
+#SBATCH --output=outputs/rq_test_%A.out
+
 
 module purge
 module load python3/intel/3.5.3
@@ -16,6 +18,11 @@ echo "Job name: $SLURM_JOB_NAME JobID: $SLURM_JOB_ID"
 echo "Running on hosts: $SLURM_NODELIST"
 echo "Running on $SLURM_NNODES nodes."
 echo "Running on $SLURM_NPROCS processors."
+
+echo "experiment:"
+echo $1
+echo $2
+echo $3
 
 cd /scratch/sb3923/deep-cancer
 

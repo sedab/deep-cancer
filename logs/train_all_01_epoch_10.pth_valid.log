@@ -1,0 +1,24 @@
+Loading from: TCGA-KIRC
+number of samples: 30074
+Loading from: TCGA-KIRP
+number of samples: 10081
+Loading from: ST_Normal_Lung
+number of samples: 8350
+Loading from: TCGA-KICH
+number of samples: 10832
+Loading from: TCGA-LUSC
+number of samples: 23344
+Loading from: ST_Normal_Breast
+number of samples: 5032
+Loading from: ST_Normal_Kidney
+number of samples: 40652
+Loading from: TCGA-LUAD
+number of samples: 21242
+Loading from: TCGA-BRCA
+number of samples: 48496
+Class encoding:
+{'TCGA-LUAD': 7, 'TCGA-BRCA': 3, 'ST_Normal_Kidney': 1, 'ST_Normal_Breast': 0, 'TCGA-KICH': 4, 'TCGA-LUSC': 8, 'ST_Normal_Lung': 2, 'TCGA-KIRP': 6, 'TCGA-KIRC': 5}
+Max method:
+{0: 0.989665179452758, 1: 0.99858844858844853, 2: 0.98156195489181997, 3: 0.9964632346681046, 4: 0.94570296627387229, 5: 0.9900690258603928, 6: 0.96160560609786072, 7: 0.9509812034519447, 8: 0.97471464019851117, 'micro': 0.98519436905367441, 'macro': 0.97667187604837147}
+Average method:
+{0: 0.9993287795633119, 1: 0.99887334887334889, 2: 0.99750589099366527, 3: 0.99799216732411955, 4: 0.9643437626980903, 5: 0.99409877503402688, 6: 0.98505040570445046, 7: 0.96635536115380072, 8: 0.97702233250620352, 'micro': 0.99134753397761699, 'macro': 0.98736413445590143}

@@ -1,0 +1,21 @@
+mkdir: cannot create directory ‘experiments’: File exists
+mkdir: cannot create directory ‘experiments/train_all_step_01’: File exists
+mkdir: cannot create directory ‘experiments/train_all_step_01/images’: File exists
+/share/apps/python3/3.5.3/intel/lib/python3.5/site-packages/matplotlib-2.0.0-py3.5-linux-x86_64.egg/matplotlib/pyplot.py:524: RuntimeWarning: More than 20 figures have been opened. Figures created through the pyplot interface (`matplotlib.pyplot.figure`) are retained until explicitly closed and may consume too much memory. (To control this warning, see the rcParam `figure.max_open_warning`).
+  max_open_warning, RuntimeWarning)
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+socket is already closed.
+slurmstepd: error: *** JOB 8751749 ON gpu-66 CANCELLED AT 2018-09-28T11:23:48 DUE TO TIME LIMIT ***

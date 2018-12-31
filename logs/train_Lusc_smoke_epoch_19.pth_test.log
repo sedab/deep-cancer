@@ -1,0 +1,10 @@
+Loading from: smoker
+number of samples: 19827
+Loading from: non-smoker
+number of samples: 18379
+Class encoding:
+{'smoker': 1, 'non-smoker': 0}
+Max method:
+{0: 0.73457532051282048, 1: 0.73457532051282048, 'micro': 0.73457532051282048, 'macro': 0.73457532051282048}
+Average method:
+{0: 0.71674679487179482, 1: 0.71674679487179482, 'micro': 0.71674679487179482, 'macro': 0.71674679487179482}

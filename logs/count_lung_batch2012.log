@@ -1,0 +1,15 @@
+Namespace(augment=False, batchSize=32, beta1=0.5, cuda=False, data='lung', decay_lr=False, dropout=0.5, earlystop=False, experiment=None, imgSize=299, init='normal', lr=0.001, metadata=False, method='average', model='', nc=3, ngpu=1, niter=25, nonlinearity='relu', optimizer='Adam')
+Loading from: Primary
+number of samples: 73129
+Loading from: Solid
+number of samples: 38990
+Finished loading train dataset: 112119 samples
+class Primary has samples 163
+class Solid has samples 88
+Loading from: Primary
+number of samples: 18200
+Loading from: Solid
+number of samples: 10067
+Finished loading valid dataset: 28267 samples
+class Primary has samples 29
+class Solid has samples 20

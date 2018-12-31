@@ -1,0 +1,14 @@
+tsne.py:168: RuntimeWarning: Mean of empty slice
+  lastlayerweights = np.nanmean(np.squeeze(a), axis = 0)
+Traceback (most recent call last):
+  File "tsne.py", line 240, in <module>
+    predictions, labels, fw_lastlayer, file_names = aggregate(test_data.filenames, method='average')
+  File "tsne.py", line 152, in aggregate
+    probabilities = prob_v(tile_paths0)
+  File "/share/apps/numpy/1.13.1/python3.5/intel/lib/python3.5/site-packages/numpy-1.13.1-py3.5-linux-x86_64.egg/numpy/lib/function_base.py", line 2734, in __call__
+    return self._vectorize_call(func=func, args=vargs)
+  File "/share/apps/numpy/1.13.1/python3.5/intel/lib/python3.5/site-packages/numpy-1.13.1-py3.5-linux-x86_64.egg/numpy/lib/function_base.py", line 2810, in _vectorize_call
+    outputs = ufunc(*inputs)
+  File "tsne.py", line 68, in get_tile_probability
+    with open(tile_path, 'rb') as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/beegfs/sb3923/DeepCancer/alldata/AlldataTilesSorted/ST_Normal_Kidney/test_TCGA-60-2709-11A-01-BS1.177526d2-5863-4829-ad4b-7de930de16ad_27_7.jpeg'

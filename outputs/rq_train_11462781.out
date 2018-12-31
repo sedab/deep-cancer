@@ -1,0 +1,9 @@
+Starting at Wed Dec 26 04:02:38 EST 2018
+Job name: train JobID: 11462781
+Running on hosts: gpu-62
+Running on 1 nodes.
+Running on  processors.
+experiment:
+--cuda --augment --dropout=0.1 --init='leaky' --init=‘xavier’ —-niter=35
+train_batch2012_2
+

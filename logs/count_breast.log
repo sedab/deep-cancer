@@ -1,0 +1,22 @@
+Namespace(augment=False, batchSize=32, beta1=0.5, cuda=False, data='breast', decay_lr=False, dropout=0.5, earlystop=False, experiment=None, imgSize=299, init='normal', lr=0.001, metadata=False, method='average', model='', nc=3, ngpu=1, niter=25, nonlinearity='relu', optimizer='Adam')
+Loading from: Solid_Tissue_Normal
+number of samples: 8810
+Loading from: TCGA-BRCA
+number of samples: 92461
+Finished loading test dataset: 101271 samples
+class Solid_Tissue_Normal has samples 63
+class TCGA-BRCA has samples 213
+Loading from: Solid_Tissue_Normal
+number of samples: 26091
+Loading from: TCGA-BRCA
+number of samples: 421467
+Finished loading train dataset: 447558 samples
+class Solid_Tissue_Normal has samples 211
+class TCGA-BRCA has samples 988
+Loading from: Solid_Tissue_Normal
+number of samples: 10064
+Loading from: TCGA-BRCA
+number of samples: 96992
+Finished loading valid dataset: 107056 samples
+class Solid_Tissue_Normal has samples 63
+class TCGA-BRCA has samples 211

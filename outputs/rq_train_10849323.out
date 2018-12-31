@@ -1,0 +1,9 @@
+Starting at Thu Dec 13 13:42:33 EST 2018
+Job name: train JobID: 10849323
+Running on hosts: gpu-67
+Running on 1 nodes.
+Running on  processors.
+experiment:
+--cuda --augment --dropout=0.1 --init='leaky' --init=‘xavier’ —data='Lusc_smoke'
+train_Lusc_smoke
+

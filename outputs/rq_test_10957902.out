@@ -1,0 +1,9 @@
+Starting at Sun Dec 16 17:51:49 EST 2018
+Job name: test JobID: 10957902
+Running on hosts: gpu-67
+Running on 1 nodes.
+Running on  processors.
+experiment:
+Luad_stage
+train_Luad_stage
+epoch_1.pth

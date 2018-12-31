@@ -18,7 +18,7 @@ import numpy as np
 import time
 import os
 from PIL import Image
-from utils.dataloader_all import *
+from utils.dataloader import *
 #from utils.auc_test import *
 from utils import new_transforms
 
@@ -33,12 +33,22 @@ imgSize = 299
 transform = transforms.Compose([new_transforms.Resize((imgSize,imgSize)),
                                 transforms.ToTensor(),
                                 transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-#use Tissuedata2 for downsampled data
-test_data = TissueData2(root_dir, 'test', transform = transform, metadata=False)
-test_loader = torch.utils.data.DataLoader(test_data, batch_size=32, shuffle=False)
+#use Tissuedata2 for ownsampled data, for test use the whole data
+test_data = TissueData(root_dir, 'test', transform = transform, metadata=False)
 
+
+#os.chdir("/scratch/sb3923/deep-cancer/tsne_figures/")
+#pickle.dump( test_data.filenames, open( "test_data.p", "wb" ) )
+
+test_loader = torch.utils.data.DataLoader(test_data, batch_size=32, shuffle=False)
 classes = test_data.classes
 
+class_to_idx = test_data.class_to_idx
+ 
+print('Class encoding:')
+print(class_to_idx)
+
+print('after tissuedata')
 
 def get_tile_probability(tile_path):
 
@@ -120,6 +130,7 @@ def aggregate(file_list, method):
     predictions = []
     true_labels = []
     last_layer = []
+    file_name = []
 
     for file in file_list:
         tile_paths, label = tile_dict[file]
@@ -161,8 +172,9 @@ def aggregate(file_list, method):
             predictions.append(prediction)
             true_labels.append(label)
             last_layer.append(lastlayerweights)
+            file_name.append(file)
 
-    return np.array(predictions), np.array(true_labels), np.array(last_layer)
+    return np.array(predictions), np.array(true_labels), np.array(last_layer),np.array(file_name)
     #return np.array(true_labels), np.array(last_layer)
 
 
@@ -225,16 +237,17 @@ model_path = "/scratch/jmw784/capstone/deep-cancer/experiments/train_all_downsam
 state_dict = torch.load(model_path, map_location=lambda storage, loc: storage)
 model.load_state_dict(state_dict)
 
-predictions, labels, fw_lastlayer = aggregate(test_data.filenames, method='average')
+predictions, labels, fw_lastlayer, file_names = aggregate(test_data.filenames, method='average')
 print('------------------------------------------------------')
 print('last-layer')
 print(fw_lastlayer)
 
 finalWs = fw_lastlayer
-os.chdir("/scratch/jmw784/capstone/deep-cancer/tsne_figures/")
+os.chdir("/scratch/sb3923/deep-cancer/tsne_figures/")
 pickle.dump( finalWs, open( "finalWs_all_3.p", "wb" ) )
 pickle.dump( predictions, open( "predictions_all_3.p", "wb" ) )
 pickle.dump( labels, open( "labels_all_3.p", "wb" ) )
+pickle.dump( file_names, open( "file_names_3.p", "wb" ) )
 
 #A function provided by Google in one of their Tensorflow tutorials 
 #for visualizing data with t-SNE by plotting it to a graph.

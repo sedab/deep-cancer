@@ -1,0 +1,14 @@
+Loading from: TCGA-KIRC
+number of samples: 60147
+Loading from: TCGA-KIRP
+number of samples: 20162
+Loading from: Solid_Tissue_Normal
+number of samples: 81303
+Loading from: TCGA-KICH
+number of samples: 21665
+Class encoding:
+{'TCGA-KICH': 1, 'Solid_Tissue_Normal': 0, 'TCGA-KIRC': 2, 'TCGA-KIRP': 3}
+Max method:
+{0: 0.99995212791421317, 1: 0.99863657021663377, 2: 0.99705498758887623, 3: 0.99820157948236776, 'micro': 0.9971314602844259, 'macro': 0.99868030631047633}
+Average method:
+{0: 0.99995212791421317, 1: 0.99833358582033027, 2: 0.9972653456182422, 3: 0.99804519508953005, 'micro': 0.99729101630246264, 'macro': 0.99861839820647214}

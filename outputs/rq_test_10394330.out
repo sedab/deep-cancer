@@ -1,0 +1,9 @@
+Starting at Tue Nov 27 07:48:16 EST 2018
+Job name: test JobID: 10394330
+Running on hosts: gpu-63
+Running on 1 nodes.
+Running on  processors.
+experiment:
+kidney
+train_kidney_es
+epoch_12.pth

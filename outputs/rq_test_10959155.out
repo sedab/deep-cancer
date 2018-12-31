@@ -1,0 +1,9 @@
+Starting at Sun Dec 16 19:56:17 EST 2018
+Job name: test JobID: 10959155
+Running on hosts: gpu-67
+Running on 1 nodes.
+Running on  processors.
+experiment:
+Lusc_smoke
+train_Lusc_smoke
+epoch_19.pth

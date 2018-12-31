@@ -1,0 +1,4 @@
+  File "tsne.py", line 126
+    last_layer = []i
+                   ^
+SyntaxError: invalid syntax

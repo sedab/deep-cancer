@@ -1,0 +1,31 @@
+Namespace(augment=False, batchSize=32, beta1=0.5, cuda=False, data='lung', decay_lr=False, dropout=0.5, earlystop=False, experiment=None, imgSize=299, init='normal', lr=0.001, metadata=False, method='average', model='', nc=3, ngpu=1, niter=25, nonlinearity='relu', optimizer='Adam')
+Loading from: Solid_Tissue_Normal
+number of samples: 16085
+Loading from: TCGA-LUSC
+number of samples: 41969
+Loading from: TCGA-LUAD
+number of samples: 40063
+Finished loading test dataset: 98117 samples
+class Solid_Tissue_Normal has samples 83
+class TCGA-LUAD has samples 110
+class TCGA-LUSC has samples 103
+Loading from: Solid_Tissue_Normal
+number of samples: 66724
+Loading from: TCGA-LUSC
+number of samples: 218260
+Loading from: TCGA-LUAD
+number of samples: 176839
+Finished loading train dataset: 461823 samples
+class Solid_Tissue_Normal has samples 349
+class TCGA-LUAD has samples 513
+class TCGA-LUSC has samples 473
+Loading from: Solid_Tissue_Normal
+number of samples: 16700
+Loading from: TCGA-LUSC
+number of samples: 46687
+Loading from: TCGA-LUAD
+number of samples: 42485
+Finished loading valid dataset: 105872 samples
+class Solid_Tissue_Normal has samples 82
+class TCGA-LUAD has samples 111
+class TCGA-LUSC has samples 104

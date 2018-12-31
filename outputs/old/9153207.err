@@ -1,0 +1,4 @@
+  File "test.py", line 214
+    predictions, labels, classes = range(num_classes),class_name)
+                                                     ^
+SyntaxError: positional argument follows keyword argument

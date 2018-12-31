@@ -1,0 +1,8 @@
+usage: count_batch.py [-h] [--data DATA] [--batchSize BATCHSIZE]
+                      [--imgSize IMGSIZE] [--nc NC] [--niter NITER] [--lr LR]
+                      [--dropout DROPOUT] [--beta1 BETA1] [--cuda]
+                      [--ngpu NGPU] [--model MODEL] [--experiment EXPERIMENT]
+                      [--augment] [--optimizer OPTIMIZER] [--metadata]
+                      [--init INIT] [--nonlinearity NONLINEARITY]
+                      [--earlystop] [--method METHOD] [--decay_lr]
+count_batch.py: error: unrecognized arguments: --data = lung

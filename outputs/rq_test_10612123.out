@@ -1,0 +1,9 @@
+Starting at Sat Dec  1 23:09:24 EST 2018
+Job name: test JobID: 10612123
+Running on hosts: gpu-61
+Running on 1 nodes.
+Running on  processors.
+experiment:
+all
+train_all_01
+epoch_10.pth

@@ -1,0 +1,6 @@
+Loading from: Solid_Tissue_Normal
+number of samples: 8810
+Loading from: TCGA-BRCA
+number of samples: 92461
+Class encoding:
+{'TCGA-BRCA': 1, 'Solid_Tissue_Normal': 0}

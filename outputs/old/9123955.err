@@ -1,0 +1,6 @@
+Traceback (most recent call last):
+  File "test.py", line 208, in <module>
+    model.load_state_dict(state_dict)
+  File "/share/apps/pytorch/0.2.0_3/python3.5/lib/python3.5/site-packages/torch/nn/modules/module.py", line 360, in load_state_dict
+    own_state[name].copy_(param)
+RuntimeError: invalid argument 2: sizes do not match at /pytorch/torch/lib/THC/THCTensorCopy.cu:31

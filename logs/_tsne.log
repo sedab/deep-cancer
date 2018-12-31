@@ -1,0 +1,36 @@
+Loading from: TCGA-KIRC
+number of samples: 57372
+Loading from: TCGA-KIRP
+number of samples: 14863
+Loading from: ST_Normal_Lung
+number of samples: 16085
+Loading from: TCGA-KICH
+number of samples: 20059
+Loading from: TCGA-LUSC
+number of samples: 41969
+Loading from: ST_Normal_Breast
+number of samples: 8810
+Loading from: ST_Normal_Kidney
+number of samples: 73979
+Loading from: TCGA-LUAD
+number of samples: 40063
+Loading from: TCGA-BRCA
+number of samples: 92461
+Class encoding:
+{'TCGA-KIRC': 5, 'TCGA-BRCA': 3, 'ST_Normal_Breast': 0, 'TCGA-KIRP': 6, 'TCGA-LUAD': 7, 'ST_Normal_Lung': 2, 'ST_Normal_Kidney': 1, 'TCGA-LUSC': 8, 'TCGA-KICH': 4}
+after tissuedata
+------------------------------------------------------
+last-layer
+[[ 0.02053796  0.00380778  0.00703983 ...,  0.09226191  0.08927917
+   0.09227707]
+ [-0.13150868 -0.1202703  -0.12634577 ...,  0.08930611  0.08952557
+   0.07803664]
+ [-0.00984533 -0.01744025 -0.01145896 ...,  0.04474407  0.04575575
+   0.05221319]
+ ..., 
+ [ 0.04704055  0.04871451 -0.0015277  ...,  0.00421525  0.02592722
+   0.04039462]
+ [ 0.02586928 -0.04053271 -0.11730131 ..., -0.01190064 -0.02422334
+   0.02235097]
+ [-0.03306912 -0.00913032 -0.04764307 ...,  0.03907388  0.04505381
+   0.0101243 ]]

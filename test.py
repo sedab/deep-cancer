@@ -13,7 +13,8 @@ import argparse
 import numpy as np
 from PIL import Image
 from utils.dataloader import *
-from utils.auc_test import *
+#from utils.auc_test import *
+from utils.auc import *
 from utils import new_transforms
 
 parser = argparse.ArgumentParser()
@@ -36,6 +37,38 @@ elif opt.data == 'all':
     root_dir = "/beegfs/sb3923/DeepCancer/alldata/alldata_dsTilesSorted/"
     num_classes = 9
     tile_dict_path = '/beegfs/sb3923/DeepCancer/alldata/alldata_ds_FileMappingDict.p'
+elif opt.data == 'Lusc_smoke':
+    root_dir = "/beegfs/sb3923/DeepCancer/alldata/lung_smoke_stage/Lusc_smoke/Lusc_smokeTilesSorted/"
+    num_classes = 2
+    tile_dict_path = '/beegfs/sb3923/DeepCancer/alldata/lung_smoke_stage/Lusc_smoke/Lusc_smoke_FileMappingDict.p'
+elif opt.data == 'Lusc_stage':
+    root_dir = "/beegfs/sb3923/DeepCancer/alldata/lung_smoke_stage/Lusc_stage/Lusc_stageTilesSorted/"
+    num_classes = 4
+    tile_dict_path = '/beegfs/sb3923/DeepCancer/alldata/lung_smoke_stage/Lusc_stage/Lusc_stage_FileMappingDict.p'
+elif opt.data == 'Luad_smoke':
+    root_dir = "/beegfs/sb3923/DeepCancer/alldata/lung_smoke_stage/Luad_smoke/Luad_smokeTilesSorted/"
+    num_classes = 2
+    tile_dict_path = '/beegfs/sb3923/DeepCancer/alldata/lung_smoke_stage/Luad_smoke/Luad_smoke_FileMappingDict.p'
+elif opt.data == 'Luad_stage':
+    root_dir = "/beegfs/sb3923/DeepCancer/alldata/lung_smoke_stage/Luad_stage/Luad_stageTilesSorted/"
+    num_classes = 4
+    tile_dict_path = '/beegfs/sb3923/DeepCancer/alldata/lung_smoke_stage/Luad_stage/Luad_stage_FileMappingDict.p'
+elif opt.data == 'Luad_batch':
+    root_dir = "/beegfs/sb3923/DeepCancer/alldata/LungBatch/Test/LungTilesSorted/"
+    num_classes = 2
+    tile_dict_path = '/beegfs/sb3923/DeepCancer/alldata/LungBatch/Test/Lung_FileMappingDict.p'
+elif opt.data == 'lung_ds1':
+    root_dir = "/beegfs/jmw784/Capstone/LungTilesSorted/"
+    num_classes = 3
+    tile_dict_path = '/beegfs/jmw784/Capstone/Lung_FileMappingDict.p'
+elif opt.data == 'lung_ds2':
+    root_dir = "/beegfs/jmw784/Capstone/LungTilesSorted/"
+    num_classes = 3
+    tile_dict_path = '/beegfs/jmw784/Capstone/Lung_FileMappingDict.p'
+elif opt.data == 'lung_ds3':
+    root_dir = "/beegfs/jmw784/Capstone/LungTilesSorted/"
+    num_classes = 3
+    tile_dict_path = '/beegfs/jmw784/Capstone/Lung_FileMappingDict.p'
 else:
     root_dir = "/beegfs/jmw784/Capstone/LungTilesSorted/"
     num_classes = 3
@@ -49,6 +82,10 @@ test_data = TissueData(root_dir, 'test', transform = transform, metadata=False)
 test_loader = torch.utils.data.DataLoader(test_data, batch_size=32, shuffle=False)
 
 classes = test_data.classes
+class_to_idx = test_data.class_to_idx
+
+print('Class encoding:')
+print(class_to_idx)
 
 def get_tile_probability(tile_path):
 
@@ -205,25 +242,22 @@ model.load_state_dict(state_dict)
 
 predictions, labels = aggregate(test_data.filenames, method='max')
 
-data = np.stack(np.asarray(predictions),np.asarray(true_labels))
-data.dump(open('pred_label_max.npy', 'wb'))
+data = np.column_stack((np.asarray(predictions),np.asarray(labels)))
+data.dump(open('experiments/{0}/pred_label_max_{0}_{1}.npy'.format(opt.experiment,opt.model), 'wb'))
 
 #This can be used if need to print the auc and save the roc curve automatically
-#roc_auc,fpr,tpr = get_auc('experiments/{0}/images/test_AUC_max_{1}.jpg'.format(opt.experiment,opt.model),
-#                  predictions, labels, class_name,classes = range(num_classes))
 
-#roc_auc  = get_auc('experiments/{0}/images/test_AUC_max_{1}.jpg'.format(opt.experiment,opt.model),
-#                   predictions, labels, class_name, classes = range(num_classes))
-#print('Max method:')
-#print(roc_auc)
+roc_auc  = get_auc('experiments/{0}/images/test_AUC_max_{1}.jpg'.format(opt.experiment,opt.model),
+                   predictions, labels, classes = range(num_classes))
+print('Max method:')
+print(roc_auc)
 
 predictions, labels = aggregate(test_data.filenames, method='average')
-data = np.stack(np.asarray(predictions),np.asarray(true_labels))
-data.dump(open('pred_label_avg.npy', 'wb'))
+data = np.column_stack((np.asarray(predictions),np.asarray(labels)))
+data.dump(open('experiments/{0}/pred_label_avg_{0}_{1}.npy'.format(opt.experiment,opt.model), 'wb'))
 
 #This can be used if need to print the auc and save the roc curve automatically
-#roc_auc  = get_auc('experiments/{0}/images/test_AUC_avg_{1}.jpg'.format(opt.experiment,opt.model),
-#                   predictions, labels, class_name, classes = range(num_classes))
-
-#print('Average method:')
-#print(roc_auc)
+roc_auc  = get_auc('experiments/{0}/images/test_AUC_avg_{1}.jpg'.format(opt.experiment,opt.model),
+                   predictions, labels, classes = range(num_classes))
+print('Average method:')
+print(roc_auc)

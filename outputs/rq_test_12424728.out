@@ -1,0 +1,9 @@
+Starting at Mon Dec 31 10:31:12 EST 2018
+Job name: test JobID: 12424728
+Running on hosts: gpu-61
+Running on 1 nodes.
+Running on  processors.
+experiment:
+lung_ds3
+train_lung_ds3
+epoch_13.pth

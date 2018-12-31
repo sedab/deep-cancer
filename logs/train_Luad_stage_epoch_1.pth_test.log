@@ -1,0 +1,14 @@
+Loading from: stage-3
+number of samples: 4485
+Loading from: stage-1
+number of samples: 26728
+Loading from: stage-4
+number of samples: 3294
+Loading from: stage-2
+number of samples: 5680
+Class encoding:
+{'stage-1': 0, 'stage-4': 3, 'stage-2': 1, 'stage-3': 2}
+Max method:
+{0: 0.52295918367346939, 1: 0.46965020576131689, 2: 0.42411260709914317, 3: 0.49494949494949497, 'micro': 0.69047619047619047, 'macro': 0.48234231022582108}
+Average method:
+{0: 0.53972303206997085, 1: 0.46141975308641969, 2: 0.44308445532435742, 3: 0.54377104377104379, 'micro': 0.71691609977324255, 'macro': 0.50356785322615161}
